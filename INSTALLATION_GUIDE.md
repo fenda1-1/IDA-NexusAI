@@ -202,4 +202,4 @@ To uninstall NexusAI:
 
 ---
 
-For more help, see the main [README](README.md) or [open an issue](https://github.com/your-repo/NexusAI/issues).
+For more help, see the main [README](README.md) or [open an issue](https://github.com/fenda1-1/IDA-NexusAI/issues).

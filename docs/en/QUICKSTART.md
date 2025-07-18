@@ -142,9 +142,9 @@ Explain what this function does in simple terms and identify its purpose
 - **Custom Providers**: Configure local AI models
 
 ### Community
-- **Issues**: [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
-- **Wiki**: [Project Wiki](https://github.com/your-repo/NexusAI/wiki)
+- **Issues**: [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **Wiki**: [Project Wiki](https://github.com/fenda1-1/IDA-NexusAI/wiki)
 
 ## 🎉 Example Workflow
 
@@ -167,4 +167,4 @@ Explain what this function does in simple terms and identify its purpose
 
 **Happy Reverse Engineering! 🔍✨**
 
-Need help? Check the [full documentation](README.md) or [open an issue](https://github.com/your-repo/NexusAI/issues).
+Need help? Check the [full documentation](README.md) or [open an issue](https://github.com/fenda1-1/IDA-NexusAI/issues).

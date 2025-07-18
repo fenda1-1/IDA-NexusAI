@@ -5,7 +5,7 @@ Thank you for your interest in contributing to NexusAI! This document provides g
 ## 🤝 How to Contribute
 
 ### Reporting Issues
-- Use the [GitHub Issues](https://github.com/your-repo/NexusAI/issues) page
+- Use the [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues) page
 - Search existing issues before creating a new one
 - Provide detailed information including:
   - IDA Pro version
@@ -16,7 +16,7 @@ Thank you for your interest in contributing to NexusAI! This document provides g
   - Error messages or logs
 
 ### Suggesting Features
-- Open a [GitHub Discussion](https://github.com/your-repo/NexusAI/discussions)
+- Open a [GitHub Discussion](https://github.com/fenda1-1/IDA-NexusAI/discussions)
 - Describe the feature and its use case
 - Explain how it would benefit users
 - Consider implementation complexity
@@ -307,8 +307,8 @@ Contributors will be recognized in:
 
 ## 📞 Getting Help
 
-- **Questions**: Use [GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
-- **Issues**: Use [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
+- **Questions**: Use [GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **Issues**: Use [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
 - **Chat**: Join our community chat (if available)
 
 ## 📄 License

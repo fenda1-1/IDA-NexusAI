@@ -53,8 +53,8 @@ When updating documentation:
 ## 🔗 Quick Links
 
 - **Installation**: Use the unified installer with language selection: `python install.py`
-- **Issues**: [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
+- **Issues**: [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
 - **Project Overview**: [PROJECT_OVERVIEW.md](../PROJECT_OVERVIEW.md)
 
 ---

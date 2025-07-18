@@ -139,9 +139,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Support and Feedback
 
-- **Bug Reports**: [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
-- **Documentation**: [Project Wiki](https://github.com/your-repo/NexusAI/wiki)
+- **Bug Reports**: [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **Documentation**: [Project Wiki](https://github.com/fenda1-1/IDA-NexusAI/wiki)
 
 ---
 

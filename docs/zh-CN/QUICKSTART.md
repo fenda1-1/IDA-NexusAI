@@ -142,9 +142,9 @@ pip install openai>=1.0.0 markdown>=3.4.0
 - **自定义提供商**：配置本地AI模型
 
 ### 社区
-- **问题**：[GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **讨论**：[GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
-- **Wiki**：[项目Wiki](https://github.com/your-repo/NexusAI/wiki)
+- **问题**：[GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **讨论**：[GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **Wiki**：[项目Wiki](https://github.com/fenda1-1/IDA-NexusAI/wiki)
 
 ## 🎉 示例工作流程
 
@@ -167,4 +167,4 @@ pip install openai>=1.0.0 markdown>=3.4.0
 
 **愉快的逆向工程！🔍✨**
 
-需要帮助？查看 [完整文档](README.md) 或 [提交问题](https://github.com/your-repo/NexusAI/issues)。
+需要帮助？查看 [完整文档](README.md) 或 [提交问题](https://github.com/fenda1-1/IDA-NexusAI/issues)。

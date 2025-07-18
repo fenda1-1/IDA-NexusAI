@@ -157,9 +157,9 @@ python install.py
 
 ### Getting Help
 - **Documentation**: Check relevant guide files
-- **Issues**: [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/NexusAI/discussions)
-- **Wiki**: [Project Wiki](https://github.com/your-repo/NexusAI/wiki)
+- **Issues**: [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **Wiki**: [Project Wiki](https://github.com/fenda1-1/IDA-NexusAI/wiki)
 
 ### Common Issues
 - **Installation**: Check Python version and dependencies

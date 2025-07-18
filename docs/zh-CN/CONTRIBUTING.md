@@ -5,7 +5,7 @@
 ## 🤝 如何贡献
 
 ### 报告问题
-- 使用 [GitHub Issues](https://github.com/your-repo/NexusAI/issues) 页面
+- 使用 [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues) 页面
 - 在创建新问题之前搜索现有问题
 - 提供详细信息，包括：
   - IDA Pro版本
@@ -16,7 +16,7 @@
   - 错误消息或日志
 
 ### 建议功能
-- 打开 [GitHub讨论](https://github.com/your-repo/NexusAI/discussions)
+- 打开 [GitHub讨论](https://github.com/fenda1-1/IDA-NexusAI/discussions)
 - 描述功能及其用例
 - 解释它如何使用户受益
 - 考虑实现复杂性
@@ -307,8 +307,8 @@ class MyExtensionAction(idaapi.action_handler_t):
 
 ## 📞 获取帮助
 
-- **问题**：使用 [GitHub讨论](https://github.com/your-repo/NexusAI/discussions)
-- **问题**：使用 [GitHub Issues](https://github.com/your-repo/NexusAI/issues)
+- **问题**：使用 [GitHub讨论](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **问题**：使用 [GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
 - **聊天**：加入我们的社区聊天（如果可用）
 
 ## 📄 许可证

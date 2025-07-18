@@ -139,9 +139,9 @@ NexusAI的所有重要更改都将记录在此文件中。
 
 ## 支持和反馈
 
-- **错误报告**：[GitHub Issues](https://github.com/your-repo/NexusAI/issues)
-- **功能请求**：[GitHub讨论](https://github.com/your-repo/NexusAI/discussions)
-- **文档**：[项目Wiki](https://github.com/your-repo/NexusAI/wiki)
+- **错误报告**：[GitHub Issues](https://github.com/fenda1-1/IDA-NexusAI/issues)
+- **功能请求**：[GitHub讨论](https://github.com/fenda1-1/IDA-NexusAI/discussions)
+- **文档**：[项目Wiki](https://github.com/fenda1-1/IDA-NexusAI/wiki)
 
 ---
 
