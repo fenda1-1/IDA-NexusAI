@@ -1,0 +1,194 @@
+name: Create Multi-Platform Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build Windows executable
+      run: python build_gui.py
+
+    - name: Rename Windows executable
+      run: |
+        if (Test-Path "NexusAI-Installer-GUI.exe") {
+          Rename-Item "NexusAI-Installer-GUI.exe" "NexusAI-Installer-GUI-windows.exe"
+        }
+
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-executable
+        path: NexusAI-Installer-GUI-windows.exe
+        retention-days: 1
+
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build macOS executable
+      run: python build_gui.py
+
+    - name: Rename macOS executable
+      run: |
+        if [ -d "NexusAI-Installer-GUI.app" ]; then
+          mv "NexusAI-Installer-GUI.app" "NexusAI-Installer-GUI-macos.app"
+        fi
+
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-executable
+        path: NexusAI-Installer-GUI-macos.app
+        retention-days: 1
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build Linux executable
+      run: python build_gui.py
+
+    - name: Rename Linux executable
+      run: |
+        if [ -f "NexusAI-Installer-GUI-linux-x86_64" ]; then
+          mv "NexusAI-Installer-GUI-linux-x86_64" "NexusAI-Installer-GUI-linux-x86_64"
+        fi
+
+    - name: Upload Linux artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-executable
+        path: NexusAI-Installer-GUI-linux-x86_64
+        retention-days: 1
+
+  create-release:
+    name: Create Release
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download Windows artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: windows-executable
+        path: ./artifacts/
+
+    - name: Download macOS artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: macos-executable
+        path: ./artifacts/
+
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: linux-executable
+        path: ./artifacts/
+
+    - name: Display downloaded files
+      run: |
+        echo "Downloaded artifacts:"
+        ls -la ./artifacts/
+
+    - name: Get tag name
+      id: tag_name
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+        else
+          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag_name.outputs.TAG_NAME }}
+        name: NexusAI ${{ steps.tag_name.outputs.TAG_NAME }}
+        body: |
+          ## NexusAI GUI Installer ${{ steps.tag_name.outputs.TAG_NAME }}
+          
+          Multi-platform GUI installer for NexusAI - IDA Pro AI Assistant
+          
+          ### Downloads
+          - **Windows**: `NexusAI-Installer-GUI-windows.exe`
+          - **macOS**: `NexusAI-Installer-GUI-macos.app`
+          - **Linux**: `NexusAI-Installer-GUI-linux-x86_64`
+          
+          ### Features
+          - ✅ Single file installer
+          - ✅ Graphical interface
+          - ✅ Multi-language support
+          - ✅ Smart IDA Pro detection
+          - ✅ Embedded plugin files
+          
+          ### Installation
+          1. Download the appropriate file for your platform
+          2. Run the installer
+          3. Follow the on-screen instructions
+          
+          ### Requirements
+          - IDA Pro (any version)
+          - Python 3.8+ (for IDA Pro plugin)
+        draft: false
+        prerelease: false
+        files: |
+          ./artifacts/NexusAI-Installer-GUI-windows.exe
+          ./artifacts/NexusAI-Installer-GUI-macos.app
+          ./artifacts/NexusAI-Installer-GUI-linux-x86_64
