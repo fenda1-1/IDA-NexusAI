@@ -78,10 +78,10 @@ git clone https://github.com/fenda1-1/IDA-NexusAI.git
 cd IDA-NexusAI
 
 # Manual installation steps
-# 1. Copy plugin files to IDA Pro plugins directory
+# 1. Copy NexusAI.py and NexusAI/ folder to IDA Pro plugins directory
 # 2. Install Python dependencies
 # 3. Configure settings
-# See docs/MANUAL_INSTALL.md for detailed steps
+# See INSTALLATION_GUIDE.md for detailed steps
 ```
 
 ## 🎯 Usage

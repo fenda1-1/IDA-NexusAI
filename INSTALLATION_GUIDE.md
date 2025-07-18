@@ -189,6 +189,45 @@ To update NexusAI:
 2. **Run Installer**: The installer will detect and update existing installations
 3. **Restart IDA Pro**: Restart to load the updated plugin
 
+## 🔧 Manual Installation (Advanced Users)
+
+If you prefer to install manually without using the graphical installer:
+
+### Required Files
+
+You need to copy the following files to your IDA Pro plugins directory:
+
+1. **`NexusAI.py`** - The main plugin entry point file
+2. **`NexusAI/`** - The complete plugin package directory (contains all plugin code)
+
+### Installation Steps
+
+1. **Locate IDA Pro Plugins Directory**:
+   - **Windows**: `C:\Program Files\IDA Pro X.X\plugins\`
+   - **macOS**: `/Applications/IDA Pro X.X/idabin/plugins/`
+   - **Linux**: `/opt/ida-X.X/plugins/` or `~/ida-X.X/plugins/`
+
+2. **Copy Plugin Files**:
+   ```bash
+   # Copy both the entry point and the package
+   cp NexusAI.py /path/to/ida/plugins/
+   cp -r NexusAI/ /path/to/ida/plugins/
+   ```
+
+3. **Install Dependencies**:
+   ```bash
+   # Use IDA Pro's Python or system Python
+   python -m pip install -r requirements.txt
+   ```
+
+4. **Restart IDA Pro** to load the plugin
+
+### Verification
+
+After manual installation, verify the files are in place:
+- `{IDA_DIR}/plugins/NexusAI.py` (entry point)
+- `{IDA_DIR}/plugins/NexusAI/` (plugin package)
+
 ## 🗑️ Uninstallation
 
 To uninstall NexusAI:

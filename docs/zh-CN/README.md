@@ -144,12 +144,14 @@ print(sys.executable)
    ```
 
 2. **复制插件文件**
-   - 将 `NexusAI.py` 复制到您的IDA Pro插件目录：
-     - **Windows**：`%IDADIR%\plugins\`
-     - **macOS**：`$IDADIR/plugins/`
-     - **Linux**：`$IDADIR/plugins/`
-   
-   - 将整个 `NexusAI/` 文件夹复制到同一插件目录
+   将以下文件复制到您的IDA Pro插件目录：
+   - `NexusAI.py` (插件入口文件)
+   - `NexusAI/` (整个文件夹，包含所有插件代码)
+
+   插件目录位置：
+   - **Windows**：`%IDADIR%\plugins\`
+   - **macOS**：`$IDADIR/plugins/`
+   - **Linux**：`$IDADIR/plugins/`
 
 3. **重启IDA Pro**
 

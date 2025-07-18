@@ -17,7 +17,9 @@ python install.py
 # Install dependencies
 pip install openai>=1.0.0 markdown>=3.4.0
 
-# Copy files to IDA Pro plugins directory
+# Copy plugin files to IDA Pro plugins directory:
+# 1. Copy NexusAI.py to plugins directory
+# 2. Copy entire NexusAI/ folder to plugins directory
 # Windows: %IDADIR%\plugins\
 # macOS: $IDADIR/plugins/
 # Linux: $IDADIR/plugins/
