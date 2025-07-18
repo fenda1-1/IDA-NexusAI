@@ -1,18 +1,20 @@
 # NexusAI - AI-Powered IDA Pro Plugin
 
-🚀 **Advanced AI assistant for reverse engineering with IDA Pro**
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/fenda1-1/IDA-NexusAI)
+[![IDA Pro](https://img.shields.io/badge/IDA%20Pro-7.x%2F8.x%2F9.x-green.svg)](https://www.hex-rays.com/products/ida/)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## ✨ Features
-
-- **AI-Powered Analysis**: Leverage OpenAI's GPT models for code analysis
-- **Multi-Language Support**: Full English and Chinese interface
-- **Smart Integration**: Seamless integration with IDA Pro workflow
-- **Advanced Capabilities**: Function analysis, code explanation, vulnerability detection
+NexusAI is a powerful IDA Pro plugin that integrates artificial intelligence to enhance reverse engineering workflows. It provides intelligent code analysis, automatic commenting, and interactive AI assistant capabilities directly within the IDA Pro environment.
 
 ## 🌐 Language / 语言
 
 - **English**: You are reading the English documentation
 - **中文**: [中文文档请点击这里](docs/zh-CN/README.md)
+
+## 🚀 Quick Start
+
+**New to NexusAI?** Check out our [Quick Start Guide](docs/en/QUICKSTART.md) to get up and running in 5 minutes!
 
 ## 🖥️ Installation
 
@@ -26,12 +28,7 @@ Download and run the standalone installer - **no Python installation required!**
 5. **Choose Python** from detected installations (shows full paths)
 6. **Complete installation** with real-time progress
 
-**✨ Key Features:**
-- **Single file** - Everything embedded, no additional files needed
-- **No console window** - Clean GUI-only experience
-- **Smart detection** - Automatically finds IDA Pro and Python installations
-- **Multi-language** - Full English and Chinese support
-- **Zero dependencies** - No Python or other software required
+
 
 ### Linux/macOS - Python Script Installation
 For Linux and macOS users, use the Python script installer:
@@ -52,22 +49,56 @@ python install.py --lang zh    # Chinese interface
 - IDA Pro installation
 - For GUI mode: tkinter (usually included with Python)
 
-### Smart Detection Features:
+## ✨ Features
 
-#### IDA Pro Detection
-- **Multi-drive scanning**: Automatically searches C:, D:, E:, F: drives
-- **Deep search**: Up to 2 directory levels for comprehensive coverage
-- **Pattern recognition**: Identifies IDA Pro by executable files and directory structure
-- **Validation**: Verifies installations before presenting options
+### 🤖 AI-Powered Analysis
+- **Function Analysis**: Intelligent assembly function analysis with AI-generated explanations
+- **Code Selection Analysis**: Analyze specific code segments with contextual understanding
+- **Cross-Reference Analysis**: Automatic analysis of function call chains and data dependencies
+- **Decompiler Integration**: Seamless integration with Hex-Rays decompiler for enhanced analysis
 
-#### Python Detection
-- **IDA Pro Python**: Automatically detects Python in selected IDA Pro directory (python/, python312/, etc.)
-- **System Python**: Detects current Python installation
-- **Anaconda/Miniconda**: Locates conda environments and base installations
-- **Registry search**: Windows registry-based detection for official Python installers
-- **Path scanning**: Searches common installation directories across all drives
-- **Full path display**: Shows complete paths for informed selection
-- **Priority ordering**: IDA Pro Python shown first as the recommended option
+### 💬 Interactive AI Assistant
+- **AIMCP (AI Model Control Protocol)**: Advanced conversational AI for complex reverse engineering tasks
+- **Multi-Provider Support**: Compatible with OpenAI, Claude, and other AI providers
+- **Streaming Responses**: Real-time AI responses with live text streaming
+- **Session Management**: Persistent chat history and session management
+
+### 🎯 Smart Commenting
+- **Automatic Function Comments**: AI-generated function comments with hotkey support
+- **Line Comments**: Intelligent comments for specific assembly lines
+- **Repeatable Comments**: Consistent commenting across similar code patterns
+- **Anterior Comments**: Context-aware pre-function comments
+
+### 🔧 Advanced Features
+- **Extension System**: Modular architecture supporting custom extensions
+- **Graph Export**: Export call graphs and data flow diagrams for visualization
+- **Multi-Language Support**: Chinese and English interface support
+- **Configurable Hotkeys**: Customizable keyboard shortcuts for all functions
+
+## 📋 System Requirements
+
+### System Requirements
+- **IDA Pro**: Version 7.x, 8.x, or 9.x
+- **Python**: 3.8 or higher (bundled with IDA Pro)
+- **Operating System**: Windows, macOS, or Linux
+
+### Python Dependencies
+The plugin requires several Python packages. Install using pip:
+
+```bash
+# Core dependencies
+pip install openai>=1.0.0
+pip install markdown>=3.4.0
+
+# Optional dependencies for enhanced features
+pip install httpx>=0.24.0  # For proxy support
+```
+
+**Important**: Ensure you're using the same Python environment that IDA Pro uses. You can check this by running the following in IDA Pro's Python console:
+```python
+import sys
+print(sys.executable)
+```
 
 ### Manual Installation (Advanced Users)
 For developers or users who prefer manual installation:
@@ -88,67 +119,60 @@ cd IDA-NexusAI
 
 After installation:
 
-1. **Start IDA Pro**
-2. **Open any binary file**
-3. **Access NexusAI**:
-   - Menu: `Edit → NexusAI`
-   - Hotkey: `Ctrl+Shift+K`
-4. **Configure API key** in settings
-5. **Start analyzing** with AI assistance
+1. **Start IDA Pro** and open any binary file
+2. **Open Settings**: `Edit → NexusAI → Settings`
+3. **Enter API Key**: Paste your API key
+4. **Test Connection**: Click "Test Model" button
+5. **Save Settings**: Click "OK"
 
-## 🔧 Configuration
+### Basic Operations
 
-### API Setup
-1. Get OpenAI API key from [OpenAI Platform](https://platform.openai.com/)
-2. In IDA Pro: `Edit → NexusAI → Settings`
-3. Enter your API key
-4. Select preferred model (GPT-4 recommended)
+#### Open NexusAI Window
+Press `Ctrl+Shift+K` to open the NexusAI output window
 
-### Features Overview
-- **Function Analysis**: AI-powered function understanding
-- **Code Explanation**: Natural language code descriptions
-- **Vulnerability Detection**: Security issue identification
-- **Pattern Recognition**: Malware and exploit pattern detection
-- **Documentation**: Automatic code documentation generation
+#### Analyze a Function
+1. **Navigate** to any function in IDA Pro
+2. **Right-click** → "Analyze Function (AI)" or press `Ctrl+Shift+A`
+3. **View Results** in the NexusAI output window
 
-## 📋 System Requirements
+#### Ask Questions
+1. **Type** your question in the input field at the bottom
+2. **Press Enter** to send
+3. **Get AI responses** in real-time
 
-- **IDA Pro**: Version 7.x, 8.x, or 9.x
-- **Operating System**: Windows 10/11 (64-bit)
-- **Python**: 3.8+ (automatically detected and configured)
-- **Internet**: Required for AI model access
-- **API Key**: OpenAI API access
+## ⚙️ Configuration
 
-## 🚀 Advanced Features
+### Initial Setup
 
-### Multi-Python Support
-The installer detects and displays multiple Python installations:
-- System Python installations
-- IDA Pro bundled Python
-- Anaconda/Miniconda environments
-- Custom Python installations
+1. **Get API Key**:
+   - **OpenAI**: Visit [platform.openai.com](https://platform.openai.com/api-keys)
+   - **Claude**: Visit [console.anthropic.com](https://console.anthropic.com/)
 
-### Smart Path Display
-Python options show full paths for informed selection, with IDA Pro Python prioritized:
-```
-IDA Pro Python 3.12.5 (python312)
-    Path: E:\Program\IDApro9.1\python312\python.exe
+2. **Configure NexusAI**:
+   - Open IDA Pro and load any binary
+   - Go to `Edit → NexusAI → Settings`
+   - Enter your API key and select model
+   - Test the connection and save
 
-Current System Python 3.12.3
-    Path: D:\Python\python.exe
+### Advanced Configuration
 
-Python 3.12.7 (anaconda3)
-    Path: D:\ProgramData\anaconda3\python.exe
+The plugin supports extensive customization through the settings dialog:
+- **AI Provider**: Choose between OpenAI, Claude, or custom providers
+- **Model Selection**: Select specific models (GPT-4, Claude-3, etc.)
+- **Analysis Depth**: Configure how deep the AI analysis should go
+- **Custom Prompts**: Modify AI behavior with custom prompts
+- **Hotkeys**: Customize keyboard shortcuts
+- **Language**: Switch between English and Chinese interface
 
-Python 3.12.7 (anaconda3)
-    Path: E:\ProgramData\anaconda3\python.exe
-```
+## 🔥 Essential Hotkeys
 
-### Development Mode
-For plugin developers:
-- Symbolic link installation
-- Real-time updates without reinstalling
-- Debug-friendly setup
+| Hotkey | Action |
+|--------|--------|
+| `Ctrl+Shift+K` | Toggle NexusAI window |
+| `Ctrl+Shift+A` | Analyze current function |
+| `Ctrl+Shift+S` | Add AI comment to line |
+| `Ctrl+Shift+D` | Add repeatable comment |
+| `Ctrl+Shift+W` | Add anterior comment |
 
 ## 🛠️ Building from Source
 
@@ -157,9 +181,6 @@ To build the installer:
 ```bash
 # Build GUI installer
 python build_gui.py
-
-# This creates:
-# - NexusAI-Installer-GUI.exe (single file, no console)
 ```
 
 ## 📞 Support
