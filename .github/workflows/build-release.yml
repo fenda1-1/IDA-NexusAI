@@ -1,0 +1,178 @@
+name: Build Multi-Platform Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0, v2.1.0, etc.
+  workflow_dispatch:  # Allow manual triggering
+    inputs:
+      tag_name:
+        description: 'Tag name for the release'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            artifact_name: NexusAI-Installer-GUI.exe
+            asset_name: NexusAI-Installer-GUI-windows.exe
+          - os: macos-latest
+            platform: macos
+            artifact_name: NexusAI-Installer-GUI.app
+            asset_name: NexusAI-Installer-GUI-macos.app
+          - os: ubuntu-latest
+            platform: linux
+            artifact_name: NexusAI-Installer-GUI-linux-x86_64
+            asset_name: NexusAI-Installer-GUI-linux-x86_64
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build executable
+      run: |
+        python build_gui.py
+
+    - name: Verify build output
+      shell: bash
+      run: |
+        if [ "${{ matrix.platform }}" = "windows" ]; then
+          ls -la *.exe || echo "No .exe files found"
+        elif [ "${{ matrix.platform }}" = "macos" ]; then
+          ls -la *.app || echo "No .app files found"
+        else
+          ls -la NexusAI-Installer-GUI-* || echo "No Linux binaries found"
+        fi
+
+    - name: Rename artifact (Windows)
+      if: matrix.platform == 'windows'
+      run: |
+        if (Test-Path "NexusAI-Installer-GUI.exe") {
+          Rename-Item "NexusAI-Installer-GUI.exe" "${{ matrix.asset_name }}"
+        }
+
+    - name: Rename artifact (macOS)
+      if: matrix.platform == 'macos'
+      run: |
+        if [ -d "NexusAI-Installer-GUI.app" ]; then
+          mv "NexusAI-Installer-GUI.app" "${{ matrix.asset_name }}"
+        fi
+
+    - name: Rename artifact (Linux)
+      if: matrix.platform == 'linux'
+      run: |
+        if [ -f "NexusAI-Installer-GUI-linux-x86_64" ]; then
+          mv "NexusAI-Installer-GUI-linux-x86_64" "${{ matrix.asset_name }}"
+        fi
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.platform }}-build
+        path: ${{ matrix.asset_name }}
+
+  create-release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Display structure of downloaded files
+      run: ls -R
+
+    - name: Get tag name
+      id: tag_name
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+        else
+          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag_name.outputs.TAG_NAME }}
+        release_name: NexusAI ${{ steps.tag_name.outputs.TAG_NAME }}
+        body: |
+          ## NexusAI GUI Installer ${{ steps.tag_name.outputs.TAG_NAME }}
+          
+          Multi-platform GUI installer for NexusAI - IDA Pro AI Assistant
+          
+          ### Downloads
+          - **Windows**: `NexusAI-Installer-GUI-windows.exe`
+          - **macOS**: `NexusAI-Installer-GUI-macos.app`
+          - **Linux**: `NexusAI-Installer-GUI-linux-x86_64`
+          
+          ### Features
+          - ✅ Single file installer
+          - ✅ Graphical interface
+          - ✅ Multi-language support
+          - ✅ Smart IDA Pro detection
+          - ✅ Embedded plugin files
+          
+          ### Installation
+          1. Download the appropriate file for your platform
+          2. Run the installer
+          3. Follow the on-screen instructions
+          
+          ### Requirements
+          - IDA Pro (any version)
+          - Python 3.8+ (for IDA Pro plugin)
+        draft: false
+        prerelease: false
+
+    - name: Upload Windows Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./windows-build/NexusAI-Installer-GUI-windows.exe
+        asset_name: NexusAI-Installer-GUI-windows.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload macOS Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./macos-build/NexusAI-Installer-GUI-macos.app
+        asset_name: NexusAI-Installer-GUI-macos.app
+        asset_content_type: application/octet-stream
+
+    - name: Upload Linux Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./linux-build/NexusAI-Installer-GUI-linux-x86_64
+        asset_name: NexusAI-Installer-GUI-linux-x86_64
+        asset_content_type: application/octet-stream

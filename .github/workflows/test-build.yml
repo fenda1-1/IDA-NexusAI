@@ -1,0 +1,81 @@
+name: Test Multi-Platform Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  test-build:
+    name: Test Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Build executable
+      run: |
+        python build_gui.py
+
+    - name: Verify build output
+      shell: bash
+      run: |
+        echo "Build completed for ${{ matrix.platform }}"
+        if [ "${{ matrix.platform }}" = "windows" ]; then
+          if [ -f "NexusAI-Installer-GUI.exe" ]; then
+            echo "✅ Windows executable created successfully"
+            ls -la *.exe
+          else
+            echo "❌ Windows executable not found"
+            exit 1
+          fi
+        elif [ "${{ matrix.platform }}" = "macos" ]; then
+          if [ -d "NexusAI-Installer-GUI.app" ]; then
+            echo "✅ macOS app bundle created successfully"
+            ls -la *.app
+          else
+            echo "❌ macOS app bundle not found"
+            exit 1
+          fi
+        else
+          if [ -f "NexusAI-Installer-GUI-linux-x86_64" ]; then
+            echo "✅ Linux executable created successfully"
+            ls -la NexusAI-Installer-GUI-*
+          else
+            echo "❌ Linux executable not found"
+            exit 1
+          fi
+        fi
+
+    - name: Upload build artifacts (for testing)
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-build-${{ matrix.platform }}
+        path: |
+          NexusAI-Installer-GUI.exe
+          NexusAI-Installer-GUI.app
+          NexusAI-Installer-GUI-linux-*
+        if-no-files-found: ignore
