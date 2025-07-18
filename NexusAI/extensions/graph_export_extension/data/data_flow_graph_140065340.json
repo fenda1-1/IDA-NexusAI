@@ -1,0 +1,340 @@
+{
+  "nodes": [
+    {
+      "id": 5369123648,
+      "type": "function",
+      "name": "sub_140065340"
+    },
+    {
+      "id": 5369645368,
+      "type": "data",
+      "name": "aSig"
+    },
+    {
+      "id": 5369645380,
+      "type": "data",
+      "name": "aIds"
+    },
+    {
+      "id": 5369645384,
+      "type": "data",
+      "name": "aIdaids"
+    },
+    {
+      "id": 5369645392,
+      "type": "data",
+      "name": "aIdc"
+    },
+    {
+      "id": 5369645396,
+      "type": "data",
+      "name": "aIdaidc"
+    },
+    {
+      "id": 5369626868,
+      "type": "data",
+      "name": "byte_1400E00F4"
+    },
+    {
+      "id": 5369645404,
+      "type": "data",
+      "name": "aIdatil"
+    },
+    {
+      "id": 5369737496,
+      "type": "data",
+      "name": "__security_cookie"
+    },
+    {
+      "id": 5369645372,
+      "type": "data",
+      "name": "aIdasgn"
+    },
+    {
+      "id": 5369601437,
+      "type": "data",
+      "name": "p_Src"
+    },
+    {
+      "id": 5369121824,
+      "type": "function",
+      "name": "sub_140064C20"
+    },
+    {
+      "id": 5368720864,
+      "type": "function",
+      "name": "UserMathErrorFunction"
+    },
+    {
+      "id": 5369122960,
+      "type": "function",
+      "name": "sub_140065090"
+    },
+    {
+      "id": 5369741408,
+      "type": "data",
+      "name": "qword_1400FC060"
+    },
+    {
+      "id": 5369741416,
+      "type": "data",
+      "name": "qword_1400FC068"
+    },
+    {
+      "id": 5369740684,
+      "type": "data",
+      "name": "byte_1400FBD8C"
+    },
+    {
+      "id": 5369645360,
+      "type": "data",
+      "name": "aIdausr"
+    },
+    {
+      "id": 5369622808,
+      "type": "data",
+      "name": "asc_1400DF118"
+    },
+    {
+      "id": 5369741400,
+      "type": "data",
+      "name": "qword_1400FC058"
+    },
+    {
+      "id": 5369124816,
+      "type": "function",
+      "name": "??$common_chdir@_W@@YAHQEB_W@Z"
+    },
+    {
+      "id": 5369738056,
+      "type": "data",
+      "name": "byte_1400FB348"
+    },
+    {
+      "id": 5369645320,
+      "type": "data",
+      "name": "ModuleName"
+    },
+    {
+      "id": 5369598152,
+      "type": "data",
+      "name": "GetModuleHandleW"
+    },
+    {
+      "id": 5369645328,
+      "type": "data",
+      "name": "aIdadir"
+    },
+    {
+      "id": 5369741136,
+      "type": "data",
+      "name": "byte_1400FBF50"
+    },
+    {
+      "id": 5369598160,
+      "type": "data",
+      "name": "GetModuleFileNameW"
+    },
+    {
+      "id": 5369107376,
+      "type": "function",
+      "name": "sub_1400613B0"
+    },
+    {
+      "id": 5369740832,
+      "type": "data",
+      "name": "lpCriticalSection"
+    },
+    {
+      "id": 5369598400,
+      "type": "data",
+      "name": "InitializeCriticalSection"
+    },
+    {
+      "id": 5369599296,
+      "type": "data",
+      "name": "__imp_free"
+    },
+    {
+      "id": 5369740840,
+      "type": "data",
+      "name": "qword_1400FBE28"
+    },
+    {
+      "id": 5369598408,
+      "type": "data",
+      "name": "EnterCriticalSection"
+    },
+    {
+      "id": 5369598224,
+      "type": "data",
+      "name": "GetCurrentThreadId"
+    },
+    {
+      "id": 5369598640,
+      "type": "data",
+      "name": "LeaveCriticalSection"
+    },
+    {
+      "id": 5369599192,
+      "type": "data",
+      "name": "_dupenv_s"
+    },
+    {
+      "id": 5369084944,
+      "type": "function",
+      "name": "free"
+    },
+    {
+      "id": 5369579248,
+      "type": "function",
+      "name": "__security_check_cookie"
+    }
+  ],
+  "edges": [
+    {
+      "src": 5369123648,
+      "dst": 5369645368
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645380
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645384
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645392
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645396
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369626868
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645404
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369737496
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369645372
+    },
+    {
+      "src": 5369123648,
+      "dst": 5369601437
+    },
+    {
+      "src": 5369121824,
+      "dst": 5369737496
+    },
+    {
+      "src": 5369121824,
+      "dst": 5369601437
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369741408
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369741416
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369740684
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369645360
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369622808
+    },
+    {
+      "src": 5369122960,
+      "dst": 5369741400
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369738056
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369645320
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369598152
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369645328
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369741136
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369598160
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369737496
+    },
+    {
+      "src": 5369124816,
+      "dst": 5369601437
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369740832
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369598400
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369599296
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369740840
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369598408
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369598224
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369598640
+    },
+    {
+      "src": 5369107376,
+      "dst": 5369599192
+    },
+    {
+      "src": 5369084944,
+      "dst": 5369599296
+    },
+    {
+      "src": 5369579248,
+      "dst": 5369737496
+    }
+  ]
+}

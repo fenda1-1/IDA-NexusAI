@@ -1,0 +1,413 @@
+{
+    "openai": {
+        "api_key": "sdk-111",
+        "base_url": "https://api.v3.cm/v1",
+        "proxy": "",
+        "models": [
+            "gpt-4.1",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "o4-mini",
+            "o3-mini",
+            "o1-mini",
+            "o3",
+            "o1",
+            "gemini-2.0-flash"
+        ],
+        "model": "gemini-2.0-flash"
+    },
+    "prompt": "你是一名逆向工程专家，请分析我提供的代码。请用中文回复。",
+    "analysis_depth": 1,
+    "language": "zh_CN",
+    "menu": {
+        "zh_CN": {
+            "analyze_func": "分析当前函数 (AI)",
+            "analyze_selection": "分析选中代码 (AI)",
+            "custom_query": "自定义提问...",
+            "set_depth": "设置分析深度...",
+            "set_prompt": "设置分析指令...",
+            "reload_config": "重新加载配置",
+            "stop_task": "停止当前分析",
+            "switch_language": "切换语言..."
+        },
+        "en_US": {
+            "analyze_func": "Analyze Current Function (AI)",
+            "analyze_selection": "Analyze Selected Code (AI)",
+            "custom_query": "Custom Question...",
+            "set_depth": "Set Analysis Depth...",
+            "set_prompt": "Set Analysis Prompt...",
+            "reload_config": "Reload Configuration",
+            "stop_task": "Stop Current Analysis",
+            "switch_language": "Switch Language..."
+        }
+    },
+    "prompts": {
+        "en_US": {
+            "system": "You are a reverse engineering expert. Please analyze the code I provide and respond in English.",
+            "comment_function": "I will provide a function and its call chain code for analysis. Please generate detailed comments for the main function named {func_name}.\n\nComment requirements:\n1. Use C-style comment format, starting with /* and ending with */\n2. Clearly describe the main function and purpose\n3. Explain the function's parameters and their uses\n4. Describe the meaning of the return value\n5. If there are special algorithms or techniques, please indicate them\n6. Only generate comment content, do not include any code or other explanations\n7. Do not add irrelevant content; the comment is only for describing this function\n\nComment format example:\n/*\n➀ Function:\n  ⑴ Describe function function 1\n  ⑵ Describe function function 2\n\n➁ Parameters:\n  ⑴ Parameter 1: Description of parameter 1\n  ⑵ Parameter 2: Description of parameter 2\n\n➂ Return value:\n  ⑴ Describe the meaning of the return value\n\n➃ Special algorithm/technology:\n  ⑴ Describe the special algorithm or technology used (if any)\n*/\n\nMain function code ({func_name}):\n{target_func_code}\n\nCall chain context code (for assisting analysis, no need to generate comments for this part):\n{context_code}",
+            "generate_line_comment": "Please generate a concise and accurate comment for the following line of code (marked with '>'), providing only the comment content without extra explanations:\n\n{context}",
+            "custom_query_with_code": "Here is the relevant code:\n{code_snippet}",
+            "analyze_function": "Please analyze the following function and its call chain:\n{code_snippet}",
+            "analyze_selection": "Please analyze the following code snippet:\n{code_snippet}"
+        },
+        "zh_CN": {
+            "system": "你是一名逆向工程专家，请分析我提供的代码。请用中文回复。",
+            "comment_function": "我将提供一个函数及其调用链代码用于分析。请为名为 {func_name} 的主函数生成详细的注释。\n\n注释要求：\n1. 使用C语言风格的注释格式，以/*开头，以*/结尾\n2. 清晰描述函数的主要功能和目的\n3. 说明函数的参数及其用途\n4. 描述返回值的含义\n5. 如有特殊的算法或技术，请指出\n6. 只生成注释内容，不要包含任何代码或其他解释\n7. 不要添加无关内容，注释只用于描述这个函数\n\n注释格式示例：\n/*\n➀功能：\n  ⑴描述函数的功能1\n  ⑵描述函数的功能2\n\n➁参数：\n  ⑴参数1: 参数1的说明\n  ⑵参数2: 参数2的说明\n\n➂返回值：\n  ⑴描述返回值的含义\n\n➃特殊算法/技术：\n  ⑴描述使用的特殊算法或技术（如果有）\n*/\n\n主函数代码 ({func_name}):\n{target_func_code}\n\n调用链上下文代码 (用于辅助分析，无需为这部分生成注释):\n{context_code}",
+            "generate_line_comment": "请为以下代码行(标记为'>')生成简洁、准确的注释，只提供注释内容，不要包含额外解释：\n\n{context}",
+            "custom_query_with_code": "以下是相关代码：\n{code_snippet}",
+            "analyze_function": "请分析以下函数及其调用链：\n{code_snippet}",
+            "analyze_selection": "请分析以下代码片段：\n{code_snippet}"
+        }
+    },
+    "messages": {
+        "zh_CN": {
+            "markdown_not_found": "<div style=\"background-color: #5A2D2D; border: 1px solid #C53333; color: #F0DADA; padding: 10px; margin: 5px; border-radius: 4px;\"><strong>[NexusAI] 错误: 缺少依赖库</strong><br>未安装 'markdown' 库，富文本渲染将被禁用。<br>请从命令行安装 (<b>确保 python 命令与 IDA Pro 使用的版本一致</b>):<br><code style=\"background-color: #444; padding: 3px 6px; border-radius: 3px; color: #D4D4D4;\">python -m pip install markdown</code><br>然后，重启 IDA Pro。</div>",
+            "config_load_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件加载成功: {0}</b> ✅</span></div>",
+            "config_not_found": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 未找到配置文件: {0}。正在创建默认配置...</b> ℹ️</span></div>",
+            "config_format_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 配置文件格式错误: {0}</b> ❌</span></div>",
+            "config_load_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 配置文件加载失败: {0}</b> ❌</span></div>",
+            "config_updated": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 配置已更新，默认项目已添加</b> ℹ️</span></div>",
+            "create_dir": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 正在创建配置目录: {0}</b> ℹ️</span></div>",
+            "config_save_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: {0}</b> ✅</span></div>",
+            "config_save_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 配置文件保存失败: {0}</b> ❌</span></div>",
+            "reload_config": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 正在重新加载配置...</b> ℹ️</span></div>",
+            "reload_complete": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 重载完成。语言: {0}, 深度: {1}, 模型: {2}</b> ✅</span></div>",
+            "api_key_not_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: API密钥未设置或为默认值，请修改 NexusAI.json</b> ❌</span></div>",
+            "client_create_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: OpenAI 客户端创建成功</b> ✅</span></div>",
+            "client_create_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI 客户端创建失败: {0}</b> ❌</span></div>",
+            "prompt_empty": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 分析指令不能为空</b> ❌</span></div>",
+            "depth_invalid": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 分析深度 '{0}' 无效，已使用默认值 {1}</b> ❌</span></div>",
+            "depth_negative": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 分析深度必须为非负整数</b> ℹ️</span></div>",
+            "depth_not_int": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 分析深度必须为有效整数</b> ℹ️</span></div>",
+            "language_changed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 语言已切换为 {0}</b> ✅</span></div>",
+            "language_not_supported": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 不支持的语言 '{0}'</b> ❌</span></div>",
+            "prompt_updated": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 指令已更新为当前语言 ({0}) 的系统指令</b> ✅</span></div>",
+            "plugin_load_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI 插件加载成功</b> ℹ️</span></div>",
+            "current_depth": "当前分析深度: {0}",
+            "current_model": "当前模型: {0}",
+            "task_in_progress": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: AI 正在处理任务，请稍后再试或停止当前任务</b> ℹ️</span></div>",
+            "prepare_analyze_function": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 准备分析当前函数...</b> ℹ️</span></div>",
+            "code_extract_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 代码提取失败: {0}</b> ❌</span></div>",
+            "code_extract_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 代码提取时发生未知错误: {0}</b> ❌</span></div>",
+            "prepare_analyze_selection": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 准备分析选中代码...</b> ℹ️</span></div>",
+            "custom_query_empty": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 自定义提问内容不能为空</b> ❌</span></div>",
+            "prepare_extract_code": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 准备提取当前函数代码用于提问...</b> ℹ️</span></div>",
+            "task_start_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 启动任务时发生错误: {0}</b> ❌</span></div>",
+            "task_execution_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 任务执行过程中发生未捕获的错误: {0}</b> ❌</span></div>",
+            "stop_task": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 尝试停止AI任务...</b> ℹ️</span></div>",
+            "no_task_running": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 没有正在运行的AI任务</b> ℹ️</span></div>",
+            "client_not_initialized": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI 客户端未初始化，无法执行此操作</b> ❌</span></div>",
+            "query_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 查询AI时出错: {0}</b> ❌</span></div>",
+            "sending_request": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>",
+            "client_not_initialized_check": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI 客户端未初始化。请检查配置文件和API密钥</b> ❌</span></div>",
+            "ai_response_header": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>",
+            "analysis_paused": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析已暂停.</b> 💡</span></div>",
+            "analysis_complete": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>",
+            "openai_request_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 请求 OpenAI 时发生错误: {0}</b> ❌</span></div>",
+            "create_prompt_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 创建提示词时出错: {0}</b> ❌</span></div>",
+            "horizontal_rule": "<hr/>",
+            "register_action_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 注册动作失败: {0}</b> ❌</span></div>",
+            "menu_added": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 已在主菜单 Edit/{0} 中添加菜单项</b> ℹ️</span></div>",
+            "menu_removed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 已删除主菜单项 {0}</b> ℹ️</span></div>",
+            "plugin_load_limited": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI 插件加载完成 (功能受限)</b> ℹ️</span></div>",
+            "client_init_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI 客户端初始化失败，插件功能受限</b> ❌</span></div>",
+            "depth_input": "请输入分析深度 (0-10):",
+            "depth_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 分析深度已设置为 {0}</b> ✅</span></div>",
+            "prompt_input": "请输入分析指令:",
+            "prompt_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 分析指令已更新</b> ✅</span></div>",
+            "custom_query_input": "请输入您的问题:",
+            "language_input": "请选择语言 (1:zh_CN/2:en_US):",
+            "language_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 语言已切换为 {0}</b> ✅</span></div>",
+            "no_selection": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: 请先选中代码范围</b> ❌</span></div>",
+            "welcome_message": "### 欢迎使用 NexusAI！\n\n- 使用 `Ctrl+K` 切换此窗口的显示/隐藏。\n- 在反汇编或伪代码视图中右键单击以访问分析选项。\n- 在下面的输入框中提问以开始。",
+            "chat_input_placeholder": "输入对当前光标位置的代码提问（\"附加上下文\"以添加附带内容，\"查看提示词\"可查看具体附加内容）...",
+            "menu_texts": {
+                "menu_title": "NexusAI",
+                "analyze_func": "分析当前函数 (AI)",
+                "analyze_selection": "分析选中代码 (AI)",
+                "custom_query": "自定义提问...",
+                "set_depth": "设置分析深度...",
+                "set_prompt": "设置分析指令...",
+                "reload_config": "重新加载配置",
+                "stop_task": "停止当前分析",
+                "switch_language": "切换语言...",
+                "toggle_output_view": "显示/隐藏输出窗口",
+                "reload_extensions": "重新加载扩展",
+                "extensions_reloaded": "扩展已重新加载。",
+                "plugin_unloaded": "插件已卸载。"
+            },
+            "tooltip": {
+                "analyze_func": "对当前函数及其调用链执行非阻塞式AI分析",
+                "analyze_selection": "对当前选定的代码范围执行非阻塞式AI分析",
+                "custom_query": "不附带任何代码上下文进行提问",
+                "set_depth": "设置代码递归分析的深度",
+                "set_prompt": "自定义用于函数分析的提示",
+                "reload_config": "从文件重新加载插件配置",
+                "stop_task": "强制停止当前的AI分析任务",
+                "switch_language": "切换界面和AI回复的语言",
+                "toggle_output_view": "切换 NexusAI 输出窗口 (Ctrl+K)",
+                "reload_extensions": "重新加载扩展"
+            },
+            "code_extraction_error": "[!] 无法提取当前函数的代码。",
+            "comment_function_started": "[*] 正在请求AI为当前函数添加注释...",
+            "comment_function_completed": "[+] AI注释已完成，正在应用到视图...",
+            "task_data_error": "[!] 无法检索原始任务数据以应用注释。",
+            "aimcp_max_iters_reached": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 当前 AIMCP 已达到最大迭代次数 ({0})，已停止工作。如需提高上限，请在设置中调整 AIMCP 迭代限制。</b> ℹ️</span></div>",
+            "aimcp_cancelled": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: AIMCP 过程已被用户终止。</b> ℹ️</span></div>"
+        },
+        "en_US": {
+            "markdown_not_found": "<div style=\"background-color: #5A2D2D; border: 1px solid #C53333; color: #F0DADA; padding: 10px; margin: 5px; border-radius: 4px;\"><strong>[NexusAI] Error: Missing Dependency</strong><br>The 'markdown' library is not installed. Rich text rendering will be disabled.<br>Please install it from your command line (<b>ensure this python command corresponds to the version used by IDA Pro</b>):<br><code style=\"background-color: #444; padding: 3px 6px; border-radius: 3px; color: #D4D4D4;\">python -m pip install markdown</code><br>Then, restart IDA Pro.</div>",
+            "config_load_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Configuration file loaded successfully: {0}</b> ✅</span></div>",
+            "config_not_found": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Configuration file not found: {0}. Creating default configuration.</b> ℹ️</span></div>",
+            "config_format_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Configuration file format error: {0}</b> ❌</span></div>",
+            "config_load_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Configuration file load failed: {0}</b> ❌</span></div>",
+            "config_updated": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Configuration updated, default items added</b> ℹ️</span></div>",
+            "create_dir": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Creating configuration directory: {0}</b> ℹ️</span></div>",
+            "config_save_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Configuration file saved successfully: {0}</b> ✅</span></div>",
+            "config_save_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Configuration file save failed: {0}</b> ❌</span></div>",
+            "reload_config": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Reloading configuration...</b> ℹ️</span></div>",
+            "reload_complete": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Reload complete. Language: {0}, Depth: {1}, Model: {2}</b> ✅</span></div>",
+            "api_key_not_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: API key not set or is default value, please edit NexusAI.json</b> ❌</span></div>",
+            "client_create_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: OpenAI client created successfully</b> ✅</span></div>",
+            "client_create_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI client creation failed: {0}</b> ❌</span></div>",
+            "prompt_empty": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Analysis prompt cannot be empty</b> ❌</span></div>",
+            "depth_invalid": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Analysis depth '{0}' is invalid, using default {1}</b> ❌</span></div>",
+            "depth_negative": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Analysis depth must be a non-negative integer</b> ℹ️</span></div>",
+            "depth_not_int": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Analysis depth must be a valid integer</b> ℹ️</span></div>",
+            "language_changed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Language switched to {0}</b> ✅</span></div>",
+            "language_not_supported": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Unsupported language '{0}'</b> ❌</span></div>",
+            "prompt_updated": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Prompt updated to current language ({0}) system prompt</b> ✅</span></div>",
+            "plugin_load_success": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI Plugin Loaded Successfully</b> ℹ️</span></div>",
+            "current_depth": "Current analysis depth: {0}",
+            "current_model": "Current model: {0}",
+            "task_in_progress": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: AI is currently processing a task, please try again later or stop it</b> ℹ️</span></div>",
+            "prepare_analyze_function": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Preparing to analyze current function...</b> ℹ️</span></div>",
+            "code_extract_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Code extraction failed: {0}</b> ❌</span></div>",
+            "code_extract_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Unknown error during code extraction: {0}</b> ❌</span></div>",
+            "prepare_analyze_selection": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Preparing to analyze selected code...</b> ℹ️</span></div>",
+            "custom_query_empty": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Custom query content cannot be empty</b> ❌</span></div>",
+            "prepare_extract_code": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Preparing to extract current function code for query...</b> ℹ️</span></div>",
+            "task_start_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Error starting task: {0}</b> ❌</span></div>",
+            "task_execution_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Uncaught error during task execution: {0}</b> ❌</span></div>",
+            "stop_task": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Attempting to stop AI task...</b> ℹ️</span></div>",
+            "no_task_running": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: No AI task is currently running</b> ℹ️</span></div>",
+            "client_not_initialized": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI client not initialized, cannot perform this operation</b> ❌</span></div>",
+            "query_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Error querying AI: {0}</b> ❌</span></div>",
+            "sending_request": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: Sending request to AI...</b> 💡</span></div>",
+            "client_not_initialized_check": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI client not initialized. Please check configuration file and API key</b> ❌</span></div>",
+            "ai_response_header": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: AI Response Start</b> 💡</span></div>",
+            "analysis_paused": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: Analysis paused.</b> 💡</span></div>",
+            "analysis_complete": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: Analysis complete!</b> 💡</span></div>",
+            "openai_request_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Error occurred when requesting OpenAI: {0}</b> ❌</span></div>",
+            "create_prompt_error": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Error creating prompt: {0}</b> ❌</span></div>",
+            "horizontal_rule": "<hr/>",
+            "register_action_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Failed to register action: {0}</b> ❌</span></div>",
+            "menu_added": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Menu items added to main menu Edit/{0}</b> ℹ️</span></div>",
+            "menu_removed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: Main menu item removed: {0}</b> ℹ️</span></div>",
+            "plugin_load_limited": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI Plugin Loaded (Limited Functionality)</b> ℹ️</span></div>",
+            "client_init_failed": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: OpenAI client initialization failed, plugin functionality is limited</b> ❌</span></div>",
+            "depth_input": "Enter analysis depth (0-10):",
+            "depth_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Analysis depth set to {0}</b> ✅</span></div>",
+            "prompt_input": "Enter analysis prompt:",
+            "prompt_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Analysis prompt updated</b> ✅</span></div>",
+            "custom_query_input": "Enter your question:",
+            "language_input": "Select language (1:zh_CN/2:en_US):",
+            "language_set": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: Language switched to {0}</b> ✅</span></div>",
+            "no_selection": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #FF4500;\">❌ <b>NexusAI: Please select a code range first</b> ❌</span></div>",
+            "welcome_message": "### Welcome to NexusAI!\n\n- Use `Ctrl+K` to toggle this window.\n- Right-click in the Disassembly or Pseudocode view to access analysis options.\n- Ask a question in the input box below to start.\n<br><br>\n",
+            "chat_input_placeholder": "Ask questions about the code at the current cursor position (\"Attach context\" to add additional content, \"View prompt\" to see specific attached content)...",
+            "menu_texts": {
+                "menu_title": "NexusAI",
+                "analyze_func": "Analyze Current Function (AI)",
+                "analyze_selection": "Analyze Selected Code (AI)",
+                "custom_query": "Custom Question...",
+                "set_depth": "Set Analysis Depth...",
+                "set_prompt": "Set Analysis Prompt...",
+                "reload_config": "Reload Configuration",
+                "stop_task": "Stop Current Analysis",
+                "switch_language": "Switch Language...",
+                "toggle_output_view": "Show/Hide Output Window",
+                "reload_extensions": "Reload Extensions",
+                "extensions_reloaded": "Extensions reloaded.",
+                "plugin_unloaded": "Plugin unloaded."
+            },
+            "tooltip": {
+                "analyze_func": "Perform non-blocking AI analysis of the current function and its call chain",
+                "analyze_selection": "Perform non-blocking AI analysis of the currently selected code range",
+                "custom_query": "Ask a question without any code context",
+                "set_depth": "Set the depth of recursive code analysis",
+                "set_prompt": "Customize the prompt used for function analysis",
+                "reload_config": "Reload plugin configuration from file",
+                "stop_task": "Force stop the current AI analysis task",
+                "switch_language": "Switch interface and AI reply language",
+                "toggle_output_view": "Toggle the NexusAI output window (Ctrl+K)",
+                "reload_extensions": "Reload Extensions"
+            },
+            "code_extraction_error": "[!] Could not extract code for the current function.",
+            "comment_function_started": "[*] Requesting AI to comment the current function...",
+            "comment_function_completed": "[+] AI commenting finished, applying to the view...",
+            "task_data_error": "[!] Could not retrieve original task data to apply comments.",
+            "aimcp_max_iters_reached": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: AIMCP has reached the maximum iteration limit ({0}) and stopped. To increase the limit, please adjust it in Settings.</b> ℹ️</span></div>",
+            "aimcp_cancelled": "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: AIMCP process has been terminated by the user.</b> ℹ️</span></div>"
+        }
+    },
+    "shortcuts": {
+        "toggle_output": "Ctrl+Shift+K",
+        "comment_function": "Ctrl+Shift+A",
+        "comment_line": "Ctrl+Shift+S",
+        "comment_repeatable": "Ctrl+Shift+D",
+        "comment_anterior": "Ctrl+Shift+W"
+    },
+    "shortcuts_window_only": false,
+    "temperature": 0.7,
+    "max_tokens": 2000,
+    "auto_open": true,
+    "ai_provider": "openai",
+    "anthropic": {
+        "api_key": "YOUR_CLAUDE_API_KEY",
+        "base_url": "https://api.anthropic.com/v1",
+        "model": "claude-3-opus-20240229"
+    },
+    "analysis_options": {
+        "include_type_definitions": true,
+        "include_xrefs": true
+    },
+    "dialog_sizes": {
+        "prompt_editor": [
+            771,
+            600
+        ],
+        "history_dialog": [
+            1139,
+            600
+        ],
+        "context_dialog": [
+            455,
+            306
+        ]
+    },
+    "context_defaults": {
+        "data_flow_graph": false,
+        "current_function": true,
+        "decompiled_function": false,
+        "call_chain": false,
+        "dfg_depth": 1,
+        "dfg_max_chars": 10000,
+        "dfg_truncate": false
+    },
+    "aimcp_auto_enabled": false,
+    "aimcp_enabled": false,
+    "log_chain_of_thought": false,
+    "aimcp_limit_iters_enabled": true,
+    "aimcp_max_iters": 15,
+    "aimcp_max_iterations": 10,
+    "last_session_name": "session_20250717_145426",
+    "api_profiles": {
+        "OpenAI": {
+            "api_key": "sdk-111",
+            "base_url": "https://api.v3.cm/v1",
+            "proxy": "",
+            "models": [
+                "gpt-4.1",
+                "gpt-4o",
+                "gpt-4o-mini",
+                "o4-mini",
+                "o3-mini",
+                "o1-mini",
+                "o3",
+                "o1",
+                "gemini-2.0-flash"
+            ],
+            "model": "gemini-2.0-flash"
+        },
+        "Claude": {
+            "api_key": "",
+            "base_url": "https://api.anthropic.com/v1",
+            "proxy": "",
+            "models": [
+                "claude-opus-4-0",
+                "claude-sonnet-4-0",
+                "claude-3-7-sonnet-latest",
+                "claude-3-5-sonnet-latest",
+                "claude-3-5-haiku-latest",
+                "claude-3-opus-latest"
+            ],
+            "model": "claude-opus-4-0"
+        },
+        "Gemini": {
+            "api_key": "",
+            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+            "proxy": "http://127.0.0.1:7890",
+            "models": [
+                "gemini-2.5-flash-preview-05-20",
+                "gemini-2.5-pro-preview-06-05",
+                "gemini-2.0-flash-exp",
+                "gemini-2.0-flash-thinking-exp",
+                "gemini-2.0-flash-thinking-exp-1219",
+                "gemini-1.5-pro-latest",
+                "gemini-1.5-flash-latest",
+                "gemini-1.5-pro-exp-0827",
+                "gemini-1.5-flash-exp-0827",
+                "gemini-1.5-flash-8b-exp-0924",
+                "gemini-pro",
+                "gemini-2.0-flash"
+            ],
+            "model": "gemini-2.0-flash"
+        },
+        "Ollama": {
+            "api_key": "",
+            "base_url": "http://127.0.0.1:11434",
+            "model": "llama3",
+            "models": [
+                "llama3"
+            ],
+            "proxy": ""
+        },
+        "LM Studio": {
+            "api_key": "",
+            "base_url": "http://127.0.0.1:1234",
+            "model": "llama3:8b-instruct-q4_K_M",
+            "proxy": "",
+            "models": [
+                "llama3:8b-instruct-q4_K_M"
+            ]
+        },
+        "DeepSeek": {
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "deepseek-chat",
+            "models": [
+                "deepseek-chat",
+                "deepseek-coder",
+                "deepseek-reasoner"
+            ],
+            "proxy": ""
+        },
+        "Azure": {
+            "api_key": "",
+            "base_url": "https://<resource_name>.openai.azure.com/openai/deployments",
+            "proxy": "",
+            "models": [
+                "gpt-4o"
+            ],
+            "model": "gpt-4o",
+            "api_version": "2024-05-01-preview"
+        },
+        "xAI": {
+            "api_key": "",
+            "base_url": "https://api.openai.com/v1",
+            "model": "grok-3-beta",
+            "models": [
+                "grok-3-beta",
+                "grok-3-mini-beta",
+                "grok-2-vision-1212",
+                "grok-2-image-1212",
+                "grok-2-1212",
+                "grok-vision-beta",
+                "grok-beta"
+            ],
+            "proxy": ""
+        }
+    },
+    "current_profile": "OpenAI"
+}

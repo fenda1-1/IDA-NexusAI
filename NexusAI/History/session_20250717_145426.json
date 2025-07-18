@@ -1,0 +1,430 @@
+{
+  "name": "session_20250717_145426",
+  "timestamp": "2025-07-17 18:42:32",
+  "messages": [
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件加载成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: OpenAI 客户端创建成功</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 已在主菜单 Edit/NexusAI 中添加菜单项</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI 插件加载成功</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "当前分析深度: 1"
+    ],
+    [
+      "text",
+      "当前模型: gemini-2.0-flash"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<b>You:</b> 重命名当前函数"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "好的，我理解了。用户想要重命名当前函数。我需要先获取当前光标所在地址，然后获取该地址处的函数信息，最后执行重命名操作。\n\n```json\n[\n  {\n    \"action\": \"get_current_cursor_address\",\n    \"args\": {}\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "markdown",
+      "### Iteration 1 result\n```json\n[\n  {\n    \"request\": {\n      \"action\": \"get_current_cursor_address\",\n      \"args\": {}\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": \"0x140099560\",\n      \"error\": \"\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "当前光标地址是 0x140099560。接下来，我将获取该地址处的函数信息，并尝试重命名该函数为 `my_function`。\n\n```json\n[\n  {\n    \"action\": \"get_function_info_by_address\",\n    \"args\": {\n      \"address\": \"0x140099560\"\n    }\n  },\n  {\n    \"action\": \"rename_func\",\n    \"args\": {\n      \"address\": \"0x140099560\",\n      \"new_name\": \"my_function\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "markdown",
+      "### Iteration 2 result\n```json\n[\n  {\n    \"request\": {\n      \"action\": \"get_function_info_by_address\",\n      \"args\": {\n        \"address\": \"0x140099560\"\n      }\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": {\n        \"start_ea\": \"0x140099560\",\n        \"end_ea\": \"0x14009A37F\",\n        \"name\": \"sub_140099560\",\n        \"size\": 3615,\n        \"flags\": 21520,\n        \"has_frame\": true\n      },\n      \"error\": \"\"\n    }\n  },\n  {\n    \"request\": {\n      \"action\": \"rename_func\",\n      \"args\": {\n        \"address\": \"0x140099560\",\n        \"new_name\": \"my_function\"\n      }\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": true,\n      \"error\": \"\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "已经成功将函数 `0x140099560` 重命名为 `my_function`，任务完成。\n\n[\"DONE\"]\n"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<b>You:</b> 重命名当前函数，使其可以展示函数功能"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "好的，明白了。当前的任务是重命名当前函数，使其名称能够反映函数的功能。为了实现这个目标，我需要先获取当前函数的信息，例如反汇编代码、反编译代码，以及交叉引用信息，以此来推断函数的功能。然后，我会根据推断出的功能，给函数起一个更具描述性的名字。\n\n```json\n[\n  {\"action\": \"get_current_function_info\"},\n  {\"action\": \"get_decomp\", \"args\": {\"ea\": \"get_current_cursor_address()\"}},\n  {\"action\": \"analyze_cross_references\", \"args\": {\"func_addr\": \"get_current_cursor_address()\", \"ref_type\": \"code\", \"limit\": 10}}\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "markdown",
+      "### Iteration 1 result\n```json\n[\n  {\n    \"request\": {\n      \"action\": \"get_current_function_info\"\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": {\n        \"start_ea\": \"0x140099560\",\n        \"end_ea\": \"0x14009A37F\",\n        \"name\": \"my_function\",\n        \"size\": 3615,\n        \"flags\": 21520,\n        \"has_frame\": true\n      },\n      \"error\": \"\"\n    }\n  },\n  {\n    \"request\": {\n      \"action\": \"get_decomp\",\n      \"args\": {\n        \"ea\": \"get_current_cursor_address()\"\n      }\n    },\n    \"response\": {\n      \"ok\": false,\n      \"data\": null,\n      \"error\": \"invalid literal for int() with base 16: 'get_current_cursor_address()'\"\n    }\n  },\n  {\n    \"request\": {\n      \"action\": \"analyze_cross_references\",\n      \"args\": {\n        \"func_addr\": \"get_current_cursor_address()\",\n        \"ref_type\": \"code\",\n        \"limit\": 10\n      }\n    },\n    \"response\": {\n      \"ok\": false,\n      \"data\": null,\n      \"error\": \"invalid literal for int() with base 16: 'get_current_cursor_address()'\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "上次尝试获取当前光标地址相关的反编译代码和交叉引用失败，因为`get_current_cursor_address()`不能直接作为地址参数。这次我将尝试获取当前函数`0x140099560`的反编译代码，并分析其交叉引用，然后根据分析结果重命名该函数。\n\n```json\n[\n  {\n    \"action\": \"get_decomp\",\n    \"args\": {\n      \"ea\": \"0x140099560\"\n    }\n  },\n  {\n    \"action\": \"analyze_cross_references\",\n    \"args\": {\n      \"func_addr\": \"0x140099560\",\n      \"ref_type\": \"code\",\n      \"limit\": 10\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "markdown",
+      "### Iteration 2 result\n```json\n[\n  {\n    \"request\": {\n      \"action\": \"get_decomp\",\n      \"args\": {\n        \"ea\": \"0x140099560\"\n      }\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": \"// c\\n// ➀功能:\\n// ⑴该函数是主处理函数，用于处理输入数据，并根据不同的配置选择不同的子函数进行处理。\\n// ⑵该函数使用了一些预处理指令（如_mm_prefetch）来提高性能。\\n// ⑶该函数涉及多种算法，包括数据匹配、查找和转换等。\\n// ⑷根据配置参数，选择不同的子函数进行调用，以实现不同的处理逻辑。\\n// ⑸函数中存在多层嵌套的条件判断和循环结构，逻辑较为复杂。\\n// ➁参数:\\n// ⑴a1: 指向一个配置结构的指针，该结构包含了多种配置参数，如数据偏移、长度和函数指针等。\\n// ⑵a2: 未知参数，具体用途需要进一步分析。\\n// ⑶a3: 指向一个包含两个整数的数组的指针，可能用于存储某些状态或结果。\\n// ⑷p_m128i_i8_12: 指向一个 128 位数据的指针，通常用于 SIMD 操作。可以理解为指向一个数据块的起始位置。\\n// ⑸a5: 数据偏移量，用于计算数据块的结束位置。\\n// ➂返回值:\\n// ⑴返回一个 signed int64 类型的值，具体含义需要进一步分析，可能表示处理的数据量或者状态码，也可能表示某种匹配的长度或位置。\\n// ➃特殊算法/技术:\\n// ⑴使用 SIMD 指令集进行并行计算（如使用m128i类型的数据），加速数据处理。\\n// ⑵使用预取指令(_mm_prefetch)提前加载数据到缓存，以提高性能，减少内存访问延迟。\\n// ⑶使用查表法（通过v13作为基址，计算偏移并访问内存）加速某些操作，提升查找效率。\\n// ⑷函数内部包含了多个子函数的调用，根据配置参数选择合适的子函数执行不同的处理逻辑。\\n// ⑸使用了位扫描指令(_BitScanReverse)来计算最高有效位的索引。\\n// ⑹存在一些常量数值，例如0xCF1BBCDCBB000000uLL，这些常量可能与特定的数据格式或算法相关。\\nsigned __int64 __fastcall my_function(__int64 a1, __int64 a2, int *a3, const __m128i *p_m128i_i8_12, __int64 a5)\\n{\\n  const __m128i *p_m128i_i8_1; // r12\\n  __int64 v6; // r11\\n  __int64 v7; // r13\\n  const __m128i *v9; // r14\\n  unsigned int n4; // eax\\n  unsigned int n4_1; // r8d\\n  unsigned int v12; // r8d\\n  __int64 v13; // r15\\n  __int64 v14; // rsi\\n  int v15; // edi\\n  const __m128i **v16; // rax\\n  const __m128i *v17; // rcx\\n  const __m128i *v18; // r10\\n  __int64 v19; // rbx\\n  _QWORD *v20; // rbx\\n  __int64 v21; // rcx\\n  bool v22; // zf\\n  __int64 v23; // r10\\n  _QWORD *v24; // r9\\n  unsigned __int64 p_m128i_i8_9; // rbx\\n  unsigned int n8; // edx\\n  unsigned int n6_2; // r12d\\n  int n6_3; // r14d\\n  char v29; // r8\\n  __int64 n8_1; // r11\\n  __int64 v31; // rcx\\n  unsigned __int64 v32; // rdx\\n  unsigned __int64 v33; // rdx\\n  char v34; // cl\\n  __int64 v35; // rax\\n  __int64 v36; // rax\\n  __int64 v37; // rax\\n  __int64 v38; // rdx\\n  char *p_m128i_i8_2; // rax\\n  int v40; // r11d\\n  unsigned __int64 n999999999_3; // r15\\n  unsigned int v42; // ecx\\n  unsigned __int64 n4_7; // rdi\\n  _DWORD *v44; // r11\\n  const __m128i *v45; // rdi\\n  unsigned __int64 v46; // r8\\n  _QWORD *v47; // r11\\n  unsigned __int64 v48; // rsi\\n  __int64 v49; // r11\\n  unsigned __int64 n4_6; // rax\\n  unsigned __int64 n4_2; // rsi\\n  unsigned __int64 p_m128i_i8_10; // rdx\\n  unsigned __int64 n8_2; // rcx\\n  unsigned int v54; // r12d\\n  __int64 v55; // rdi\\n  unsigned int v56; // ecx\\n  _DWORD *v57; // r11\\n  bool v58; // cf\\n  const __m128i *v59; // rdi\\n  unsigned __int64 v60; // r12\\n  unsigned __int64 v61; // r8\\n  _QWORD *v62; // r11\\n  unsigned __int64 v63; // r15\\n  __int64 v64; // r11\\n  unsigned __int64 n4_3; // rdx\\n  int v66; // eax\\n  unsigned __int64 n4_8; // rax\\n  unsigned int n999999999_4; // r13d\\n  unsigned int v69; // eax\\n  __int64 n999999999_1; // r8\\n  unsigned __int64 n4_4; // rdx\\n  int v72; // r9d\\n  unsigned int v73; // ecx\\n  _DWORD *v74; // r11\\n  const __m128i *v75; // rdi\\n  unsigned __int64 v76; // r12\\n  unsigned __int64 v77; // r8\\n  _QWORD *v78; // r11\\n  unsigned __int64 v79; // r15\\n  __int64 v80; // r11\\n  int v81; // eax\\n  unsigned __int64 n4_5; // rax\\n  int v83; // r9d\\n  unsigned int v84; // eax\\n  unsigned __int64 p_m128i_i8_11; // r9\\n  unsigned int v86; // edx\\n  unsigned __int64 v87; // rcx\\n  _QWORD *v88; // r8\\n  const __m128i *p_m128i_i8_3; // rdi\\n  unsigned __int64 p_m128i_i8_4; // rdx\\n  unsigned __int64 p_m128i_i8_6; // rbx\\n  char *p_m128i_i8_7; // r11\\n  __int64 v93; // r9\\n  unsigned __int64 n0x10; // r10\\n  __m128i *v95; // rdx\\n  unsigned __int64 p_m128i_i8_8; // r8\\n  __m128i *v97; // rcx\\n  unsigned __int64 v98; // r8\\n  __m128i *v99; // rcx\\n  const __m128i *v100; // rdx\\n  __m128i v101; // xmm0\\n  __m128i *v102; // rax\\n  const __m128i *v103; // rcx\\n  __m128i v104; // xmm0\\n  signed __int64 v105; // rax\\n  __int8 v106; // al\\n  __int64 v107; // rcx\\n  __int64 v108; // rcx\\n  __int64 v109; // rcx\\n  __int64 v110; // r15\\n  __int64 v111; // rsi\\n  int v112; // edi\\n  unsigned int n8_3; // edx\\n  _DWORD *v114; // r9\\n  __int64 v115; // r10\\n  unsigned int n6_4; // r12d\\n  int n6_5; // r14d\\n  char v118; // r8\\n  __int64 n8_4; // r11\\n  __int64 v120; // rcx\\n  unsigned __int64 v121; // rdx\\n  unsigned __int64 v122; // rdx\\n  char v123; // cl\\n  __int64 v124; // rax\\n  __int64 v125; // rax\\n  __int64 v126; // rax\\n  int v127; // r10d\\n  unsigned int v128; // ecx\\n  int v129; // r12d\\n  _DWORD *v130; // r11\\n  const __m128i *v131; // rdi\\n  unsigned __int64 v132; // r8\\n  _QWORD *v133; // r11\\n  unsigned __int64 v134; // rsi\\n  __int64 v135; // r11\\n  unsigned __int64 v136; // rsi\\n  __int64 v137; // rcx\\n  signed __int64 result; // rax\\n  __int64 n999999999; // [rsp+20h] [rbp-61h] BYREF\\n  int n6_1; // [rsp+28h] [rbp-59h]\\n  int v141; // [rsp+2Ch] [rbp-55h]\\n  int n6; // [rsp+30h] [rbp-51h]\\n  __int64 v143; // [rsp+38h] [rbp-49h]\\n  unsigned int v144; // [rsp+40h] [rbp-41h]\\n  unsigned __int64 p_m128i_i8_5; // [rsp+48h] [rbp-39h]\\n  int v146; // [rsp+50h] [rbp-31h]\\n  __int64 n999999999_2; // [rsp+58h] [rbp-29h]\\n  const __m128i *v148; // [rsp+60h] [rbp-21h]\\n  _QWORD *v149; // [rsp+68h] [rbp-19h]\\n  const __m128i *v150; // [rsp+70h] [rbp-11h]\\n  const __m128i *v151; // [rsp+78h] [rbp-9h]\\n  _QWORD *v152; // [rsp+80h] [rbp-1h]\\n  const __m128i *p_m128i_i8; // [rsp+F8h] [rbp+77h]\\n  unsigned int a5a; // [rsp+100h] [rbp+7Fh]\\n\\n  p_m128i_i8 = p_m128i_i8_12;\\n  p_m128i_i8_1 = p_m128i_i8_12;\\n  v6 = *(_QWORD *)(a1 + 8);\\n  v7 = a1;\\n  v9 = (const __m128i *)((char *)p_m128i_i8_12 + a5);\\n  a5a = *(_DWORD *)(a1 + 24);\\n  v151 = v9;\\n  v143 = v6;\\n  n4 = *(_DWORD *)(a1 + 272);\\n  v149 = (_QWORD *)(v6 + a5a);\\n  if ( n4 >= 6 )\\n  {\\n    n6 = 6;\\n  }\\n  else\\n  {\\n    if ( n4 < 4 )\\n      n4 = 4;\\n    n6 = n4;\\n  }\\n  n4_1 = *(_DWORD *)(a1 + 268);\\n  if ( n4_1 >= 6 )\\n  {\\n    n6_1 = 6;\\n  }\\n  else\\n  {\\n    if ( n4_1 < 4 )\\n      n4_1 = 4;\\n    n6_1 = n4_1;\\n  }\\n  v12 = a5a;\\n  v13 = *(_QWORD *)(a1 + 112);\\n  v14 = *(_QWORD *)(a1 + 56);\\n  v15 = *(_DWORD *)(a1 + 52);\\n  v141 = *a3;\\n  v146 = a3[1];\\n  v16 = *(const __m128i ***)(a1 + 248);\\n  v17 = v16[1];\\n  v18 = *v16;\\n  v19 = *((unsigned int *)v16 + 6);\\n  LODWORD(v16) = (_DWORD)v17 - (unsigned int)*v16;\\n  v148 = v17;\\n  v150 = v18;\\n  v20 = (__int64 *)((char *)v17->m128i_i64 + v19);\\n  v144 = a5a + (_DWORD)v16;\\n  v21 = *(unsigned int *)(v7 + 44);\\n  v152 = v20;\\n  v22 = (_DWORD)v18 + (_DWORD)p_m128i_i8_12 - ((_DWORD)v6 + a5a) - (_DWORD)v20 == 0;\\n  v23 = (unsigned int)v21;\\n  v24 = (_QWORD *)(v21 + v6);\\n  *(_DWORD *)(v7 + 300) = 0;\\n  p_m128i_i8_9 = (unsigned __int64)p_m128i_i8_1->m128i_u64 + v22;\\n  p_m128i_i8_5 = p_m128i_i8_9;\\n  n8 = (_DWORD)v9 - 16 - v6 - v21 + 1;\\n  if ( v21 + v6 > (unsigned __int64)&v9[-1] )\\n    n8 = 0;\\n  if ( n8 > 8 )\\n    n8 = 8;\\n  if ( (unsigned int)v21 >= n8 + (unsigned int)v21 )\\n    goto LABEL_34;\\n  n6_2 = n6_1;\\n  n6_3 = n6;\\n  v29 = -8 - v15;\\n  n8_1 = n8;\\n  do\\n  {\\n    v31 = *(_QWORD *)(v7 + 96);\\n    switch ( n6_3 )\\n    {\\n      case 4:\\n        goto LABEL_26;\\n      case 5:\\n        v33 = v31 ^ (0xCF1BBCDCBB000000uLL * *v24);\\n        v34 = v29 + 64;\\n        break;\\n      case 6:\\n        v33 = v31 ^ (0xCF1BBCDCBF9B0000uLL * *v24);\\n        v34 = v29 + 64;\\n        break;\\n      case 7:\\n        v33 = v31 ^ (0xCF1BBCDCBFA56300uLL * *v24);\\n        v34 = v29 + 64;\\n        break;\\n      case 8:\\n        v32 = (v31 ^ (0xCF1BBCDCB7A56463uLL * *v24)) >> (56 - (unsigned __int8)v15);\\n        v29 = -8 - v15;\\n        goto LABEL_28;\\n      default:\\nLABEL_26:\\n        v35 = (unsigned int)v31;\\n        v34 = v29 + 32;\\n        v33 = v35 ^ (unsigned int)(-1640531535 * *(_DWORD *)v24);\\n        break;\\n    }\\n    v32 = v33 >> v34;\\nLABEL_28:\\n    v36 = (unsigned int)v32 >> 8 << n6_2;\\n    _mm_prefetch((const char *)(v13 + 4 * v36), 1);\\n    if ( n6_2 >= 5 )\\n      _mm_prefetch((const char *)(v13 + 4 * v36 + 64), 1);\\n    _mm_prefetch((const char *)(v36 + v14), 1);\\n    if ( n6_2 == 6 )\\n      _mm_prefetch((const char *)(v36 + v14 + 32), 1);\\n    v24 = (_QWORD *)((char *)v24 + 1);\\n    v37 = v23++ & 7;\\n    *(_DWORD *)(v7 + 4 * v37 + 64) = v32;\\n    --n8_1;\\n  }\\n  while ( n8_1 );\\n  p_m128i_i8_9 = p_m128i_i8_5;\\n  v9 = v151;\\n  p_m128i_i8_1 = p_m128i_i8;\\n  v12 = a5a;\\nLABEL_34:\\n  v38 = v143;\\n  p_m128i_i8_2 = v9[-1].m128i_i8;\\nLABEL_36:\\n  v40 = v141;\\nLABEL_37:\\n  while ( 2 )\\n  {\\n    if ( p_m128i_i8_9 < (unsigned __int64)p_m128i_i8_2 )\\n    {\\n      n999999999_3 = 1;\\n      n999999999_2 = 1;\\n      v42 = p_m128i_i8_9 - v38 - v40 + 1;\\n      n4_7 = 0;\\n      if ( v42 >= v12 )\\n        v44 = (_DWORD *)(v38 + v42);\\n      else\\n        v44 = (__int32 *)((char *)v148->m128i_i32 + v42 - v144);\\n      if ( v12 - v42 - 1 >= 3 && *v44 == *(_DWORD *)(p_m128i_i8_9 + 1) )\\n      {\\n        v45 = v9;\\n        if ( v42 < v12 )\\n          v45 = v150;\\n        v46 = (unsigned __int64)v9;\\n        v47 = v44 + 1;\\n        if ( &v45->m128i_i8[p_m128i_i8_9 + 5 - (_QWORD)v47] < (__int8 *)v9 )\\n          v46 = (unsigned __int64)v45->m128i_u64 + p_m128i_i8_9 + 5 - (_QWORD)v47;\\n        v48 = sub_1400A1460((_QWORD *)(p_m128i_i8_9 + 5), v47, v46);\\n        if ( (const __m128i *)(v49 + v48) == v45 )\\n          v48 += sub_1400A1460((_QWORD *)(v48 + p_m128i_i8_9 + 5), v149, (unsigned __int64)v9);\\n        n999999999_3 = n999999999_2;\\n        n4_7 = v48 + 4;\\n      }\\n      n999999999 = 999999999;\\n      switch ( n6 )\\n      {\\n        case 4:\\n          switch ( n6_1 )\\n          {\\n            case 4:\\n              n4_6 = sub_1400847E0(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 5:\\n              n4_6 = sub_140084FB0(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 6:\\n              n4_6 = sub_140085790(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            default:\\n              goto LABEL_68;\\n          }\\n          break;\\n        case 5:\\n          switch ( n6_1 )\\n          {\\n            case 4:\\n              n4_6 = sub_140086000(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 5:\\n              n4_6 = sub_140086800(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 6:\\n              n4_6 = sub_140087030(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            default:\\n              goto LABEL_68;\\n          }\\n          break;\\n        case 6:\\n          switch ( n6_1 )\\n          {\\n            case 4:\\n              n4_6 = sub_1400878F0(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 5:\\n              n4_6 = sub_1400880F0(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              break;\\n            case 6:\\n              n4_6 = sub_140088920(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n              goto LABEL_72;\\n            default:\\nLABEL_68:\\n              n4_2 = 0;\\nLABEL_75:\\n              p_m128i_i8_10 = p_m128i_i8_9;\\n              if ( n4_2 <= n4_7 )\\n              {\\n                p_m128i_i8_10 = p_m128i_i8_9 + 1;\\n                n4_2 = n4_7;\\n              }\\n              p_m128i_i8_5 = p_m128i_i8_10;\\n              if ( n4_2 < 4 )\\n              {\\n                p_m128i_i8_1 = p_m128i_i8;\\n                v12 = a5a;\\n                v38 = v143;\\n                v40 = v141;\\n                n8_2 = ((p_m128i_i8_9 - (unsigned __int64)p_m128i_i8) >> 8) + 1;\\n                p_m128i_i8_9 += n8_2;\\n                *(_DWORD *)(v7 + 300) = n8_2 > 8;\\n                p_m128i_i8_2 = v9[-1].m128i_i8;\\n                continue;\\n              }\\n              v54 = a5a;\\n              v55 = v143;\\n              while ( 2 )\\n              {\\n                v56 = ++p_m128i_i8_9 - v55 - v141;\\n                if ( v56 >= v54 )\\n                  v57 = (_DWORD *)(v55 + v56);\\n                else\\n                  v57 = (__int32 *)((char *)v148->m128i_i32 + v56 - v144);\\n                if ( v54 - v56 - 1 >= 3 && *v57 == *(_DWORD *)p_m128i_i8_9 )\\n                {\\n                  v58 = v56 < v54;\\n                  v59 = v9;\\n                  v60 = p_m128i_i8_9 + 4;\\n                  v61 = (unsigned __int64)v9;\\n                  if ( v58 )\\n                    v59 = v150;\\n                  v62 = v57 + 1;\\n                  if ( &v59->m128i_i8[v60 - (_QWORD)v62] < (__int8 *)v9 )\\n                    v61 = (unsigned __int64)v59->m128i_u64 + v60 - (_QWORD)v62;\\n                  v63 = sub_1400A1460((_QWORD *)(p_m128i_i8_9 + 4), v62, v61);\\n                  if ( (const __m128i *)(v64 + v63) == v59 )\\n                    v63 += sub_1400A1460((_QWORD *)(v63 + v60), v149, (unsigned __int64)v9);\\n                  v54 = a5a;\\n                  n4_3 = v63 + 4;\\n                  n999999999_3 = n999999999_2;\\n                  v55 = v143;\\n                  _BitScanReverse((unsigned int *)&v66, n999999999_2);\\n                  if ( n4_3 >= 4 && 3 * (int)n4_3 > 3 * (int)n4_2 - v66 + 1 )\\n                  {\\n                    n999999999_3 = 1;\\n                    p_m128i_i8_5 = p_m128i_i8_9;\\n                    n999999999_2 = 1;\\n                    n4_2 = n4_3;\\n                  }\\n                }\\n                n999999999 = 999999999;\\n                switch ( n6 )\\n                {\\n                  case 4:\\n                    switch ( n6_1 )\\n                    {\\n                      case 4:\\n                        n4_8 = sub_1400847E0(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 5:\\n                        n4_8 = sub_140084FB0(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 6:\\n                        n4_8 = sub_140085790(v7, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                    }\\n                    break;\\n                  case 5:\\n                    switch ( n6_1 )\\n                    {\\n                      case 4:\\n                        n4_8 = sub_140086000(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 5:\\n                        n4_8 = sub_140086800(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 6:\\n                        n4_8 = sub_140087030(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                    }\\n                    break;\\n                  case 6:\\n                    switch ( n6_1 )\\n                    {\\n                      case 4:\\n                        n4_8 = sub_1400878F0(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 5:\\n                        n4_8 = sub_1400880F0(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                        goto LABEL_116;\\n                      case 6:\\n                        n4_8 = sub_140088920(v7, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\nLABEL_116:\\n                        n999999999_1 = n999999999;\\n                        n4_4 = n4_8;\\n                        _BitScanReverse((unsigned int *)&v72, n999999999);\\n                        _BitScanReverse((unsigned int *)&n4_8, n999999999_3);\\n                        n999999999_4 = n999999999_3;\\n                        if ( n4_4 >= 4 && 4 * (int)n4_4 - v72 > 4 * (int)n4_2 + 4 - (int)n4_8 )\\n                          goto LABEL_157;\\nLABEL_118:\\n                        if ( p_m128i_i8_9 >= (unsigned __int64)&v9[-1] )\\n                          goto LABEL_160;\\n                        v73 = ++p_m128i_i8_9 - v55 - v141;\\n                        if ( v73 >= v54 )\\n                          v74 = (_DWORD *)(v55 + v73);\\n                        else\\n                          v74 = (__int32 *)((char *)v148->m128i_i32 + v73 - v144);\\n                        if ( v54 - v73 - 1 >= 3 && *v74 == *(_DWORD *)p_m128i_i8_9 )\\n                        {\\n                          v58 = v73 < v54;\\n                          v75 = v9;\\n                          v76 = p_m128i_i8_9 + 4;\\n                          v77 = (unsigned __int64)v9;\\n                          if ( v58 )\\n                            v75 = v150;\\n                          v78 = v74 + 1;\\n                          if ( &v75->m128i_i8[v76 - (_QWORD)v78] < (__int8 *)v9 )\\n                            v77 = (unsigned __int64)v75->m128i_u64 + v76 - (_QWORD)v78;\\n                          v79 = sub_1400A1460((_QWORD *)(p_m128i_i8_9 + 4), v78, v77);\\n                          if ( (const __m128i *)(v80 + v79) == v75 )\\n                            v79 += sub_1400A1460((_QWORD *)(v79 + v76), v149, (unsigned __int64)v9);\\n                          v54 = a5a;\\n                          v55 = v143;\\n                          _BitScanReverse((unsigned int *)&v81, n999999999_4);\\n                          if ( v79 >= 0xFFFFFFFFFFFFFFFCuLL || 4 * ((int)v79 + 4) <= 4 * (int)n4_2 - v81 + 1 )\\n                          {\\n                            n999999999_3 = n999999999_2;\\n                          }\\n                          else\\n                          {\\n                            n4_2 = v79 + 4;\\n                            p_m128i_i8_5 = p_m128i_i8_9;\\n                            n999999999_3 = 1;\\n                          }\\n                        }\\n                        n999999999 = 999999999;\\n                        if ( n6 != 4 )\\n                        {\\n                          if ( n6 == 5 )\\n                          {\\n                            switch ( n6_1 )\\n                            {\\n                              case 4:\\n                                n4_5 = sub_140086000(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              case 5:\\n                                n4_5 = sub_140086800(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              case 6:\\n                                n4_5 = sub_140087030(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              default:\\n                                goto LABEL_159;\\n                            }\\n                          }\\n                          else\\n                          {\\n                            if ( n6 != 6 )\\n                              goto LABEL_159;\\n                            switch ( n6_1 )\\n                            {\\n                              case 4:\\n                                n4_5 = sub_1400878F0(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              case 5:\\n                                n4_5 = sub_1400880F0(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              case 6:\\n                                n4_5 = sub_140088920(a1, (_QWORD *)p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                                break;\\n                              default:\\n                                goto LABEL_159;\\n                            }\\n                          }\\nLABEL_155:\\n                          n999999999_1 = n999999999;\\n                          n4_4 = n4_5;\\n                          _BitScanReverse((unsigned int *)&v83, n999999999);\\n                          _BitScanReverse((unsigned int *)&n4_5, n999999999_3);\\n                          if ( n4_4 < 4 || 4 * (int)n4_4 - v83 <= 4 * (int)n4_2 - (int)n4_5 + 7 )\\n                            goto LABEL_160;\\nLABEL_157:\\n                          p_m128i_i8_5 = p_m128i_i8_9;\\n                          n999999999_2 = n999999999_1;\\n                          n999999999_3 = n999999999_1;\\n                          n4_2 = n4_4;\\n                          if ( p_m128i_i8_9 >= (unsigned __int64)&v9[-1] )\\n                            goto LABEL_160;\\n                          v7 = a1;\\n                          continue;\\n                        }\\n                        switch ( n6_1 )\\n                        {\\n                          case 4:\\n                            n4_5 = sub_1400847E0(a1, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                            goto LABEL_155;\\n                          case 5:\\n                            n4_5 = sub_140084FB0(a1, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                            goto LABEL_155;\\n                          case 6:\\n                            n4_5 = sub_140085790(a1, p_m128i_i8_9, (unsigned __int64)v9, &n999999999);\\n                            goto LABEL_155;\\n                        }\\nLABEL_159:\\n                        _BitScanReverse(&v84, n999999999_3);\\n                        LODWORD(n999999999) = v84;\\nLABEL_160:\\n                        if ( n999999999_3 <= 3 )\\n                        {\\n                          p_m128i_i8_3 = p_m128i_i8;\\n                        }\\n                        else\\n                        {\\n                          p_m128i_i8_11 = p_m128i_i8_5;\\n                          v86 = p_m128i_i8_5 - v55 - n999999999_3 + 3;\\n                          if ( v86 >= v54 )\\n                            v87 = v55 + v86;\\n                          else\\n                            v87 = (unsigned __int64)v148->m128i_u64 + v86 - (unsigned __int64)v144;\\n                          v88 = v149;\\n                          p_m128i_i8_3 = p_m128i_i8;\\n                          if ( v86 < v54 )\\n                            v88 = v152;\\n                          if ( p_m128i_i8_5 > (unsigned __int64)p_m128i_i8 )\\n                          {\\n                            do\\n                            {\\n                              if ( v87 <= (unsigned __int64)v88 )\\n                                break;\\n                              p_m128i_i8_4 = p_m128i_i8_11 - 1;\\n                              if ( *(_BYTE *)(p_m128i_i8_11 - 1) != *(_BYTE *)(v87 - 1) )\\n                                break;\\n                              --v87;\\n                              p_m128i_i8_5 = p_m128i_i8_11 - 1;\\n                              ++n4_2;\\n                              --p_m128i_i8_11;\\n                            }\\n                            while ( p_m128i_i8_4 > (unsigned __int64)p_m128i_i8 );\\n                          }\\n                          v146 = v141;\\n                          v141 = n999999999_3 - 3;\\n                        }\\n                        p_m128i_i8_6 = p_m128i_i8_5;\\n                        p_m128i_i8_7 = v9[-2].m128i_i8;\\n                        v93 = a2;\\n                        n0x10 = p_m128i_i8_5 - (_QWORD)p_m128i_i8_3;\\n                        v95 = *(__m128i **)(a2 + 24);\\n                        p_m128i_i8_8 = p_m128i_i8_5;\\n                        if ( p_m128i_i8_5 > (unsigned __int64)&v9[-2] )\\n                        {\\n                          if ( p_m128i_i8_3 <= (const __m128i *)p_m128i_i8_7 )\\n                          {\\n                            *v95 = _mm_loadu_si128(p_m128i_i8_3);\\n                            if ( p_m128i_i8_7 - (char *)p_m128i_i8_3 > 16 )\\n                            {\\n                              v102 = v95 + 1;\\n                              v103 = p_m128i_i8_3 + 1;\\n                              do\\n                              {\\n                                v104 = _mm_loadu_si128(v103);\\n                                v103 += 2;\\n                                *v102 = v104;\\n                                v102[1] = _mm_loadu_si128(v103 - 1);\\n                                v102 += 2;\\n                              }\\n                              while ( v102 < (__m128i *)&v95->m128i_i8[p_m128i_i8_7 - (char *)p_m128i_i8_3] );\\n                            }\\n                            v93 = a2;\\n                            v105 = p_m128i_i8_7 - (char *)p_m128i_i8_3;\\n                            p_m128i_i8_3 = v9 - 2;\\n                            v95 = (__m128i *)((char *)v95 + v105);\\n                          }\\n                          for ( ; (unsigned __int64)p_m128i_i8_3 < p_m128i_i8_8; v95 = (__m128i *)((char *)v95 + 1) )\\n                          {\\n                            v106 = p_m128i_i8_3->m128i_i8[0];\\n                            p_m128i_i8_3 = (const __m128i *)((char *)p_m128i_i8_3 + 1);\\n                            v95->m128i_i8[0] = v106;\\n                          }\\n                        }\\n                        else\\n                        {\\n                          *v95 = _mm_loadu_si128(p_m128i_i8_3);\\n                          if ( n0x10 > 0x10 )\\n                          {\\n                            v97 = (__m128i *)(*(_QWORD *)(a2 + 24) + 16LL);\\n                            v98 = *(_QWORD *)(a2 + 24) + n0x10;\\n                            *v97 = _mm_loadu_si128(p_m128i_i8_3 + 1);\\n                            if ( (__int64)(n0x10 - 16) > 16 )\\n                            {\\n                              v99 = v97 + 1;\\n                              v100 = p_m128i_i8_3 + 2;\\n                              do\\n                              {\\n                                v101 = _mm_loadu_si128(v100);\\n                                v100 += 2;\\n                                *v99 = v101;\\n                                v99[1] = _mm_loadu_si128(v100 - 1);\\n                                v99 += 2;\\n                              }\\n                              while ( (unsigned __int64)v99 < v98 );\\n                            }\\n                          }\\n                        }\\n                        *(_QWORD *)(v93 + 24) += n0x10;\\n                        v107 = *(_QWORD *)(v93 + 8);\\n                        if ( n0x10 > 0xFFFF )\\n                        {\\n                          *(_DWORD *)(v93 + 72) = 1;\\n                          *(_DWORD *)(v93 + 76) = (v107 - *(_QWORD *)v93) >> 3;\\n                        }\\n                        *(_WORD *)(v107 + 4) = n0x10;\\n                        **(_DWORD **)(v93 + 8) = n999999999_3;\\n                        v108 = *(_QWORD *)(v93 + 8);\\n                        if ( n4_2 - 3 > 0xFFFF )\\n                        {\\n                          *(_DWORD *)(v93 + 72) = 2;\\n                          *(_DWORD *)(v93 + 76) = (v108 - *(_QWORD *)v93) >> 3;\\n                        }\\n                        v7 = a1;\\n                        p_m128i_i8_1 = (const __m128i *)(p_m128i_i8_6 + n4_2);\\n                        *(_WORD *)(v108 + 6) = n4_2 - 3;\\n                        p_m128i_i8_9 = (unsigned __int64)p_m128i_i8_1;\\n                        *(_QWORD *)(v93 + 8) += 8LL;\\n                        p_m128i_i8 = p_m128i_i8_1;\\n                        v22 = *(_DWORD *)(a1 + 300) == 0;\\n                        p_m128i_i8_5 = (unsigned __int64)p_m128i_i8_1;\\n                        if ( !v22 )\\n                        {\\n                          v109 = *(unsigned int *)(a1 + 44);\\n                          v110 = *(_QWORD *)(a1 + 112);\\n                          v111 = *(_QWORD *)(a1 + 56);\\n                          v112 = *(_DWORD *)(a1 + 52);\\n                          n8_3 = (_DWORD)v9 - 16 - v109 - v143 + 1;\\n                          v114 = (_DWORD *)(v109 + v143);\\n                          v115 = v109;\\n                          if ( v109 + v143 > (unsigned __int64)&v9[-1] )\\n                            n8_3 = 0;\\n                          if ( n8_3 > 8 )\\n                            n8_3 = 8;\\n                          if ( (unsigned int)v109 < (unsigned int)v109 + n8_3 )\\n                          {\\n                            n6_4 = n6_1;\\n                            n6_5 = n6;\\n                            v118 = -8 - v112;\\n                            n8_4 = n8_3;\\n                            while ( 1 )\\n                            {\\n                              v120 = *(_QWORD *)(a1 + 96);\\n                              if ( n6_5 == 4 )\\n                              {\\nLABEL_205:\\n                                v124 = (unsigned int)v120;\\n                                v123 = v118 + 32;\\n                                v122 = v124 ^ (unsigned int)(-1640531535 * *v114);\\n                                goto LABEL_206;\\n                              }\\n                              if ( n6_5 == 5 )\\n                              {\\n                                v122 = v120 ^ (0xCF1BBCDCBB000000uLL * *(_QWORD *)v114);\\n                                v123 = v118 + 64;\\n                                goto LABEL_206;\\n                              }\\n                              if ( n6_5 == 6 )\\n                                break;\\n                              if ( n6_5 == 7 )\\n                              {\\n                                v122 = v120 ^ (0xCF1BBCDCBFA56300uLL * *(_QWORD *)v114);\\n                                v123 = v118 + 64;\\nLABEL_206:\\n                                v121 = v122 >> v123;\\n                                goto LABEL_207;\\n                              }\\n                              if ( n6_5 != 8 )\\n                                goto LABEL_205;\\n                              v121 = (v120 ^ (0xCF1BBCDCB7A56463uLL * *(_QWORD *)v114)) >> (56 - (unsigned __int8)v112);\\n                              v118 = -8 - v112;\\nLABEL_207:\\n                              v125 = (unsigned int)v121 >> 8 << n6_4;\\n                              _mm_prefetch((const char *)(v110 + 4 * v125), 1);\\n                              if ( n6_4 >= 5 )\\n                                _mm_prefetch((const char *)(v110 + 4 * v125 + 64), 1);\\n                              _mm_prefetch((const char *)(v111 + v125), 1);\\n                              if ( n6_4 == 6 )\\n                                _mm_prefetch((const char *)(v111 + v125 + 32), 1);\\n                              v114 = (_DWORD *)((char *)v114 + 1);\\n                              v126 = v115++ & 7;\\n                              *(_DWORD *)(a1 + 4 * v126 + 64) = v121;\\n                              if ( !--n8_4 )\\n                              {\\n                                p_m128i_i8_9 = p_m128i_i8_5;\\n                                v9 = v151;\\n                                p_m128i_i8_1 = p_m128i_i8;\\n                                goto LABEL_213;\\n                              }\\n                            }\\n                            v122 = v120 ^ (0xCF1BBCDCBF9B0000uLL * *(_QWORD *)v114);\\n                            v123 = v118 + 64;\\n                            goto LABEL_206;\\n                          }\\nLABEL_213:\\n                          *(_DWORD *)(a1 + 300) = 0;\\n                        }\\n                        v12 = a5a;\\n                        p_m128i_i8_2 = v9[-1].m128i_i8;\\n                        v38 = v143;\\n                        if ( p_m128i_i8_9 > (unsigned __int64)&v9[-1] )\\n                          goto LABEL_36;\\n                        v127 = v146;\\n                        p_m128i_i8 = p_m128i_i8_1;\\n                        do\\n                        {\\n                          v38 = v143;\\n                          v12 = a5a;\\n                          v128 = p_m128i_i8_9 - v143 - v127;\\n                          v129 = v127;\\n                          if ( v128 >= a5a )\\n                            v130 = (_DWORD *)(v143 + v128);\\n                          else\\n                            v130 = (__int32 *)((char *)v148->m128i_i32 + v128 - (unsigned __int64)v144);\\n                          p_m128i_i8_2 = v9[-1].m128i_i8;\\n                          if ( a5a - v128 - 1 < 3 || (p_m128i_i8_2 = v9[-1].m128i_i8, *v130 != *(_DWORD *)p_m128i_i8_9) )\\n                          {\\n                            p_m128i_i8_1 = p_m128i_i8;\\n                            goto LABEL_36;\\n                          }\\n                          v131 = v9;\\n                          if ( v128 < a5a )\\n                            v131 = v150;\\n                          v132 = (unsigned __int64)v9;\\n                          v133 = v130 + 1;\\n                          if ( &v131->m128i_i8[p_m128i_i8_9 + 4 - (_QWORD)v133] < (__int8 *)v9 )\\n                            v132 = (unsigned __int64)v131->m128i_u64 + p_m128i_i8_9 + 4 - (_QWORD)v133;\\n                          v134 = sub_1400A1460((_QWORD *)(p_m128i_i8_9 + 4), v133, v132);\\n                          if ( (const __m128i *)(v135 + v134) == v131 )\\n                            v134 += sub_1400A1460((_QWORD *)(p_m128i_i8_9 + 4 + v134), v149, (unsigned __int64)v9);\\n                          v127 = v141;\\n                          v136 = v134 + 4;\\n                          v40 = v129;\\n                          v146 = v141;\\n                          v141 = v129;\\n                          if ( p_m128i_i8 <= &v9[-2] )\\n                            *(__m128i *)*(_QWORD *)(a2 + 24) = _mm_loadu_si128(p_m128i_i8);\\n                          *(_WORD *)(*(_QWORD *)(a2 + 8) + 4LL) = 0;\\n                          **(_DWORD **)(a2 + 8) = 1;\\n                          v137 = *(_QWORD *)(a2 + 8);\\n                          if ( v136 - 3 > 0xFFFF )\\n                          {\\n                            *(_DWORD *)(a2 + 72) = 2;\\n                            *(_DWORD *)(a2 + 76) = (v137 - *(_QWORD *)a2) >> 3;\\n                          }\\n                          p_m128i_i8_9 += v136;\\n                          *(_WORD *)(v137 + 6) = v136 - 3;\\n                          *(_QWORD *)(a2 + 8) += 8LL;\\n                          p_m128i_i8_2 = v9[-1].m128i_i8;\\n                          p_m128i_i8 = (const __m128i *)p_m128i_i8_9;\\n                          p_m128i_i8_1 = (const __m128i *)p_m128i_i8_9;\\n                        }\\n                        while ( p_m128i_i8_9 <= (unsigned __int64)&v9[-1] );\\n                        v12 = a5a;\\n                        v38 = v143;\\n                        goto LABEL_37;\\n                    }\\n                    break;\\n                }\\n                break;\\n              }\\n              n999999999_4 = n999999999_3;\\n              _BitScanReverse(&v69, n999999999_3);\\n              LODWORD(n999999999) = v69;\\n              goto LABEL_118;\\n          }\\n          break;\\n        default:\\n          goto LABEL_68;\\n      }\\nLABEL_72:\\n      n4_2 = n4_6;\\n      if ( n4_6 > n4_7 )\\n        n999999999_3 = n999999999;\\n      n999999999_2 = n999999999_3;\\n      goto LABEL_75;\\n    }\\n    break;\\n  }\\n  a3[1] = v146;\\n  result = (char *)v9 - (char *)p_m128i_i8_1;\\n  *a3 = v40;\\n  return result;\\n}\\n\",\n      \"error\": \"\"\n    }\n  },\n  {\n    \"request\": {\n      \"action\": \"analyze_cross_references\",\n      \"args\": {\n        \"func_addr\": \"0x140099560\",\n        \"ref_type\": \"code\",\n        \"limit\": 10\n      }\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": [],\n      \"error\": \"\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "根据反编译结果和之前的分析，该函数主要负责处理输入数据，并根据配置选择不同的子函数进行处理。函数内部使用了SIMD指令、预取指令以及查表法等优化技术。同时，代码中存在多层嵌套的条件判断和循环结构。结合函数的功能描述，我建议将该函数重命名为 \"data_processing_master_function\"。\n\n```json\n[\n  {\"action\": \"rename_func\", \"args\": {\"address\": \"0x140099560\", \"new_name\": \"data_processing_master_function\"}},\n  {\"action\": \"DONE\"}\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "markdown",
+      "### Iteration 3 result\n```json\n[\n  {\n    \"request\": {\n      \"action\": \"rename_func\",\n      \"args\": {\n        \"address\": \"0x140099560\",\n        \"new_name\": \"data_processing_master_function\"\n      }\n    },\n    \"response\": {\n      \"ok\": true,\n      \"data\": true,\n      \"error\": \"\"\n    }\n  },\n  {\n    \"request\": {\n      \"action\": \"DONE\"\n    },\n    \"response\": {\n      \"ok\": false,\n      \"data\": null,\n      \"error\": \"unknown action 'DONE'\"\n    }\n  }\n]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "根据反编译的代码和之前的分析，该函数是一个主处理函数，用于处理输入数据，并根据不同的配置选择不同的子函数进行处理。将其重命名为`data_processing_master_function`能够较好地体现其功能。现在函数已经重命名，分析结束。\n\n```json\n[\"DONE\"]\n```"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<b>You:</b> 你可以调用哪些工具，全部输出并说明其作用表格"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "好的，我理解了。我会列出我可以调用的工具并说明其作用，然后返回 `[\"DONE\"]`。\n\n| 工具名称                     | 作用                                                                                                                               |\n|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------|\n| `list_funcs(pattern?, limit?)` | 列出所有函数，可以根据 `pattern` 过滤函数名，`limit` 限制返回数量。                                                                                             |\n| `get_decomp(ea|address|func_addr)` | 获取指定地址或函数的反编译代码。                                                                                                                 |\n| `export_callgraph(root_ea, depth?)` | 导出指定地址为根节点的调用图，`depth` 控制调用深度。                                                                                                                |\n| `disassemble(address, count?)`   | 反汇编指定地址开始的 `count` 条指令。                                                                                                                |\n| `get_string_at_address(address)` | 获取指定地址处的字符串。                                                                                                                            |\n| `analyze_cross_references(address|ea|func_addr, ref_type?(code|data), limit?)` | 分析指定地址或函数的交叉引用，可以指定引用类型 `code` 或 `data`，`limit` 限制返回数量。                                                                                                    |\n| `list_strings(pattern?, limit?)`   | 列出所有字符串，可以根据 `pattern` 过滤，`limit` 限制返回数量。                                                                                                             |\n| `get_program_metadata()`        | 获取程序元数据，例如入口点、加载地址等。                                                                                                                      |\n| `get_binary_entry_points()`     | 获取二进制文件的入口点。                                                                                                                             |\n| `get_function_info_by_name(func_name)` | 通过函数名获取函数信息，例如地址、大小等。                                                                                                                      |\n| `get_function_info_by_address(address|ea)` | 通过函数地址获取函数信息，例如函数名、大小等。                                                                                                                    |\n| `get_current_function_info()`      | 获取当前光标所在函数的信息。                                                                                                                            |\n| `get_current_cursor_address()`     | 获取当前光标所在的地址。                                                                                                                                |\n| `search_strings_in_binary(pattern, case_sensitive?, unicode?, limit?)` | 在二进制文件中搜索字符串，可以指定大小写敏感、Unicode 编码、以及结果数量上限。                                                                                                       |\n| `list_imports(pattern?, limit?)`   | 列出所有导入函数，可以根据 `pattern` 过滤，`limit` 限制返回数量。                                                                                                             |\n| `list_exports(pattern?, limit?)`   | 列出所有导出函数，可以根据 `pattern` 过滤，`limit` 限制返回数量。                                                                                                             |\n| `list_local_vars(function_address|ea, limit?)` | 列出指定函数的局部变量，`limit` 限制返回数量。                                                                                                                 |\n| `set_address_comment(address|ea, comment_text, repeatable?)` | 为指定地址添加注释，`repeatable` 指定是否是可重复注释。                                                                                                                      |\n| `rename_func(address|ea, new_name)` | 重命名指定地址的函数。                                                                                                                                |\n| `rename_local_var(function_address|ea, variable_offset, new_name)` | 重命名指定函数的局部变量。                                                                                                                            |\n| `rename_global_var(address|ea, new_name)` | 重命名全局变量。                                                                                                                                   |\n| `set_local_var_type(function_address|ea, variable_offset, type_string, arg_index?)` | 设置局部变量的类型，可以指定参数索引。                                                                                                                      |\n| `set_global_var_type(address|ea, type_string)` | 设置全局变量的类型。                                                                                                                                   |\n| `set_func_prototype(address|ea, prototype_string)` | 设置函数的原型。                                                                                                                                   |\n| `declare_custom_c_type(type_definition_string)` | 声明自定义 C 类型。                                                                                                                               |\n\n```json\n[\"DONE\"]\n```\n"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<b>You:</b> 当前函数是什么？"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 正在向AI发送请求...</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 回复开始</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      ""
+    ],
+    [
+      "markdown",
+      "这段汇编代码是一个相当复杂的函数，它执行了大量的计算和数据操作。根据我分析，它极有可能是一个**数据处理或压缩/解压缩算法**的核心部分。更具体地说，它似乎涉及以下几个关键方面：\n\n1. **参数处理和局部变量初始化:**\n   -  函数开始时，大量的 `mov` 指令将传入的参数 (`rcx`, `rdx`, `r8`, `r9`) 存储到栈上的局部变量中 (例如 `[rsp-8+arg_0]`)。\n   -  通过 `push` 指令保存了多个寄存器 (`rbp`, `rbx`, `rsi`, `rdi`, `r12`, `r13`, `r14`, `r15`)，表明这些寄存器在函数内部被频繁使用。\n   -  使用 `lea rbp, [rsp-17h]` 和 `sub rsp, 98h` 创建了栈帧，并分配了大量的局部变量空间 (通过 `[rbp+4Fh+var_XX]` 访问)。\n\n2. **数据结构访问:**\n   - 代码频繁访问 `[rcx+offset]` 形式的内存地址，其中 `rcx` 通常是函数的第一个参数。这暗示 `rcx` 是指向某个数据结构的指针。\n   - 函数从 `rcx` 指向的数据结构中读取多个字段，例如 `[rcx+18h]`, `[rcx+8]`, `[rcx+110h]`, `[rcx+10Ch]`, `[rcx+70h]`, `[rcx+38h]`, `[rcx+34h]`, `[rcx+0F8h]`, `[rcx+2Ch]`, `[rcx+60h]`, `[rcx+12Ch]`。  这表明数据结构内部包含了多种类型的数据，包括整数和指针。\n\n3. **条件分支和算法逻辑:**\n    -  大量的 `cmp` 指令和条件跳转指令 (`jnb`, `jbe`, `jb`, `jz`, `jnz`, `ja`, `jle`, `jg`, `cmovb`, `cmova`, `cmovbe`) 表明函数内部存在复杂的条件分支逻辑。\n    -  `imul` (整数乘法) 和 `xor` (异或) 等指令也频繁出现，暗示函数在进行一些计算密集型的操作，如哈希或加密。\n    -  代码中使用 `prefetcht0` 指令，这表明代码在优化内存访问，预取数据到缓存中，从而提高性能。这进一步支持了函数是一个数据处理算法的推断。\n    - 多个 `call` 指令调用了子函数 `sub_1400A1460`, `sub_140088920`, `sub_1400880F0`, `sub_1400878F0`, `sub_140087030`, `sub_140086800`, `sub_140086000`, `sub_140085790`, `sub_140084FB0`, `sub_1400847E0`。根据它们的调用方式，这些子函数很可能是算法的关键组成部分。\n\n4. **循环结构:**\n   -  `loc_1400996C0`, `loc_1400997C3`, `loc_140099A10`, `loc_1400997D3`, `loc_140099ED2`, `loc_140099F70`, `loc_14009A000`, `loc_14009A0FE`, `loc_14009A100`, `loc_14009A220` 等标签与跳转指令一起形成了多个循环结构。这些循环用于迭代处理数据。\n\n5. **数据复制:**\n    - `movdqu` 指令用于移动16字节的数据，可能与数据的块复制或处理有关。\n\n**更具体可能的推断:**\n\n*   **图像/视频处理:**  对像素数据进行处理，例如色彩空间转换、滤波、压缩等。\n*   **数据压缩/解压缩:**  实现某种压缩算法，例如LZ77或LZ78的变体。\n*   **加密/解密算法:**  执行加密或解密操作。\n*   **网络协议处理:**  处理网络数据包，例如解析协议头、校验数据等。\n\n**总结:**\n\n这段汇编代码展现了一个复杂的数据处理流程，它很可能实现了某种优化的算法。要确定其具体功能，需要进一步分析各个子函数 (`sub_1400A1460` 等) 的实现，并跟踪关键变量的值。同时，理解输入数据结构(`rcx`指向的内容)的含义也至关重要。\n"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: red;\">💡 <b>NexusAI: 分析完成！</b> 💡</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件保存成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 尝试停止AI任务...</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "[Message not found for key: plugin_unloaded]"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件加载成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: OpenAI 客户端创建成功</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 已在主菜单 Edit/NexusAI 中添加菜单项</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI 插件加载成功</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "当前分析深度: 1"
+    ],
+    [
+      "text",
+      "当前模型: gemini-2.0-flash"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 尝试停止AI任务...</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "[Message not found for key: plugin_unloaded]"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: 配置文件加载成功: E:\\Program\\IDApro9.1\\plugins\\NexusAI\\Config\\NexusAI.json</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #2ECC71;\">✅ <b>NexusAI: OpenAI 客户端创建成功</b> ✅</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI: 已在主菜单 Edit/NexusAI 中添加菜单项</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "<div style=\"display: flex; align-items: center; justify-content: center;\"><span style=\"white-space: nowrap; color: #1E90FF;\">ℹ️ <b>NexusAI 插件加载成功</b> ℹ️</span></div>"
+    ],
+    [
+      "text",
+      "当前分析深度: 1"
+    ],
+    [
+      "text",
+      "当前模型: gemini-2.0-flash"
+    ]
+  ]
+}

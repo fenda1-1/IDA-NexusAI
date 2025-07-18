@@ -1,0 +1,42 @@
+# NexusAI - IDA Pro AI-Powered Reverse Engineering Plugin
+# Python dependencies required for the plugin to function properly
+
+# Core AI Service Dependencies
+openai>=1.0.0                    # OpenAI API client for AI model communication
+httpx>=0.24.0                    # HTTP client for proxy support (optional)
+
+# UI Dependencies  
+PyQt5>=5.15.0                    # Qt5 bindings for GUI components
+# Note: PyQt5 is typically bundled with IDA Pro, but may need separate installation
+
+# Text Processing Dependencies
+markdown>=3.4.0                  # Markdown rendering for rich text display in output window
+
+# Standard Library Dependencies (included with Python, listed for reference)
+# json                           # JSON parsing and serialization
+# pathlib                        # Path manipulation utilities  
+# re                             # Regular expression support
+# threading                      # Multi-threading support
+# time                           # Time utilities
+# traceback                      # Error traceback handling
+# importlib                      # Dynamic module importing
+# datetime                       # Date and time handling
+# enum                           # Enumeration support
+# abc                            # Abstract base classes
+# typing                         # Type hints support
+# sys                            # System-specific parameters
+# os                             # Operating system interface
+
+# IDA Pro SDK Dependencies (provided by IDA Pro installation)
+# idaapi                         # IDA Pro API
+# idautils                       # IDA Pro utilities
+# idc                            # IDA Pro compatibility layer
+# ida_funcs                      # Function analysis APIs
+# ida_hexrays                    # Hex-Rays decompiler APIs
+# ida_bytes                      # Byte manipulation APIs
+# ida_lines                      # Line manipulation APIs
+# ida_kernwin                    # Kernel window APIs
+# ida_name                       # Name management APIs
+# ida_typeinf                    # Type information APIs
+# ida_entry                      # Entry point APIs
+# ida_nalt                       # Alternative APIs
