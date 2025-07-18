@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
@@ -83,7 +83,7 @@ jobs:
         fi
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.platform }}-build
         path: ${{ matrix.asset_name }}
@@ -97,7 +97,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
 
     - name: Display structure of downloaded files
       run: ls -R
@@ -113,66 +113,42 @@ jobs:
 
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag_name.outputs.TAG_NAME }}
-        release_name: NexusAI ${{ steps.tag_name.outputs.TAG_NAME }}
+        name: NexusAI ${{ steps.tag_name.outputs.TAG_NAME }}
         body: |
           ## NexusAI GUI Installer ${{ steps.tag_name.outputs.TAG_NAME }}
-          
+
           Multi-platform GUI installer for NexusAI - IDA Pro AI Assistant
-          
+
           ### Downloads
           - **Windows**: `NexusAI-Installer-GUI-windows.exe`
           - **macOS**: `NexusAI-Installer-GUI-macos.app`
           - **Linux**: `NexusAI-Installer-GUI-linux-x86_64`
-          
+
           ### Features
           - ✅ Single file installer
           - ✅ Graphical interface
           - ✅ Multi-language support
           - ✅ Smart IDA Pro detection
           - ✅ Embedded plugin files
-          
+
           ### Installation
           1. Download the appropriate file for your platform
           2. Run the installer
           3. Follow the on-screen instructions
-          
+
           ### Requirements
           - IDA Pro (any version)
           - Python 3.8+ (for IDA Pro plugin)
         draft: false
         prerelease: false
+        files: |
+          ./windows-build/NexusAI-Installer-GUI-windows.exe
+          ./macos-build/NexusAI-Installer-GUI-macos.app
+          ./linux-build/NexusAI-Installer-GUI-linux-x86_64
 
-    - name: Upload Windows Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./windows-build/NexusAI-Installer-GUI-windows.exe
-        asset_name: NexusAI-Installer-GUI-windows.exe
-        asset_content_type: application/octet-stream
 
-    - name: Upload macOS Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./macos-build/NexusAI-Installer-GUI-macos.app
-        asset_name: NexusAI-Installer-GUI-macos.app
-        asset_content_type: application/octet-stream
-
-    - name: Upload Linux Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./linux-build/NexusAI-Installer-GUI-linux-x86_64
-        asset_name: NexusAI-Installer-GUI-linux-x86_64
-        asset_content_type: application/octet-stream
