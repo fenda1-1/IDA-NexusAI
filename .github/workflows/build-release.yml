@@ -87,6 +87,7 @@ jobs:
       with:
         name: ${{ matrix.platform }}-build
         path: ${{ matrix.asset_name }}
+        retention-days: 1
 
   create-release:
     name: Create Release
@@ -98,6 +99,8 @@ jobs:
 
     - name: Download all artifacts
       uses: actions/download-artifact@v4
+      with:
+        merge-multiple: true
 
     - name: Display structure of downloaded files
       run: ls -R
