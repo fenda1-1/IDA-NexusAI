@@ -1,0 +1,68 @@
+keyword,description,category,content,tags,priority
+API函数,Windows API函数说明,API,Windows API函数的详细说明和用法,windows api,1
+CreateFile,创建或打开文件,文件操作,CreateFile函数用于创建或打开文件和设备。返回文件句柄用于后续操作。,file io windows,1
+ReadFile,读取文件内容,文件操作,ReadFile函数从文件或设备中读取数据到缓冲区。,file io read,1
+WriteFile,写入文件内容,文件操作,WriteFile函数将数据从缓冲区写入文件或设备。,file io write,1
+CloseHandle,关闭句柄,句柄管理,CloseHandle函数关闭打开的对象句柄。,handle close,1
+VirtualAlloc,分配虚拟内存,内存管理,VirtualAlloc函数在调用进程的虚拟地址空间中保留或提交页面区域。,memory allocation,1
+VirtualFree,释放虚拟内存,内存管理,VirtualFree函数释放或取消提交调用进程虚拟地址空间中的页面区域。,memory free,1
+GetProcAddress,获取函数地址,动态链接,GetProcAddress函数从指定的动态链接库(DLL)中检索导出函数的地址。,dll function address,1
+LoadLibrary,加载动态库,动态链接,LoadLibrary函数将指定的模块加载到调用进程的地址空间中。,dll load library,1
+FreeLibrary,释放动态库,动态链接,FreeLibrary函数减少指定模块的引用计数。,dll free library,1
+RegOpenKey,打开注册表键,注册表,RegOpenKey函数打开指定的注册表键。,registry key open,1
+RegQueryValue,查询注册表值,注册表,RegQueryValue函数检索与指定注册表键关联的未命名值的数据。,registry value query,1
+RegSetValue,设置注册表值,注册表,RegSetValue函数设置指定注册表键的未命名值的数据和类型。,registry value set,1
+RegCloseKey,关闭注册表键,注册表,RegCloseKey函数关闭指定注册表键的句柄。,registry key close,1
+CreateProcess,创建进程,进程管理,CreateProcess函数创建新进程及其主线程。,process create,1
+TerminateProcess,终止进程,进程管理,TerminateProcess函数终止指定的进程及其所有线程。,process terminate,1
+OpenProcess,打开进程,进程管理,OpenProcess函数打开现有的本地进程对象。,process open,1
+CreateThread,创建线程,线程管理,CreateThread函数创建在调用进程的虚拟地址空间中执行的线程。,thread create,1
+ExitThread,退出线程,线程管理,ExitThread函数结束调用线程。,thread exit,1
+WaitForSingleObject,等待对象,同步,WaitForSingleObject函数等待指定对象处于信号状态或超时间隔过期。,synchronization wait,1
+CreateMutex,创建互斥体,同步,CreateMutex函数创建或打开命名或未命名的互斥对象。,synchronization mutex,1
+ReleaseMutex,释放互斥体,同步,ReleaseMutex函数释放指定互斥对象的所有权。,synchronization mutex release,1
+CreateEvent,创建事件,同步,CreateEvent函数创建或打开命名或未命名的事件对象。,synchronization event,1
+SetEvent,设置事件,同步,SetEvent函数将指定的事件对象设置为信号状态。,synchronization event set,1
+ResetEvent,重置事件,同步,ResetEvent函数将指定的事件对象设置为非信号状态。,synchronization event reset,1
+CreateSemaphore,创建信号量,同步,CreateSemaphore函数创建或打开命名或未命名的信号量对象。,synchronization semaphore,1
+ReleaseSemaphore,释放信号量,同步,ReleaseSemaphore函数增加指定信号量对象的计数。,synchronization semaphore release,1
+socket,创建套接字,网络编程,socket函数创建套接字并返回引用新套接字的描述符。,network socket,1
+bind,绑定套接字,网络编程,bind函数将本地地址与套接字关联。,network bind,1
+listen,监听连接,网络编程,listen函数将套接字置于监听传入连接的状态。,network listen,1
+accept,接受连接,网络编程,accept函数允许传入的连接尝试在套接字上。,network accept,1
+connect,连接套接字,网络编程,connect函数在套接字上建立连接。,network connect,1
+send,发送数据,网络编程,send函数在连接的套接字上发送数据。,network send,1
+recv,接收数据,网络编程,recv函数从连接的套接字接收数据。,network receive,1
+closesocket,关闭套接字,网络编程,closesocket函数关闭现有套接字。,network close,1
+WSAStartup,初始化Winsock,网络编程,WSAStartup函数启动使用Winsock DLL。,network winsock init,1
+WSACleanup,清理Winsock,网络编程,WSACleanup函数终止使用Winsock DLL。,network winsock cleanup,1
+malloc,分配内存,C运行时,malloc函数分配内存块。,memory allocation c,1
+free,释放内存,C运行时,free函数释放先前分配的内存块。,memory free c,1
+strcpy,复制字符串,C运行时,strcpy函数将字符串复制到另一个字符串。,string copy c,1
+strlen,获取字符串长度,C运行时,strlen函数返回字符串的长度。,string length c,1
+strcmp,比较字符串,C运行时,strcmp函数比较两个字符串。,string compare c,1
+sprintf,格式化字符串,C运行时,sprintf函数将格式化数据写入字符串。,string format c,1
+fopen,打开文件,C运行时,fopen函数打开文件。,file open c,1
+fclose,关闭文件,C运行时,fclose函数关闭文件。,file close c,1
+fread,读取文件,C运行时,fread函数从文件读取数据。,file read c,1
+fwrite,写入文件,C运行时,fwrite函数向文件写入数据。,file write c,1
+加密算法,常见加密算法,密码学,各种加密算法的说明和特点,encryption algorithm,2
+AES,高级加密标准,对称加密,AES是一种对称加密算法，使用相同的密钥进行加密和解密。,symmetric encryption aes,2
+RSA,RSA加密算法,非对称加密,RSA是一种非对称加密算法，使用公钥和私钥对进行加密和解密。,asymmetric encryption rsa,2
+MD5,MD5哈希算法,哈希算法,MD5是一种广泛使用的哈希函数，产生128位哈希值。,hash md5,2
+SHA1,SHA-1哈希算法,哈希算法,SHA-1是一种密码散列函数，产生160位哈希值。,hash sha1,2
+SHA256,SHA-256哈希算法,哈希算法,SHA-256是SHA-2家族的一员，产生256位哈希值。,hash sha256,2
+Base64,Base64编码,编码,Base64是一种基于64个可打印字符来表示二进制数据的编码方法。,encoding base64,2
+XOR,异或加密,简单加密,XOR是一种简单的加密方法，通过异或运算进行加密和解密。,xor encryption,2
+恶意软件,恶意软件分析,安全,恶意软件的类型和分析方法,malware analysis,3
+病毒,计算机病毒,恶意软件,病毒是一种能够复制自身并感染其他程序的恶意软件。,virus malware,3
+木马,特洛伊木马,恶意软件,木马是一种伪装成合法软件的恶意程序。,trojan malware,3
+蠕虫,网络蠕虫,恶意软件,蠕虫是一种能够自我复制并通过网络传播的恶意软件。,worm malware,3
+间谍软件,间谍软件,恶意软件,间谍软件是一种秘密收集用户信息的恶意软件。,spyware malware,3
+勒索软件,勒索软件,恶意软件,勒索软件是一种加密用户文件并要求赎金的恶意软件。,ransomware malware,3
+Rootkit,Rootkit,恶意软件,Rootkit是一种隐藏其存在和活动的恶意软件。,rootkit malware,3
+反调试,反调试技术,逆向工程,恶意软件使用的反调试技术,anti-debugging,3
+反虚拟机,反虚拟机技术,逆向工程,检测和逃避虚拟机环境的技术,anti-vm,3
+代码混淆,代码混淆技术,逆向工程,使代码难以理解和分析的技术,code obfuscation,3
+加壳,软件加壳,逆向工程,保护软件免受逆向工程的技术,packing,3
+脱壳,软件脱壳,逆向工程,移除软件保护壳的技术,unpacking,3

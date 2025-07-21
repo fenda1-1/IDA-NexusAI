@@ -766,6 +766,15 @@ class ConfigManager:
              self.show_message("client_create_error", str(e))
              # traceback.print_exc() # 打印详细错误堆栈 (可选)
 
+    def retry_client_initialization(self):
+        """手动重试客户端初始化 / Manually retry client initialization."""
+        self.show_message("retrying_client_init")
+        self._create_openai_client()
+        if self.openai_client:
+            self.show_message("client_init_success_retry")
+        else:
+            self.show_message("client_init_failed_retry")
+
     @property
     def model_name(self):
         """
@@ -797,8 +806,7 @@ class ConfigManager:
         返回:
             openai.OpenAI or None: 客户端实例，如果未初始化则为 None。
         """
-        if not self.openai_client:
-             self._create_openai_client() # 尝试重新创建
+        # 不再自动重新创建客户端，避免重复尝试
         return self.openai_client
 
     @property

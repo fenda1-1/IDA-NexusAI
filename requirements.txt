@@ -5,12 +5,18 @@
 openai>=1.0.0                    # OpenAI API client for AI model communication
 httpx>=0.24.0                    # HTTP client for proxy support (optional)
 
-# UI Dependencies  
+# UI Dependencies
 PyQt5>=5.15.0                    # Qt5 bindings for GUI components
 # Note: PyQt5 is typically bundled with IDA Pro, but may need separate installation
+# sip is usually included with PyQt5, but listed here for completeness
 
 # Text Processing Dependencies
 markdown>=3.4.0                  # Markdown rendering for rich text display in output window
+
+# Knowledge Base Dependencies
+pandas>=1.3.0                    # Data manipulation and analysis for Excel/CSV processing
+openpyxl>=3.0.0                  # Excel file reading and writing support
+# Note: These are required for the Knowledge Base Manager feature
 
 # Standard Library Dependencies (included with Python, listed for reference)
 # json                           # JSON parsing and serialization

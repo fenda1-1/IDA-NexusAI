@@ -30,6 +30,7 @@ from tkinter import ttk, filedialog, messagebox
 import threading
 import tempfile
 import zipfile
+import json
 
 
 class InstallationWizard:
@@ -38,14 +39,20 @@ class InstallationWizard:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("NexusAI Installation Wizard")
-        self.root.geometry("600x500")
-        self.root.resizable(False, False)
+        # 移除固定的窗口大小，让Tkinter根据内容自适应
+        # self.root.geometry("600x500")
+        self.root.minsize(600, 500)  # 设置最小窗口大小
+        self.root.resizable(True, True)  # 允许窗口大小可自主调节
 
-        # Center the window
+        # 初始居中窗口（在允许用户调整大小之前设置初始位置和大小）
         self.root.update_idletasks()
-        x = (self.root.winfo_screenwidth() // 2) - (600 // 2)
-        y = (self.root.winfo_screenheight() // 2) - (500 // 2)
-        self.root.geometry(f"600x500+{x}+{y}")
+        initial_width = 600
+        # START OF MODIFICATION
+        initial_height = 650  # 增加初始高度以确保所有按键可见
+        # END OF MODIFICATION
+        x = (self.root.winfo_screenwidth() // 2) - (initial_width // 2)
+        y = (self.root.winfo_screenheight() // 2) - (initial_height // 2)
+        self.root.geometry(f"{initial_width}x{initial_height}+{x}+{y}")
 
         self.language = None
         self.ida_dir = None
@@ -72,11 +79,11 @@ class InstallationWizard:
 
         # Content frame
         self.content_frame = ttk.Frame(self.main_frame)
-        self.content_frame.pack(fill=tk.BOTH, expand=True)
+        self.content_frame.pack(fill=tk.BOTH, expand=True) # 此框架应扩展以填充可用空间
 
         # Button frame
         self.button_frame = ttk.Frame(self.main_frame)
-        self.button_frame.pack(fill=tk.X, pady=(20, 0))
+        self.button_frame.pack(fill=tk.X, pady=(20, 0)) # 此框架应水平填充
 
         # Buttons
         self.back_button = ttk.Button(
@@ -135,6 +142,9 @@ class InstallationWizard:
             self.next_button.config(state=tk.DISABLED)
         else:
             self.next_button.config(text="Next", command=self.go_next, state=tk.NORMAL)
+
+        # 更新UI以确保所有组件的尺寸都已计算，这对于滚动区域的正确计算很重要
+        self.root.update_idletasks()
 
     def step_language_selection(self):
         """Step 1: Language selection."""
@@ -205,6 +215,14 @@ class InstallationWizard:
             font=("Arial", 12)
         ).pack(pady=(20, 10))
 
+        # Hint message
+        ttk.Label(
+            self.content_frame,
+            text=messages.get('python_hint', "Please select the same Python that IDA Pro uses to ensure compatibility."),
+            foreground="gray",
+            font=("Arial", 9)
+        ).pack(pady=(0, 10))
+
         # Loading message
         self.python_loading_label = ttk.Label(
             self.content_frame,
@@ -213,14 +231,14 @@ class InstallationWizard:
         )
         self.python_loading_label.pack(pady=10)
 
-        # Python options frame
-        self.python_frame = ttk.Frame(self.content_frame)
-        self.python_frame.pack(fill=tk.BOTH, expand=True, padx=20)
+        # Python options container (包含可滚动区域和自定义路径)
+        self.python_options_container = ttk.Frame(self.content_frame)
+        self.python_options_container.pack(fill=tk.BOTH, expand=True, padx=20)
 
         self.python_var = tk.StringVar()
 
-        # Custom path option (always available)
-        custom_frame = ttk.Frame(self.python_frame)
+        # Custom path option (始终可用，放在容器顶部)
+        custom_frame = ttk.Frame(self.python_options_container)
         custom_frame.pack(fill=tk.X, pady=(10, 0))
 
         ttk.Radiobutton(
@@ -243,8 +261,35 @@ class InstallationWizard:
             command=self.browse_python_path
         ).pack(side=tk.RIGHT, padx=(10, 0))
 
+        # 可滚动区域，用于显示检测到的Python路径列表
+        self.python_scroll_canvas = tk.Canvas(self.python_options_container, borderwidth=0, highlightthickness=0)
+        self.python_scroll_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, pady=(10, 0))
+
+        self.python_scroll_scrollbar = ttk.Scrollbar(self.python_options_container, orient=tk.VERTICAL, command=self.python_scroll_canvas.yview)
+        self.python_scroll_scrollbar.pack(side=tk.RIGHT, fill=tk.Y, pady=(10, 0))
+
+        self.python_scroll_canvas.configure(yscrollcommand=self.python_scroll_scrollbar.set)
+        # 绑定Canvas的配置事件，以便在Canvas大小改变时更新滚动区域
+        self.python_scroll_canvas.bind('<Configure>', self._on_canvas_resize)
+
+        self.scrollable_inner_frame = ttk.Frame(self.python_scroll_canvas)
+        # 将内部框架放置在Canvas中
+        self.python_scroll_canvas.create_window((0, 0), window=self.scrollable_inner_frame, anchor="nw", width=self.python_scroll_canvas.winfo_width())
+
+        # 绑定内部框架的配置事件，以便在内部框架大小改变时更新Canvas的滚动区域
+        self.scrollable_inner_frame.bind("<Configure>", lambda e: self.python_scroll_canvas.configure(scrollregion=self.python_scroll_canvas.bbox("all")))
+
+
         # Start Python detection in background
         self.start_python_detection_async()
+
+    def _on_canvas_resize(self, event):
+        """当Canvas大小改变时，调整内部框架的宽度以匹配Canvas的宽度。"""
+        # 获取Canvas中第一个（也是唯一一个）窗口项的ID
+        if self.python_scroll_canvas.find_all():
+            self.python_scroll_canvas.itemconfig(self.python_scroll_canvas.find_all()[0], width=event.width)
+        self.python_scroll_canvas.configure(scrollregion=self.python_scroll_canvas.bbox("all"))
+
 
     def start_python_detection_async(self):
         """Start Python detection in background thread to avoid UI freezing."""
@@ -269,14 +314,10 @@ class InstallationWizard:
         if hasattr(self, 'python_loading_label'):
             self.python_loading_label.pack_forget()
 
-        # Create options frame for detected pythons
-        options_frame = ttk.Frame(self.python_frame)
-        options_frame.pack(fill=tk.X, pady=(0, 10))
-
-        # Add Python options
+        # Add Python options to the scrollable inner frame
         for i, (path, description) in enumerate(python_options):
             ttk.Radiobutton(
-                options_frame,
+                self.scrollable_inner_frame, # 将RadioButton打包到可滚动框架中
                 text=description,
                 variable=self.python_var,
                 value=path
@@ -284,6 +325,10 @@ class InstallationWizard:
 
             if i == 0:  # Select first option by default
                 self.python_var.set(path)
+        
+        # 在添加所有项目后更新滚动区域
+        self.root.update_idletasks() # 确保小部件已渲染
+        self.python_scroll_canvas.config(scrollregion=self.python_scroll_canvas.bbox("all"))
 
     def handle_python_detection_error_ui(self, error_message):
         """Handle Python detection errors (called from main thread)."""
@@ -293,21 +338,26 @@ class InstallationWizard:
 
         # Show error message
         error_label = ttk.Label(
-            self.python_frame,
+            self.python_options_container, # 错误消息放在可滚动区域之外
             text=f"Python检测失败: {error_message}",
             foreground="red"
         )
         error_label.pack(pady=10)
 
-        # Add fallback option
+        # Add fallback option to the scrollable frame
         fallback_name = f"Default Python\n    Path: {sys.executable}"
         ttk.Radiobutton(
-            self.python_frame,
+            self.scrollable_inner_frame, # 将RadioButton打包到可滚动框架中
             text=fallback_name,
             variable=self.python_var,
             value=sys.executable
         ).pack(pady=5, anchor=tk.W)
         self.python_var.set(sys.executable)
+
+        # Update scroll region
+        self.root.update_idletasks()
+        self.python_scroll_canvas.config(scrollregion=self.python_scroll_canvas.bbox("all"))
+
 
     def step_installation_options(self):
         """Step 4: Installation options."""
@@ -424,8 +474,9 @@ class InstallationWizard:
                 'auto_detect': "Auto Detect",
                 'scanning_drives': "Scanning drives for IDA Pro installations...",
                 'ida_not_found': "IDA Pro not found automatically",
-                'select_python': "Select Python Installation:",
+                'select_python': "Select Python Installation (IDA Pro Python):",
                 'scanning_python': "Detecting Python installations...",
+                'python_hint': "Please select the same Python that IDA Pro uses to ensure compatibility.",
                 'custom_python': "Custom Python Path:",
                 'installation_options': "Installation Options:",
                 'summary': "Summary",
@@ -445,8 +496,9 @@ class InstallationWizard:
                 'auto_detect': "自动检测",
                 'scanning_drives': "正在扫描磁盘查找IDA Pro安装...",
                 'ida_not_found': "未自动找到IDA Pro",
-                'select_python': "选择Python安装:",
+                'select_python': "选择Python安装 (IDA Pro所用Python):",
                 'scanning_python': "正在检测Python安装...",
+                'python_hint': "请选择与IDA Pro相同的Python以确保兼容性。",
                 'custom_python': "自定义Python路径:",
                 'installation_options': "安装选项:",
                 'summary': "摘要",
@@ -645,6 +697,11 @@ class InstallationWizard:
             if not python_path or not Path(python_path).exists():
                 messagebox.showerror("Error", "Please select a valid Python installation")
                 return
+            # Validate selected python version
+            installer = NexusAIInstaller(self.language)
+            if not installer._validate_python(Path(python_path)):
+                messagebox.showerror("Error", "Selected Python version is not 3.8 or higher, or is invalid.")
+                return
             self.python_path = python_path
 
         self.current_step += 1
@@ -696,6 +753,7 @@ class InstallationWizard:
 
         except Exception as e:
             self.installation_error = str(e)
+            self.installation_success = False # 确保在出错时也设置为False
 
         # Move to completion step
         self.root.after(1000, lambda: self.go_to_completion())
@@ -760,6 +818,12 @@ class NexusAIInstaller:
                 'copying_files': "   Copying plugin files...",
                 'files_success': "   ✅ Plugin files copied successfully",
                 'files_error': "   ❌ Failed to install plugin files: {}",
+                'backup_config': "   📁 Backing up user configuration...",
+                'merge_config': "   🔄 Merging configuration files...",
+                'merge_success': "   ✅ Configuration merged: {}",
+                'merge_failed': "   ⚠️  Merge failed, using new config: {}",
+                'restore_user_file': "   📋 Restoring user file: {}",
+                'restore_success': "   ✅ Restored: {}",
                 'config_exists': "   ℹ️  Configuration file already exists",
                 'config_template': "   📝 Creating configuration template...",
                 'config_success': "   ✅ Configuration will be created on first run",
@@ -794,6 +858,12 @@ class NexusAIInstaller:
                 'copying_files': "   正在复制插件文件...",
                 'files_success': "   ✅插件文件复制成功",
                 'files_error': "   ❌ 安装插件文件失败: {}",
+                'backup_config': "   📁 正在备份用户配置...",
+                'merge_config': "   🔄 正在合并配置文件...",
+                'merge_success': "   ✅ 配置已合并: {}",
+                'merge_failed': "   ⚠️  合并失败，使用新配置: {}",
+                'restore_user_file': "   📋 正在恢复用户文件: {}",
+                'restore_success': "   ✅ 已恢复: {}",
                 'config_exists': "   ℹ️  配置文件已存在",
                 'config_template': "   📝 正在创建配置模板...",
                 'config_success': "   ✅ 配置将在首次运行时创建",
@@ -1581,7 +1651,9 @@ class NexusAIInstaller:
         requirements = [
             "openai>=1.0.0",
             "markdown>=3.4.0",
-            "httpx>=0.24.0"
+            "httpx>=0.24.0",
+            "pandas>=1.3.0",
+            "openpyxl>=3.0.0"
         ]
 
         for requirement in requirements:
@@ -1631,6 +1703,31 @@ class NexusAIInstaller:
         try:
             print(self.messages['copying_files'])
 
+            # 备份用户配置文件到临时目录（递归备份所有子目录）
+            config_files_to_merge = []
+            temp_backup_dir = None
+            if target_plugin_dir.exists():
+                config_dir = target_plugin_dir / "Config"
+                if config_dir.exists():
+                    print(self.messages['backup_config'])
+                    # 创建临时备份目录
+                    import tempfile
+                    temp_backup_dir = Path(tempfile.mkdtemp())
+
+                    # 递归备份所有JSON文件，包括子目录中的文件
+                    for config_file in config_dir.rglob("*.json"):
+                        # 计算相对路径以保持目录结构
+                        relative_path = config_file.relative_to(config_dir)
+                        backup_path = temp_backup_dir / relative_path
+
+                        # 确保备份目录存在
+                        backup_path.parent.mkdir(parents=True, exist_ok=True)
+
+                        # 备份文件
+                        shutil.copy2(config_file, backup_path)
+                        config_files_to_merge.append((str(relative_path), backup_path))
+                        print(f"   📁 备份: {relative_path}")
+
             # Remove existing files
             if target_plugin_file.exists():
                 target_plugin_file.unlink()
@@ -1641,6 +1738,34 @@ class NexusAIInstaller:
             shutil.copy2(source_plugin_file, target_plugin_file)
             shutil.copytree(source_plugin_dir, target_plugin_dir)
 
+            # 合并配置文件
+            if config_files_to_merge:
+                print(self.messages['merge_config'])
+                config_dir = target_plugin_dir / "Config"
+                for relative_path, backup_path in config_files_to_merge:
+                    new_config_file = config_dir / relative_path  # 新版本的配置文件
+
+                    if new_config_file.exists() and backup_path.exists():
+                        # 将用户配置合并到新配置中
+                        print(f"   🔄 合并 {relative_path}...")
+                        if self.merge_json_config(new_config_file, backup_path):
+                            # 合并成功，用合并后的内容替换新配置文件
+                            shutil.copy2(backup_path, new_config_file)
+                            print(self.messages['merge_success'].format(relative_path))
+                        else:
+                            print(self.messages['merge_failed'].format(relative_path))
+                    elif backup_path.exists() and not new_config_file.exists():
+                        # 新版本中没有这个文件，但用户有，直接恢复用户文件
+                        print(f"   📋 恢复用户文件: {relative_path}...")
+                        # 确保目标目录存在
+                        new_config_file.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(backup_path, new_config_file)
+                        print(f"   ✅ 恢复: {relative_path}")
+
+            # 清理临时备份目录
+            if temp_backup_dir and temp_backup_dir.exists():
+                shutil.rmtree(temp_backup_dir)
+
             print(self.messages['files_success'])
 
             return True
@@ -1649,6 +1774,57 @@ class NexusAIInstaller:
             print(self.messages['files_error'].format(e))
             return False
     
+    def merge_json_config(self, source_file, target_file):
+        """智能合并JSON配置文件 / Smart merge JSON configuration files."""
+        try:
+            # 读取源文件（新版本配置）
+            with open(source_file, 'r', encoding='utf-8') as f:
+                source_data = json.load(f)
+
+            # 如果目标文件不存在，直接复制源文件
+            if not target_file.exists():
+                with open(target_file, 'w', encoding='utf-8') as f:
+                    json.dump(source_data, f, ensure_ascii=False, indent=4)
+                return True
+
+            # 读取目标文件（用户现有配置）
+            with open(target_file, 'r', encoding='utf-8') as f:
+                target_data = json.load(f)
+
+            # 递归合并配置
+            merged_data = self._deep_merge_dict(target_data, source_data)
+
+            # 写回合并后的配置
+            with open(target_file, 'w', encoding='utf-8') as f:
+                json.dump(merged_data, f, ensure_ascii=False, indent=4)
+
+            return True
+
+        except Exception as e:
+            print(f"   ⚠️  JSON合并失败: {e}")
+            # 如果合并失败，备份原文件并使用新文件
+            try:
+                backup_file = target_file.with_suffix('.json.backup')
+                shutil.copy2(target_file, backup_file)
+                shutil.copy2(source_file, target_file)
+                print(f"   📁 原配置已备份到: {backup_file}")
+                return True
+            except:
+                return False
+
+    def _deep_merge_dict(self, target, source):
+        """深度合并字典，保留目标字典的现有值，添加源字典的新键 / Deep merge dictionaries."""
+        for key, value in source.items():
+            if key in target:
+                if isinstance(target[key], dict) and isinstance(value, dict):
+                    # 递归合并嵌套字典
+                    target[key] = self._deep_merge_dict(target[key], value)
+                # 如果目标已有该键且不是字典，保留目标的值（不覆盖用户配置）
+            else:
+                # 目标没有该键，添加新键
+                target[key] = value
+        return target
+
     def create_config_template(self, ida_dir):
         """Create a configuration template if it doesn't exist."""
         config_file = ida_dir / "plugins" / "NexusAI" / "Config" / "NexusAI.json"
@@ -1742,7 +1918,7 @@ def main():
     parser.add_argument(
         "--gui",
         action="store_true",
-        default=True,
+        default=True, # 默认使用GUI
         help="Use graphical interface (default) / 使用图形界面（默认）"
     )
     parser.add_argument(
@@ -1753,8 +1929,8 @@ def main():
 
     args = parser.parse_args()
 
-    # Use CLI if explicitly requested or if GUI is not available
-    use_cli = args.cli or (args.ida_dir and args.lang)
+    # Determine if GUI should be used
+    use_gui = not args.cli
 
     try:
         # Try to import tkinter to check if GUI is available
@@ -1762,37 +1938,40 @@ def main():
         gui_available = True
     except ImportError:
         gui_available = False
-        use_cli = True
+        use_gui = False # Force CLI if tkinter is not available
 
-    if use_cli or not gui_available:
+    if use_gui:
+        # Graphical installation
+        try:
+            # 在GUI模式下，通常会重定向stdout/stderr以避免控制台输出干扰GUI
+            # 但为了调试方便，这里暂时注释掉，如果需要打包成exe，可以重新启用
+            # if getattr(sys, 'frozen', False): # 仅当作为可执行文件运行时
+            #     import io
+            #     sys.stdout = io.StringIO()
+            #     sys.stderr = io.StringIO()
+
+            wizard = InstallationWizard()
+            wizard.run()
+        except Exception as e:
+            # 恢复stdout/stderr以报告错误
+            # if getattr(sys, 'frozen', False):
+            #     sys.stdout = sys.__stdout__
+            #     sys.stderr = sys.__stderr__
+            print(f"GUI failed to start: {e}")
+            print("Falling back to command line interface...")
+            language = args.lang if args.lang else select_language()
+            installer = NexusAIInstaller(language)
+            # 移除未定义的args.dev
+            success = installer.run_installation(args.ida_dir)
+            sys.exit(0 if success else 1)
+    else:
         # Command line installation
         language = args.lang if args.lang else select_language()
         installer = NexusAIInstaller(language)
         success = installer.run_installation(args.ida_dir)
         sys.exit(0 if success else 1)
-    else:
-        # Graphical installation
-        try:
-            # Redirect stdout/stderr to suppress print statements in GUI mode
-            if getattr(sys, 'frozen', False):  # Only when running as executable
-                import io
-                sys.stdout = io.StringIO()
-                sys.stderr = io.StringIO()
-
-            wizard = InstallationWizard()
-            wizard.run()
-        except Exception as e:
-            # Restore stdout/stderr for error reporting
-            if getattr(sys, 'frozen', False):
-                sys.stdout = sys.__stdout__
-                sys.stderr = sys.__stderr__
-            print(f"GUI failed to start: {e}")
-            print("Falling back to command line interface...")
-            language = args.lang if args.lang else select_language()
-            installer = NexusAIInstaller(language)
-            success = installer.run_installation(args.ida_dir, args.dev)
-            sys.exit(0 if success else 1)
 
 
 if __name__ == "__main__":
     main()
+

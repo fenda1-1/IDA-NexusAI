@@ -35,7 +35,15 @@ class ActionHandler(action_handler_t):
         Entry point for IDA when user triggers the action. Switches on ``self.action_id`` and delegates to task controller or plugin UI.
         """
         try:
-            if not self.controller.config.client and self.action_id not in [self.plugin.ACTION_STOP_TASK]:
+            # UI操作和管理操作不需要客户端初始化
+            ui_actions = [
+                self.plugin.ACTION_STOP_TASK,
+                self.plugin.ACTION_TOGGLE_OUTPUT_VIEW,
+                self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER,
+                self.plugin.ACTION_RELOAD_EXTENSIONS
+            ]
+
+            if not self.controller.config.client and self.action_id not in ui_actions:
                 self.controller.config.show_message("client_not_initialized")
                 return 1
 
@@ -62,6 +70,9 @@ class ActionHandler(action_handler_t):
                 get_extension_loader().reload_extensions()
                 self.controller.config.show_message("extensions_reloaded")
 
+            elif self.action_id == self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER:
+                self._handle_knowledge_base_manager()
+
             elif self.action_id in [
                 self.plugin.ACTION_COMMENT_FUNCTION,
                 self.plugin.ACTION_COMMENT_LINE,
@@ -78,6 +89,22 @@ class ActionHandler(action_handler_t):
                 self.controller.config.output_view.append_markdown(f"```text\n{stack_info}\n```")
             traceback.print_exc()
         return 1
+
+    def _handle_knowledge_base_manager(self):
+        """处理知识库管理器 / Handle knowledge base manager."""
+        try:
+            # 使用plugin的管理方法
+            from ..Core.plugin import NexusAIPlugin
+            instance = NexusAIPlugin.get_instance()
+            if instance:
+                instance.show_knowledge_base_manager()
+            else:
+                self.controller.config.show_message("knowledge_base_manager_error", "Plugin instance not found")
+
+        except Exception as e:
+            print(f"Exception in _handle_knowledge_base_manager: {e}")
+            self.controller.config.show_message("knowledge_base_manager_error", str(e))
+            traceback.print_exc()
 
     def update(self, ctx):  # noqa: N802
         """更新可用状态 / Decide if action is enabled."""

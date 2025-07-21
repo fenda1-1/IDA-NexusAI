@@ -38,6 +38,7 @@ class NexusAIPlugin(idaapi.plugin_t):
     ACTION_COMMENT_REPEATABLE = f"{ACTION_PREFIX}comment_repeatable"
     ACTION_COMMENT_ANTERIOR = f"{ACTION_PREFIX}comment_anterior"
     ACTION_RELOAD_EXTENSIONS = f"{ACTION_PREFIX}reload_extensions"
+    ACTION_KNOWLEDGE_BASE_MANAGER = f"{ACTION_PREFIX}knowledge_base_manager"
 
     @staticmethod
     def get_instance():
@@ -49,28 +50,29 @@ class NexusAIPlugin(idaapi.plugin_t):
         
         self.ui_hook = None
         self.output_view = None
+        self.knowledge_base_view = None
         self._event_bus = get_event_bus()
         self.task_controller = TaskController()
-        if not self.task_controller.config.client:
-             self.task_controller.config.show_message("client_init_failed")
-             self._register_actions()
-             self._hook_ui()
-             self.task_controller.config.show_message("plugin_load_limited")
-             return idaapi.PLUGIN_KEEP
 
-
+        # 始终注册操作和UI，不管客户端是否初始化成功
         self._register_actions()
         self._hook_ui()
-        
+
         self._event_bus.on("language_changed", self._update_ui_for_language_change)
-        
+
         self._create_menu_items()
 
         get_extension_loader().load_extensions()
 
-        self.task_controller.config.show_message("plugin_load_success")
-        self.task_controller.config.show_message("current_depth", self.task_controller.config.analysis_depth)
-        self.task_controller.config.show_message("current_model", self.task_controller.config.model_name)
+        # 检查客户端初始化状态并显示相应消息
+        if not self.task_controller.config.client:
+            self.task_controller.config.show_message("client_init_failed")
+            self.task_controller.config.show_message("plugin_load_limited")
+        else:
+            self.task_controller.config.show_message("plugin_load_success")
+            self.task_controller.config.show_message("current_depth", self.task_controller.config.analysis_depth)
+            self.task_controller.config.show_message("current_model", self.task_controller.config.model_name)
+
         msg("-" * 60 + "\n")
 
         self.toggle_output_view()
@@ -128,6 +130,12 @@ class NexusAIPlugin(idaapi.plugin_t):
                 tooltips.get("reload_extensions", "Reload and hot-refresh extensions directory"),
                 shortcuts.get("reload_extensions", "Ctrl+Shift+R"),
             ),
+            (
+                self.ACTION_KNOWLEDGE_BASE_MANAGER,
+                menu_texts.get("knowledge_base_manager", "Knowledge Base Manager" if current_lang == "en_US" else "知识库管理器"),
+                tooltips.get("knowledge_base_manager", "Manage Excel-based knowledge bases for AI assistance"),
+                shortcuts.get("knowledge_base_manager", "Ctrl+Shift+B"),
+            ),
         ]
 
         for action_id, label, tooltip, *hotkey in actions:
@@ -148,8 +156,9 @@ class NexusAIPlugin(idaapi.plugin_t):
         actions_to_unregister = [
             self.ACTION_ANALYZE_FUNC, self.ACTION_ANALYZE_SELECTION,
             self.ACTION_STOP_TASK,
-            self.ACTION_TOGGLE_OUTPUT_VIEW
-            , self.ACTION_RELOAD_EXTENSIONS
+            self.ACTION_TOGGLE_OUTPUT_VIEW,
+            self.ACTION_RELOAD_EXTENSIONS,
+            self.ACTION_KNOWLEDGE_BASE_MANAGER
         ]
         for action_id in actions_to_unregister:
              unregister_action(action_id)
@@ -185,6 +194,14 @@ class NexusAIPlugin(idaapi.plugin_t):
         idaapi.attach_action_to_menu(
             f"{menu_path}{menu_texts.get('reload_extensions', 'Reload Extensions' if current_lang == 'en_US' else '重新加载扩展')}",
             self.ACTION_RELOAD_EXTENSIONS,
+            idaapi.SETMENU_APP,
+        )
+
+        idaapi.attach_action_to_menu(f"{menu_path}", None, idaapi.SETMENU_APP)
+
+        idaapi.attach_action_to_menu(
+            f"{menu_path}{menu_texts.get('knowledge_base_manager', 'Knowledge Base Manager' if current_lang == 'en_US' else '知识库管理器')}",
+            self.ACTION_KNOWLEDGE_BASE_MANAGER,
             idaapi.SETMENU_APP,
         )
         
@@ -253,6 +270,37 @@ class NexusAIPlugin(idaapi.plugin_t):
     def on_output_view_close(self):
         """输出窗口关闭回调 / Callback on output view close."""
         self.output_view = None
+
+    def show_knowledge_base_manager(self):
+        """显示知识库管理器 / Show knowledge base manager."""
+        if self.knowledge_base_view:
+            # 如果已经存在，尝试激活窗口
+            try:
+                self.knowledge_base_view.Activate()
+                return
+            except:
+                # 如果激活失败，重新创建
+                self.knowledge_base_view = None
+
+        try:
+            from ..UI.knowledge_base_view import KnowledgeBaseView
+            self.knowledge_base_view = KnowledgeBaseView(self.task_controller.config)
+            result = self.knowledge_base_view.Show()
+
+            if not result:
+                self.knowledge_base_view = None
+                self.task_controller.config.show_message("knowledge_base_manager_error", "Failed to create window")
+
+        except Exception as e:
+            self.knowledge_base_view = None
+            self.task_controller.config.show_message("knowledge_base_manager_error", str(e))
+            print(f"Error showing knowledge base manager: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def on_knowledge_base_view_close(self):
+        """知识库管理器关闭回调 / Callback on knowledge base manager close."""
+        self.knowledge_base_view = None
 
     class UIMenuHook(UI_Hooks):
         """UI 钩子 / UI hook for context menus."""

@@ -600,8 +600,19 @@ class SettingsDialog(QtWidgets.QDialog):
                     client = OpenAI(api_key=api_key, base_url=base_url)
             else:
                 client = OpenAI(api_key=api_key, base_url=base_url)
-            client.models.retrieve(model_name)
-            QtWidgets.QMessageBox.information(self, title_success, "模型可用！" if lang == "zh_CN" else "Model is available!")
+
+            # 使用models.list()而不是models.retrieve()，因为某些API提供商不支持retrieve端点
+            models = client.models.list()
+            model_names = [model.id for model in models.data]
+
+            if model_name in model_names:
+                QtWidgets.QMessageBox.information(self, title_success, "模型可用！" if lang == "zh_CN" else "Model is available!")
+            else:
+                available_models = ", ".join(model_names[:5])  # 显示前5个可用模型
+                error_msg = (f"模型 '{model_name}' 不可用。\n可用模型包括: {available_models}..."
+                           if lang == "zh_CN"
+                           else f"Model '{model_name}' is not available.\nAvailable models include: {available_models}...")
+                QtWidgets.QMessageBox.warning(self, title_fail, error_msg)
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, title_fail, str(e))
 
