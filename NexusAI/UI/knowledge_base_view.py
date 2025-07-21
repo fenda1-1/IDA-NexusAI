@@ -180,7 +180,23 @@ class KnowledgeBaseView(idaapi.PluginForm):
 
     def Show(self):
         """Show the knowledge base manager window."""
-        window_title = self.tr("window_title")
+        # 获取基础标题
+        base_title = self.tr("window_title")
+
+        # 获取版本信息并添加到标题
+        try:
+            from ..Utils.version_manager import get_version_manager
+            version_manager = get_version_manager(self.config_manager)
+            version_info = version_manager.get_version_title()
+            # 将基础标题中的"NexusAI"替换为包含版本的标题
+            if "NexusAI" in base_title:
+                window_title = base_title.replace("NexusAI", version_info)
+            else:
+                window_title = f"{version_info} - {base_title}"
+        except Exception as e:
+            print(f"Error getting version title for knowledge base: {e}")
+            window_title = base_title
+
         return idaapi.PluginForm.Show(self, window_title,
                                      options=idaapi.PluginForm.WOPN_DP_RIGHT | idaapi.PluginForm.WCLS_CLOSE_LATER)
     

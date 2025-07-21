@@ -40,7 +40,8 @@ class ActionHandler(action_handler_t):
                 self.plugin.ACTION_STOP_TASK,
                 self.plugin.ACTION_TOGGLE_OUTPUT_VIEW,
                 self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER,
-                self.plugin.ACTION_RELOAD_EXTENSIONS
+                self.plugin.ACTION_RELOAD_EXTENSIONS,
+                self.plugin.ACTION_CHECK_VERSION
             ]
 
             if not self.controller.config.client and self.action_id not in ui_actions:
@@ -72,6 +73,10 @@ class ActionHandler(action_handler_t):
 
             elif self.action_id == self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER:
                 self._handle_knowledge_base_manager()
+
+            elif self.action_id == self.plugin.ACTION_CHECK_VERSION:
+                self.plugin.check_for_updates()
+                return 1
 
             elif self.action_id in [
                 self.plugin.ACTION_COMMENT_FUNCTION,

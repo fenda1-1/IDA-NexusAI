@@ -39,6 +39,7 @@ class NexusAIPlugin(idaapi.plugin_t):
     ACTION_COMMENT_ANTERIOR = f"{ACTION_PREFIX}comment_anterior"
     ACTION_RELOAD_EXTENSIONS = f"{ACTION_PREFIX}reload_extensions"
     ACTION_KNOWLEDGE_BASE_MANAGER = f"{ACTION_PREFIX}knowledge_base_manager"
+    ACTION_CHECK_VERSION = f"{ACTION_PREFIX}check_version"
 
     @staticmethod
     def get_instance():
@@ -136,6 +137,12 @@ class NexusAIPlugin(idaapi.plugin_t):
                 tooltips.get("knowledge_base_manager", "Manage Excel-based knowledge bases for AI assistance"),
                 shortcuts.get("knowledge_base_manager", "Ctrl+Shift+B"),
             ),
+            (
+                self.ACTION_CHECK_VERSION,
+                menu_texts.get("check_version", "Check for Updates" if current_lang == "en_US" else "检查更新"),
+                tooltips.get("check_version", "Check for NexusAI plugin updates"),
+                "",
+            ),
         ]
 
         for action_id, label, tooltip, *hotkey in actions:
@@ -158,7 +165,8 @@ class NexusAIPlugin(idaapi.plugin_t):
             self.ACTION_STOP_TASK,
             self.ACTION_TOGGLE_OUTPUT_VIEW,
             self.ACTION_RELOAD_EXTENSIONS,
-            self.ACTION_KNOWLEDGE_BASE_MANAGER
+            self.ACTION_KNOWLEDGE_BASE_MANAGER,
+            self.ACTION_CHECK_VERSION
         ]
         for action_id in actions_to_unregister:
              unregister_action(action_id)
@@ -301,6 +309,32 @@ class NexusAIPlugin(idaapi.plugin_t):
     def on_knowledge_base_view_close(self):
         """知识库管理器关闭回调 / Callback on knowledge base manager close."""
         self.knowledge_base_view = None
+
+    def check_for_updates(self):
+        """检查插件更新 / Check for plugin updates."""
+        try:
+            from ..Utils.version_manager import get_version_manager
+            version_manager = get_version_manager(self.task_controller.config)
+
+            # 强制检查更新
+            self.task_controller.config.show_message("checking_updates")
+            latest_version = version_manager.force_check_update()
+
+            if latest_version:
+                update_info = version_manager.check_for_updates()
+
+                if update_info['has_update']:
+                    self.task_controller.config.show_message("update_available",
+                                                            update_info['current_version'],
+                                                            update_info['latest_version'])
+                else:
+                    self.task_controller.config.show_message("no_update_available",
+                                                            update_info['current_version'])
+            else:
+                self.task_controller.config.show_message("update_check_failed")
+
+        except Exception as e:
+            self.task_controller.config.show_message("update_check_error", str(e))
 
     class UIMenuHook(UI_Hooks):
         """UI 钩子 / UI hook for context menus."""

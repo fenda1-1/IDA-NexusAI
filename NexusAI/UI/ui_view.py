@@ -1287,7 +1287,16 @@ class OutputView(idaapi.PluginForm):
         Display the dockable **NexusAI** output window inside IDA Pro.
         在 IDA Pro 中显示可停靠的 NexusAI 输出窗口。
         """
-        return idaapi.PluginForm.Show(self, "NexusAI", options=idaapi.PluginForm.WOPN_DP_RIGHT | idaapi.PluginForm.WCLS_CLOSE_LATER)
+        # 获取包含版本信息的标题
+        try:
+            from ..Utils.version_manager import get_version_manager
+            version_manager = get_version_manager(self.controller.config)
+            window_title = version_manager.get_version_title()
+        except Exception as e:
+            print(f"Error getting version title: {e}")
+            window_title = "NexusAI"
+
+        return idaapi.PluginForm.Show(self, window_title, options=idaapi.PluginForm.WOPN_DP_RIGHT | idaapi.PluginForm.WCLS_CLOSE_LATER)
 
     def append_text(self, text):
         """
