@@ -1141,6 +1141,11 @@ class OutputView(idaapi.PluginForm):
         self.aimcp_toggle_btn.setChecked(cfg_enabled)
         self.aimcp_toggle_btn.toggled.connect(self.on_aimcp_toggled)
         bottom_layout.addWidget(self.aimcp_toggle_btn)
+
+        # 添加MCP历史按钮
+        self.mcp_tasks_btn = QtWidgets.QPushButton("MCP历史")
+        self.mcp_tasks_btn.clicked.connect(self.on_mcp_tasks_clicked)
+        bottom_layout.addWidget(self.mcp_tasks_btn)
         
         bottom_layout.addStretch(1)
         bottom_layout.addWidget(settings_btn)
@@ -1658,6 +1663,75 @@ class OutputView(idaapi.PluginForm):
         """打开历史对话管理面板"""
         dialog = HistoryDialog(self.parent, self.controller.config)
         dialog.exec_()
+
+    def on_mcp_tasks_clicked(self):
+        """MCP历史按钮点击处理 / Handle MCP history button click."""
+        print("🔧 MCP历史按钮被点击")  # 调试信息
+
+        try:
+            # 检查Qt是否可用
+            try:
+                import PyQt5
+                qt_available = True
+                print("✅ PyQt5可用")
+            except ImportError:
+                try:
+                    import PySide2
+                    qt_available = True
+                    print("✅ PySide2可用")
+                except ImportError:
+                    qt_available = False
+                    print("❌ Qt框架不可用")
+
+            if not qt_available:
+                error_msg = "Qt框架不可用，无法打开MCP历史管理器"
+                print(f"❌ {error_msg}")
+                self.controller.config.show_message("error", error_msg)
+                return
+
+            # 检查MCP控制器是否存在
+            if not hasattr(self.controller, 'mcp_controller') or self.controller.mcp_controller is None:
+                error_msg = "MCP控制器未初始化"
+                print(f"❌ {error_msg}")
+                self.controller.config.show_message("error", error_msg)
+                return
+
+            print("✅ MCP控制器检查通过")
+
+            # 尝试导入对话框
+            try:
+                from .mcp_task_dialog import MCPTaskDialog
+                print("✅ MCPTaskDialog导入成功")
+            except ImportError as ie:
+                error_msg = f"无法导入MCPTaskDialog: {str(ie)}"
+                print(f"❌ {error_msg}")
+                self.controller.config.show_message("error", error_msg)
+                return
+
+            # 创建或显示对话框
+            if not hasattr(self, '_mcp_task_dialog') or self._mcp_task_dialog is None:
+                print("🔧 创建新的MCP历史对话框")
+                self._mcp_task_dialog = MCPTaskDialog(
+                    self.parent,
+                    self.controller.config,
+                    self.controller.mcp_controller
+                )
+                print("✅ MCP历史对话框创建成功")
+            else:
+                print("🔧 使用现有的MCP历史对话框")
+
+            # 显示对话框
+            self._mcp_task_dialog.show()
+            self._mcp_task_dialog.raise_()
+            self._mcp_task_dialog.activateWindow()
+
+        except Exception as e:
+            error_msg = f"打开MCP历史管理器失败: {str(e)}"
+            print(f"❌ {error_msg}")
+            print(f"❌ 异常详情: {type(e).__name__}: {e}")
+            import traceback
+            traceback.print_exc()
+            self.controller.config.show_message("error", error_msg)
 
 class HistoryDialog(QtWidgets.QDialog):
     """浏览、搜索并管理会话历史。"""

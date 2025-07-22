@@ -819,7 +819,9 @@ class NexusAIInstaller:
                 'files_success': "   ✅ Plugin files copied successfully",
                 'files_error': "   ❌ Failed to install plugin files: {}",
                 'backup_config': "   📁 Backing up user configuration...",
+                'backup_history': "   📚 Backing up user history...",
                 'merge_config': "   🔄 Merging configuration files...",
+                'restore_history': "   📚 Restoring user history...",
                 'merge_success': "   ✅ Configuration merged: {}",
                 'merge_failed': "   ⚠️  Merge failed, using new config: {}",
                 'restore_user_file': "   📋 Restoring user file: {}",
@@ -859,7 +861,9 @@ class NexusAIInstaller:
                 'files_success': "   ✅插件文件复制成功",
                 'files_error': "   ❌ 安装插件文件失败: {}",
                 'backup_config': "   📁 正在备份用户配置...",
+                'backup_history': "   📚 正在备份用户历史记录...",
                 'merge_config': "   🔄 正在合并配置文件...",
+                'restore_history': "   📚 正在恢复用户历史记录...",
                 'merge_success': "   ✅ 配置已合并: {}",
                 'merge_failed': "   ⚠️  合并失败，使用新配置: {}",
                 'restore_user_file': "   📋 正在恢复用户文件: {}",
@@ -1703,21 +1707,23 @@ class NexusAIInstaller:
         try:
             print(self.messages['copying_files'])
 
-            # 备份用户配置文件到临时目录（递归备份所有子目录）
+            # 备份用户数据文件到临时目录（包括配置和历史记录）
             config_files_to_merge = []
+            history_files_to_restore = []
             temp_backup_dir = None
             if target_plugin_dir.exists():
+                print(self.messages['backup_config'])
+                # 创建临时备份目录
+                import tempfile
+                temp_backup_dir = Path(tempfile.mkdtemp())
+
+                # 备份Config目录下的JSON文件
                 config_dir = target_plugin_dir / "Config"
                 if config_dir.exists():
-                    print(self.messages['backup_config'])
-                    # 创建临时备份目录
-                    import tempfile
-                    temp_backup_dir = Path(tempfile.mkdtemp())
-
                     # 递归备份所有JSON文件，包括子目录中的文件
                     for config_file in config_dir.rglob("*.json"):
                         # 计算相对路径以保持目录结构
-                        relative_path = config_file.relative_to(config_dir)
+                        relative_path = config_file.relative_to(target_plugin_dir)
                         backup_path = temp_backup_dir / relative_path
 
                         # 确保备份目录存在
@@ -1726,7 +1732,25 @@ class NexusAIInstaller:
                         # 备份文件
                         shutil.copy2(config_file, backup_path)
                         config_files_to_merge.append((str(relative_path), backup_path))
-                        print(f"   📁 备份: {relative_path}")
+                        print(f"   📁 备份配置: {relative_path}")
+
+                # 备份History目录下的所有文件
+                history_dir = target_plugin_dir / "History"
+                if history_dir.exists():
+                    # 递归备份所有历史文件
+                    for history_file in history_dir.rglob("*"):
+                        if history_file.is_file():
+                            # 计算相对路径以保持目录结构
+                            relative_path = history_file.relative_to(target_plugin_dir)
+                            backup_path = temp_backup_dir / relative_path
+
+                            # 确保备份目录存在
+                            backup_path.parent.mkdir(parents=True, exist_ok=True)
+
+                            # 备份文件
+                            shutil.copy2(history_file, backup_path)
+                            history_files_to_restore.append((str(relative_path), backup_path))
+                            print(f"   📁 备份历史: {relative_path}")
 
             # Remove existing files
             if target_plugin_file.exists():
@@ -1741,9 +1765,8 @@ class NexusAIInstaller:
             # 合并配置文件
             if config_files_to_merge:
                 print(self.messages['merge_config'])
-                config_dir = target_plugin_dir / "Config"
                 for relative_path, backup_path in config_files_to_merge:
-                    new_config_file = config_dir / relative_path  # 新版本的配置文件
+                    new_config_file = target_plugin_dir / relative_path  # 新版本的配置文件
 
                     if new_config_file.exists() and backup_path.exists():
                         # 将用户配置合并到新配置中
@@ -1756,11 +1779,24 @@ class NexusAIInstaller:
                             print(self.messages['merge_failed'].format(relative_path))
                     elif backup_path.exists() and not new_config_file.exists():
                         # 新版本中没有这个文件，但用户有，直接恢复用户文件
-                        print(f"   📋 恢复用户文件: {relative_path}...")
+                        print(f"   📋 恢复用户配置: {relative_path}...")
                         # 确保目标目录存在
                         new_config_file.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(backup_path, new_config_file)
                         print(f"   ✅ 恢复: {relative_path}")
+
+            # 恢复历史文件
+            if history_files_to_restore:
+                print("   📚 恢复用户历史记录...")
+                for relative_path, backup_path in history_files_to_restore:
+                    target_history_file = target_plugin_dir / relative_path
+
+                    if backup_path.exists():
+                        # 确保目标目录存在
+                        target_history_file.parent.mkdir(parents=True, exist_ok=True)
+                        # 直接恢复历史文件（不需要合并）
+                        shutil.copy2(backup_path, target_history_file)
+                        print(f"   ✅ 恢复历史: {relative_path}")
 
             # 清理临时备份目录
             if temp_backup_dir and temp_backup_dir.exists():

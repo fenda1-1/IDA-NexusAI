@@ -66,13 +66,14 @@ class NexusAIPlugin(idaapi.plugin_t):
         get_extension_loader().load_extensions()
 
         # 检查客户端初始化状态并显示相应消息
-        if not self.task_controller.config.client:
-            self.task_controller.config.show_message("client_init_failed")
-            self.task_controller.config.show_message("plugin_load_limited")
-        else:
-            self.task_controller.config.show_message("plugin_load_success")
-            self.task_controller.config.show_message("current_depth", self.task_controller.config.analysis_depth)
-            self.task_controller.config.show_message("current_model", self.task_controller.config.model_name)
+        if hasattr(self, 'task_controller') and self.task_controller is not None:
+            if not self.task_controller.config.client:
+                self.task_controller.config.show_message("client_init_failed")
+                self.task_controller.config.show_message("plugin_load_limited")
+            else:
+                self.task_controller.config.show_message("plugin_load_success")
+                self.task_controller.config.show_message("current_depth", self.task_controller.config.analysis_depth)
+                self.task_controller.config.show_message("current_model", self.task_controller.config.model_name)
 
         msg("-" * 60 + "\n")
 
@@ -102,18 +103,25 @@ class NexusAIPlugin(idaapi.plugin_t):
         self._remove_menu_items()
         
         NexusAIPlugin._instance = None
-        
-        self.task_controller.config.show_message("plugin_unloaded")
+
+        # 安全检查：只有在task_controller存在时才显示消息
+        if hasattr(self, 'task_controller') and self.task_controller is not None:
+            self.task_controller.config.show_message("plugin_unloaded")
 
     def _register_actions(self):
         """注册所有 IDA Action / Register all IDA actions."""
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            print("Warning: task_controller not available during action registration")
+            return
+
         current_lang = self.task_controller.config.language
-        
+
         messages = self.task_controller.config.config.get("messages", {})
         lang_messages = messages.get(current_lang, messages.get("zh_CN", {}))
         menu_texts = lang_messages.get("menu_texts", {})
         tooltips = lang_messages.get("tooltip", {})
-        
+
         shortcuts = self.task_controller.config.config.get("shortcuts", {})
         
         actions = [
@@ -155,7 +163,9 @@ class NexusAIPlugin(idaapi.plugin_t):
                 0
             )
             if not register_action(action_desc):
-                 self.task_controller.config.show_message("register_action_failed", action_id)
+                # 安全检查：确保task_controller存在
+                if hasattr(self, 'task_controller') and self.task_controller is not None:
+                    self.task_controller.config.show_message("register_action_failed", action_id)
 
 
     def _unregister_actions(self):
@@ -185,10 +195,15 @@ class NexusAIPlugin(idaapi.plugin_t):
             
     def _create_menu_items(self):
         """创建主菜单 / Create main menu entries."""
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            print("Warning: task_controller not available during menu creation")
+            return
+
         current_lang = self.task_controller.config.language
-        
+
         menu_texts = self.task_controller.config.config.get("messages", {}).get(current_lang, {}).get("menu_texts", {})
-        
+
         menu_title = menu_texts.get("menu_title", "NexusAI")
         menu_path = f"Edit/{menu_title}/"
         
@@ -215,33 +230,54 @@ class NexusAIPlugin(idaapi.plugin_t):
         
         idaapi.attach_action_to_menu(f"Windows/{menu_title}", self.ACTION_TOGGLE_OUTPUT_VIEW, idaapi.SETMENU_APP)
 
-        self.task_controller.config.show_message("menu_added", menu_title)
+        # 安全检查：确保task_controller存在
+        if hasattr(self, 'task_controller') and self.task_controller is not None:
+            self.task_controller.config.show_message("menu_added", menu_title)
 
     def _remove_menu_items(self):
         """移除主菜单 / Remove main menu entries."""
-        current_lang = self.task_controller.config.language
-        
-        menu_texts = self.task_controller.config.config.get("messages", {}).get(current_lang, {}).get("menu_texts", {})
-        
-        menu_title = menu_texts.get("menu_title", "NexusAI")
-        
-        edit_menu_path = f"Edit/{menu_title}/"
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            # 使用默认值进行清理
+            edit_menu_path = "Edit/NexusAI/"
+        else:
+            current_lang = self.task_controller.config.language
+
+            menu_texts = self.task_controller.config.config.get("messages", {}).get(current_lang, {}).get("menu_texts", {})
+
+            menu_title = menu_texts.get("menu_title", "NexusAI")
+
+            edit_menu_path = f"Edit/{menu_title}/"
         
         try:
             idaapi.del_menu_item(edit_menu_path)
-            self.task_controller.config.show_message("menu_removed", edit_menu_path)
+            # 安全检查：只有在task_controller存在时才显示消息
+            if hasattr(self, 'task_controller') and self.task_controller is not None:
+                self.task_controller.config.show_message("menu_removed", edit_menu_path)
         except:
             pass
 
         try:
+            # 获取菜单标题（安全方式）
+            if hasattr(self, 'task_controller') and self.task_controller is not None:
+                current_lang = self.task_controller.config.language
+                menu_texts = self.task_controller.config.config.get("messages", {}).get(current_lang, {}).get("menu_texts", {})
+                menu_title = menu_texts.get("menu_title", "NexusAI")
+            else:
+                menu_title = "NexusAI"
+
             idaapi.detach_action_from_menu(f"Windows/{menu_title}", self.ACTION_TOGGLE_OUTPUT_VIEW)
         except:
             pass
 
     def _update_ui_for_language_change(self):
         """语言切换后更新 UI / Update UI on language change."""
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            return
+
         current_lang = self.task_controller.config.language
-        
+
         messages = self.task_controller.config.config.get("messages", {})
         lang_messages = messages.get(current_lang, messages.get("zh_CN", {}))
         menu_texts = lang_messages.get("menu_texts", {})
@@ -290,6 +326,11 @@ class NexusAIPlugin(idaapi.plugin_t):
                 # 如果激活失败，重新创建
                 self.knowledge_base_view = None
 
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            print("Warning: task_controller not available for knowledge base manager")
+            return
+
         try:
             from ..UI.knowledge_base_view import KnowledgeBaseView
             self.knowledge_base_view = KnowledgeBaseView(self.task_controller.config)
@@ -312,6 +353,11 @@ class NexusAIPlugin(idaapi.plugin_t):
 
     def check_for_updates(self):
         """检查插件更新 / Check for plugin updates."""
+        # 安全检查：确保task_controller存在
+        if not hasattr(self, 'task_controller') or self.task_controller is None:
+            print("Warning: task_controller not available for version check")
+            return
+
         try:
             from ..Utils.version_manager import get_version_manager
             version_manager = get_version_manager(self.task_controller.config)
