@@ -40,6 +40,7 @@ class NexusAIPlugin(idaapi.plugin_t):
     ACTION_RELOAD_EXTENSIONS = f"{ACTION_PREFIX}reload_extensions"
     ACTION_KNOWLEDGE_BASE_MANAGER = f"{ACTION_PREFIX}knowledge_base_manager"
     ACTION_CHECK_VERSION = f"{ACTION_PREFIX}check_version"
+    ACTION_SETTINGS = f"{ACTION_PREFIX}settings"
 
     @staticmethod
     def get_instance():
@@ -129,6 +130,7 @@ class NexusAIPlugin(idaapi.plugin_t):
             (self.ACTION_ANALYZE_SELECTION, menu_texts.get("analyze_selection", "分析选中代码"), tooltips.get("analyze_selection", "分析当前选中的代码片段"), ""),
             (self.ACTION_STOP_TASK, menu_texts.get("stop_task", "停止任务"), tooltips.get("stop_task", "停止当前正在执行的任务"), ""),
             (self.ACTION_TOGGLE_OUTPUT_VIEW, menu_texts.get("toggle_output_view", "显示/隐藏输出窗口"), tooltips.get("toggle_output_view", "切换NexusAI输出窗口"), self.task_controller.config.config.get("shortcuts", {}).get("toggle_output", "Ctrl+Shift+K")),
+            (self.ACTION_SETTINGS, menu_texts.get("settings", "Settings" if current_lang == "en_US" else "设置"), tooltips.get("settings", "Open settings dialog"), ""),
             (self.ACTION_COMMENT_FUNCTION, "函数注释", "添加函数注释", shortcuts.get("comment_function", "Ctrl+Shift+A")),
             (self.ACTION_COMMENT_LINE, "行注释", "添加行注释", shortcuts.get("comment_line", "Ctrl+Shift+S")),
             (self.ACTION_COMMENT_REPEATABLE, "可重复注释", "添加可重复注释", shortcuts.get("comment_repeatable", "Ctrl+Shift+D")),
@@ -174,6 +176,7 @@ class NexusAIPlugin(idaapi.plugin_t):
             self.ACTION_ANALYZE_FUNC, self.ACTION_ANALYZE_SELECTION,
             self.ACTION_STOP_TASK,
             self.ACTION_TOGGLE_OUTPUT_VIEW,
+            self.ACTION_SETTINGS,
             self.ACTION_RELOAD_EXTENSIONS,
             self.ACTION_KNOWLEDGE_BASE_MANAGER,
             self.ACTION_CHECK_VERSION
@@ -214,6 +217,7 @@ class NexusAIPlugin(idaapi.plugin_t):
         
         idaapi.attach_action_to_menu(f"{menu_path}{menu_texts.get('stop_task', '停止当前分析')}", self.ACTION_STOP_TASK, idaapi.SETMENU_APP)
         idaapi.attach_action_to_menu(f"{menu_path}{menu_texts.get('toggle_output_view', '显示/隐藏输出窗口')}", self.ACTION_TOGGLE_OUTPUT_VIEW, idaapi.SETMENU_APP)
+        idaapi.attach_action_to_menu(f"{menu_path}{menu_texts.get('settings', 'Settings' if current_lang == 'en_US' else '设置')}", self.ACTION_SETTINGS, idaapi.SETMENU_APP)
         idaapi.attach_action_to_menu(
             f"{menu_path}{menu_texts.get('reload_extensions', 'Reload Extensions' if current_lang == 'en_US' else '重新加载扩展')}",
             self.ACTION_RELOAD_EXTENSIONS,
@@ -289,6 +293,7 @@ class NexusAIPlugin(idaapi.plugin_t):
             self.ACTION_STOP_TASK: "stop_task",
             self.ACTION_TOGGLE_OUTPUT_VIEW: "toggle_output_view",
             self.ACTION_RELOAD_EXTENSIONS: "reload_extensions",
+            self.ACTION_SETTINGS: "settings",
         }
 
         for action_id, text_key in action_text_map.items():
@@ -381,6 +386,15 @@ class NexusAIPlugin(idaapi.plugin_t):
 
         except Exception as e:
             self.task_controller.config.show_message("update_check_error", str(e))
+
+    def show_settings_dialog(self):
+        """显示设置对话框 / Show settings dialog from menu."""
+        try:
+            from ..UI.ui_view import SettingsDialog
+            dlg = SettingsDialog(None, self.task_controller.config)
+            dlg.exec_()
+        except Exception as e:
+            self.task_controller.config.show_message("task_start_error", str(e))
 
     class UIMenuHook(UI_Hooks):
         """UI 钩子 / UI hook for context menus."""

@@ -41,7 +41,8 @@ class ActionHandler(action_handler_t):
                 self.plugin.ACTION_TOGGLE_OUTPUT_VIEW,
                 self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER,
                 self.plugin.ACTION_RELOAD_EXTENSIONS,
-                self.plugin.ACTION_CHECK_VERSION
+                self.plugin.ACTION_CHECK_VERSION,
+                self.plugin.ACTION_SETTINGS,
             ]
 
             if not self.controller.config.client and self.action_id not in ui_actions:
@@ -70,6 +71,9 @@ class ActionHandler(action_handler_t):
             elif self.action_id == self.plugin.ACTION_RELOAD_EXTENSIONS:
                 get_extension_loader().reload_extensions()
                 self.controller.config.show_message("extensions_reloaded")
+
+            elif self.action_id == self.plugin.ACTION_SETTINGS:
+                self.plugin.show_settings_dialog()
 
             elif self.action_id == self.plugin.ACTION_KNOWLEDGE_BASE_MANAGER:
                 self._handle_knowledge_base_manager()

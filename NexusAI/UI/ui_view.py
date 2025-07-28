@@ -665,12 +665,16 @@ class SettingsDialog(QtWidgets.QDialog):
         settings["shortcuts"] = shortcuts
         
         new_language = self.language_combo.currentData()
+        # 将语言设置写入配置，以便实时生效
+        settings["language"] = new_language
 
         def _apply_async():
             try:
                 idaapi.show_wait_box("Applying settings...")
+                # 应用新设置并立即重新加载配置，确保语言、模型等参数即时生效
                 self.config_manager.apply_settings(settings)
-                self.config_manager.save_config()
+                # 重新加载配置以刷新 OpenAI Client 等依赖
+                self.config_manager.reload_config()
             except Exception as e:
                 idaapi.msg("Error applying settings:\n%s\n" % str(e))
                 raise
@@ -743,7 +747,9 @@ class ContextSelectionDialog(QtWidgets.QDialog):
         初始化对话框，并使用默认或传入的上下文选项。
         """
         super().__init__(parent)
-        self.setWindowTitle("选择附加上下文")
+        # 根据当前语言设置窗口标题
+        lang = ConfigManager().language
+        self.setWindowTitle("Select Additional Context" if lang == "en_US" else "选择附加上下文")
 
         # 用于保存窗口大小等设置的配置管理器
         self._cfg = ConfigManager()
@@ -1087,6 +1093,8 @@ class OutputView(idaapi.PluginForm):
             self.aimcp_toggle_btn.setText("AIMCP" if lang == "en_US" else "AIMCP")
         if hasattr(self, "history_btn"):
             self.history_btn.setText("History" if lang == "en_US" else "历史")
+        if hasattr(self, "mcp_tasks_btn"):
+            self.mcp_tasks_btn.setText("MCP History" if lang == "en_US" else "MCP历史")
 
         tooltip_dict = self.controller.config.config.get("messages", {}).get(lang, {}).get("tooltip", {})
         self.auto_comment_btn.setToolTip(tooltip_dict.get("analyze_func", self.auto_comment_btn.toolTip()))
@@ -1143,7 +1151,8 @@ class OutputView(idaapi.PluginForm):
         bottom_layout.addWidget(self.aimcp_toggle_btn)
 
         # 添加MCP历史按钮
-        self.mcp_tasks_btn = QtWidgets.QPushButton("MCP历史")
+        mcp_label = "MCP History" if lang == "en_US" else "MCP历史"
+        self.mcp_tasks_btn = QtWidgets.QPushButton(mcp_label)
         self.mcp_tasks_btn.clicked.connect(self.on_mcp_tasks_clicked)
         bottom_layout.addWidget(self.mcp_tasks_btn)
         
