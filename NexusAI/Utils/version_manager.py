@@ -25,7 +25,7 @@ class VersionManager:
     """版本管理器 / Version manager."""
     
     # 当前版本
-    CURRENT_VERSION = "1.0.2"
+    CURRENT_VERSION = "1.0.3"
     
     # GitHub API配置
     GITHUB_API_URL = "https://api.github.com/repos/fenda1-1/IDA-NexusAI/tags"
