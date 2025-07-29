@@ -287,6 +287,10 @@ class NexusAIPlugin(idaapi.plugin_t):
         menu_texts = lang_messages.get("menu_texts", {})
         tooltips = lang_messages.get("tooltip", {})
 
+        # 先删除旧菜单（仍使用旧标签的路径），避免因标签已变导致无法匹配
+        self._remove_menu_items()
+
+        # 更新 Action 的标签与提示
         action_text_map = {
             self.ACTION_ANALYZE_FUNC: "analyze_func",
             self.ACTION_ANALYZE_SELECTION: "analyze_selection",
@@ -304,7 +308,7 @@ class NexusAIPlugin(idaapi.plugin_t):
             if tooltip:
                 idaapi.update_action_tooltip(action_id, tooltip)
 
-        self._remove_menu_items()
+        # 重新创建菜单，附加到新语言文本路径
         self._create_menu_items()
 
     def toggle_output_view(self):

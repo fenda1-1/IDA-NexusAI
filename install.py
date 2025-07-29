@@ -1910,6 +1910,28 @@ class NexusAIInstaller:
 
         return True
 
+    # ------------------------------------------------------------------
+    #  根据安装向导语言写入插件配置
+    # ------------------------------------------------------------------
+    def _set_language_in_config(self, ida_dir):
+        """将用户选择的语言写入 NexusAI.json 配置."""
+        try:
+            cfg_path = ida_dir / "plugins" / "NexusAI" / "Config" / "NexusAI.json"
+            if not cfg_path.exists():
+                return  # 插件首次运行会生成默认配置
+
+            with cfg_path.open("r", encoding="utf-8") as f:
+                cfg = json.load(f)
+
+            # 仅在键缺失或不同时更新
+            desired = "en_US" if self.language == "en" else "zh_CN"
+            if cfg.get("language") != desired:
+                cfg["language"] = desired
+                with cfg_path.open("w", encoding="utf-8") as f:
+                    json.dump(cfg, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[WARN] Failed to set language in config: {e}")
+
 
 def select_language():
     """Interactive language selection if not specified."""

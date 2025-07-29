@@ -1599,7 +1599,10 @@ class OutputView(idaapi.PluginForm):
             pass
         get_event_bus().emit("aimcp_toggle", state)
         self.append_text(
-            f"<div style='color:#2ECC71;'>✅ AIMCP 自动化已{'启用' if state else '关闭'}</div>"
+            _t(
+                f"<div style='color:#2ECC71;'>✅ AIMCP 自动化已{'启用' if state else '关闭'}</div>",
+                f"<div style='color:#2ECC71;'>✅ AIMCP automation has been {'enabled' if state else 'disabled'}</div>",
+            )
         )
 
     def build_full_prompt(self, question: str) -> str:
@@ -1674,20 +1677,17 @@ class OutputView(idaapi.PluginForm):
         dialog.exec_()
 
     def on_mcp_tasks_clicked(self):
-        """MCP历史按钮点击处理 / Handle MCP history button click."""
-        print("🔧 MCP历史按钮被点击")  # 调试信息
+        """MCP历史按钮点击处理 / Handle MCP history button click."""# 调试信息
 
         try:
             # 检查Qt是否可用
             try:
                 import PyQt5
                 qt_available = True
-                print("✅ PyQt5可用")
             except ImportError:
                 try:
                     import PySide2
                     qt_available = True
-                    print("✅ PySide2可用")
                 except ImportError:
                     qt_available = False
                     print("❌ Qt框架不可用")
@@ -1705,30 +1705,23 @@ class OutputView(idaapi.PluginForm):
                 self.controller.config.show_message("error", error_msg)
                 return
 
-            print("✅ MCP控制器检查通过")
 
             # 尝试导入对话框
             try:
                 from .mcp_task_dialog import MCPTaskDialog
-                print("✅ MCPTaskDialog导入成功")
             except ImportError as ie:
                 error_msg = f"无法导入MCPTaskDialog: {str(ie)}"
-                print(f"❌ {error_msg}")
                 self.controller.config.show_message("error", error_msg)
                 return
 
-            # 创建或显示对话框
+            # 创建或显示对话框（不输出冗余日志）
             if not hasattr(self, '_mcp_task_dialog') or self._mcp_task_dialog is None:
-                print("🔧 创建新的MCP历史对话框")
                 self._mcp_task_dialog = MCPTaskDialog(
                     self.parent,
                     self.controller.config,
                     self.controller.mcp_controller
                 )
-                print("✅ MCP历史对话框创建成功")
-            else:
-                print("🔧 使用现有的MCP历史对话框")
-
+            
             # 显示对话框
             self._mcp_task_dialog.show()
             self._mcp_task_dialog.raise_()
@@ -1736,8 +1729,6 @@ class OutputView(idaapi.PluginForm):
 
         except Exception as e:
             error_msg = f"打开MCP历史管理器失败: {str(e)}"
-            print(f"❌ {error_msg}")
-            print(f"❌ 异常详情: {type(e).__name__}: {e}")
             import traceback
             traceback.print_exc()
             self.controller.config.show_message("error", error_msg)
@@ -1747,7 +1738,6 @@ class HistoryDialog(QtWidgets.QDialog):
 
     def __init__(self, parent, cfg_manager):
         super().__init__(parent)
-        self.setWindowTitle("对话历史")
 
         dlg_sizes = cfg_manager.config.setdefault("dialog_sizes", {})
         w, h = dlg_sizes.get("history_dialog", (900, 600))
@@ -1761,19 +1751,20 @@ class HistoryDialog(QtWidgets.QDialog):
         get_event_bus().on("session_changed", self._refresh_list)
 
         left_box = QtWidgets.QVBoxLayout()
+        self.setWindowTitle("Conversation History" if self.cfg.language=="en_US" else "对话历史")
 
         self.search_line = QtWidgets.QLineEdit()
-        self.search_line.setPlaceholderText("搜索会话…")
+        self.search_line.setPlaceholderText("Search sessions…" if self.cfg.language=="en_US" else "搜索会话…")
         left_box.addWidget(self.search_line)
 
         self.list_widget = QtWidgets.QListWidget()
         left_box.addWidget(self.list_widget, 1)
 
         btn_layout = QtWidgets.QHBoxLayout()
-        self.btn_restore = QtWidgets.QPushButton("恢复")
-        self.btn_delete = QtWidgets.QPushButton("删除")
-        self.btn_rename = QtWidgets.QPushButton("重命名")
-        self.btn_new = QtWidgets.QPushButton("新对话")
+        self.btn_restore = QtWidgets.QPushButton("Restore" if self.cfg.language=="en_US" else "恢复")
+        self.btn_delete = QtWidgets.QPushButton("Delete" if self.cfg.language=="en_US" else "删除")
+        self.btn_rename = QtWidgets.QPushButton("Rename" if self.cfg.language=="en_US" else "重命名")
+        self.btn_new = QtWidgets.QPushButton("New Chat" if self.cfg.language=="en_US" else "新对话")
         for b in (self.btn_new, self.btn_restore, self.btn_rename, self.btn_delete):
             btn_layout.addWidget(b)
         left_box.addLayout(btn_layout)
@@ -1794,6 +1785,8 @@ class HistoryDialog(QtWidgets.QDialog):
         self.btn_rename.clicked.connect(self._on_rename_clicked)
         self.btn_new.clicked.connect(self._on_new_clicked)
 
+        # 根据语言可能再次微调文本
+        self._update_language_texts()
         self._refresh_list()
 
     def _session_display_text(self, sess_meta: dict) -> str:
@@ -1908,6 +1901,32 @@ class HistoryDialog(QtWidgets.QDialog):
 
     def _closeEvent_duplicate(self, event):
         super().closeEvent(event)
+
+    # ----------------------------------------------
+    #  语言切换处理
+    # ----------------------------------------------
+    def _update_language_texts(self, *_):
+        if not hasattr(self, 'status_filter'):
+            return
+        lang = self.cfg.language
+        if lang == "en_US":
+            self.setWindowTitle("Conversation History")
+            self.search_line.setPlaceholderText("Search sessions…")
+            self.title_prefix = "Session"  # used in _session_display_text
+            self.btn_restore.setText("Restore")
+            self.btn_delete.setText("Delete")
+            self.btn_rename.setText("Rename")
+            self.btn_new.setText("New Chat")
+        else:
+            self.setWindowTitle("对话历史")
+            self.search_line.setPlaceholderText("搜索会话…")
+            self.title_prefix = "会话"
+            self.btn_restore.setText("恢复")
+            self.btn_delete.setText("删除")
+            self.btn_rename.setText("重命名")
+            self.btn_new.setText("新对话")
+
+        self._refresh_list()
 
 
 

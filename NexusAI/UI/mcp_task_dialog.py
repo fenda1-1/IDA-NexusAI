@@ -8,7 +8,53 @@ Provides a comprehensive task management interface for MCP analysis tasks.
 
 import json
 from datetime import datetime
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
+from NexusAI.Config.config import ConfigManager  # type: ignore
+
+# ---------------- 多语言文本 ----------------
+_TEXTS = {
+    "zh_CN": {
+        "status_map": {
+            "pending": "待处理",
+            "running": "进行中",
+            "done": "已完成",
+            "error": "错误",
+            "cancelled": "已取消",
+        },
+        "task_id": "任务ID",
+        "theme": "主题",
+        "status": "状态",
+        "created": "创建时间",
+        "updated": "更新时间",
+        "iterations": "迭代次数",
+        "error": "错误信息",
+    },
+    "en_US": {
+        "status_map": {
+            "pending": "Pending",
+            "running": "Running",
+            "done": "Done",
+            "error": "Error",
+            "cancelled": "Cancelled",
+        },
+        "task_id": "Task ID",
+        "theme": "Theme",
+        "status": "Status",
+        "created": "Created",
+        "updated": "Updated",
+        "iterations": "Iterations",
+        "error": "Error Message",
+    },
+}
+
+
+def _t(key: str):
+    lang = ConfigManager().language
+    return _TEXTS.get(lang, _TEXTS["zh_CN"]).get(key, key)
+
+def _status_text(status: str):
+    lang = ConfigManager().language
+    return _TEXTS.get(lang, _TEXTS["zh_CN"])["status_map"].get(status, status)
 
 try:
     from PyQt5 import QtWidgets, QtCore, QtGui
@@ -56,6 +102,9 @@ class MCPTaskDialog(QDialog):
         self.task_manager = get_task_manager(config_dir)
 
         self.setWindowTitle("MCP历史管理器 / MCP History Manager")
+        # 监听语言切换事件
+        from ..Core.event_bus import get_event_bus as _evb
+        _evb().on("language_changed", self._update_language_texts)
         self.setModal(False)
         
         # 设置对话框大小和限制
@@ -78,6 +127,7 @@ class MCPTaskDialog(QDialog):
         
         self.setup_ui()
         self._refresh_task_list()
+        self._update_language_texts()
     
     def setup_ui(self):
         """设置用户界面 / Setup user interface."""
@@ -104,9 +154,9 @@ class MCPTaskDialog(QDialog):
         layout = QVBoxLayout(widget)
         
         # 标题
-        title_label = QLabel("任务列表 / Task List")
-        title_label.setFont(QFont("Arial", 12, QFont.Bold))
-        layout.addWidget(title_label)
+        self.title_label = QLabel()
+        self.title_label.setFont(QFont("Arial", 12, QFont.Bold))
+        layout.addWidget(self.title_label)
         
         # 搜索框
         self.search_line = QLineEdit()
@@ -116,10 +166,10 @@ class MCPTaskDialog(QDialog):
         
         # 状态过滤器
         filter_layout = QHBoxLayout()
-        filter_layout.addWidget(QLabel("状态过滤:"))
+        self.status_label = QLabel()
+        filter_layout.addWidget(self.status_label)
         
         self.status_filter = QComboBox()
-        self.status_filter.addItems(["全部", "进行中", "错误", "已完成", "已取消"])
         self.status_filter.currentTextChanged.connect(self._refresh_task_list)
         filter_layout.addWidget(self.status_filter)
         
@@ -133,17 +183,17 @@ class MCPTaskDialog(QDialog):
         # 按钮组
         button_layout = QHBoxLayout()
         
-        self.continue_btn = QPushButton("继续")
+        self.continue_btn = QPushButton()
         self.continue_btn.clicked.connect(self._on_continue_task)
         self.continue_btn.setEnabled(False)
         button_layout.addWidget(self.continue_btn)
         
-        self.delete_btn = QPushButton("删除")
+        self.delete_btn = QPushButton()
         self.delete_btn.clicked.connect(self._on_delete_task)
         self.delete_btn.setEnabled(False)
         button_layout.addWidget(self.delete_btn)
         
-        self.refresh_btn = QPushButton("刷新")
+        self.refresh_btn = QPushButton()
         self.refresh_btn.clicked.connect(self._refresh_task_list)
         button_layout.addWidget(self.refresh_btn)
         
@@ -157,10 +207,10 @@ class MCPTaskDialog(QDialog):
         layout = QVBoxLayout(widget)
         
         # 任务信息组
-        info_group = QGroupBox("任务信息 / Task Information")
-        info_layout = QVBoxLayout(info_group)
+        self.info_group = QGroupBox()
+        info_layout = QVBoxLayout(self.info_group)
         
-        self.task_info_label = QLabel("请选择一个任务 / Please select a task")
+        self.task_info_label = QLabel()
         info_layout.addWidget(self.task_info_label)
 
         # 进度条
@@ -168,8 +218,8 @@ class MCPTaskDialog(QDialog):
         self.progress_bar.setVisible(False)
         
         # 对话历史
-        history_group = QGroupBox("对话历史 / Conversation History")
-        history_layout = QVBoxLayout(history_group)
+        self.history_group = QGroupBox()
+        history_layout = QVBoxLayout(self.history_group)
 
         self.conversation_browser = QTextBrowser()
         self.conversation_browser.setFont(QFont("Consolas", 9))
@@ -186,9 +236,9 @@ class MCPTaskDialog(QDialog):
         history_layout.addWidget(self.conversation_browser)
         
         # 添加到主布局
-        layout.addWidget(info_group)
+        layout.addWidget(self.info_group)
         layout.addWidget(self.progress_bar)
-        layout.addWidget(history_group, 1)
+        layout.addWidget(self.history_group, 1)
         
         return widget
     
@@ -238,18 +288,9 @@ class MCPTaskDialog(QDialog):
     
     def _format_task_item(self, task: MCPTaskRecord) -> str:
         """格式化任务列表项 / Format task list item."""
-        status_map = {
-            "pending": "待处理",
-            "running": "进行中",
-            "done": "已完成",
-            "error": "错误",
-            "cancelled": "已取消"
-        }
-        
-        status_text = status_map.get(task.status, task.status)
+        status_text = _status_text(task.status)
         created_time = datetime.fromisoformat(task.created_at).strftime("%m-%d %H:%M")
-        
-        return f"[{status_text}] {task.display_name}\n{created_time} | 迭代: {task.iterations}"
+        return f"[{status_text}] {task.display_name}\n{created_time} | {_t('iterations')}: {task.iterations}"
     
     def _on_task_selection_changed(self):
         """任务选择变化处理 / Handle task selection change."""
@@ -271,16 +312,16 @@ class MCPTaskDialog(QDialog):
             return
         
         # 更新任务信息
-        info_text = f"""
-任务ID: {task.id}
-主题: {task.theme}
-状态: {task.status}
-创建时间: {task.created_at}
-更新时间: {task.updated_at}
-迭代次数: {task.iterations} / {task.max_iterations}
-"""
+        info_text = (
+            f"{_t('task_id')}: {task.id}\n"
+            f"{_t('theme')}: {task.theme}\n"
+            f"{_t('status')}: {_status_text(task.status)}\n"
+            f"{_t('created')}: {task.created_at}\n"
+            f"{_t('updated')}: {task.updated_at}\n"
+            f"{_t('iterations')}: {task.iterations} / {task.max_iterations}"
+        )
         if task.error_message:
-            info_text += f"\n错误信息: {task.error_message}"
+            info_text += f"\n{_t('error')}: {task.error_message}"
         
         self.task_info_label.setText(info_text)
 
@@ -463,6 +504,45 @@ class MCPTaskDialog(QDialog):
             self.refresh_timer.stop()
 
         super().closeEvent(event)
+
+    # ----------------------------------------------
+    #  语言切换处理
+    # ----------------------------------------------
+    def _update_language_texts(self, *_):
+        """根据当前语言刷新对话框静态文本 / Refresh texts when language changes."""
+        lang = self.config_manager.language
+        if lang == "en_US":
+            self.setWindowTitle("MCP History Manager")
+            self.title_label.setText("Task List")
+            self.status_label.setText("Status:")
+            self.status_filter.blockSignals(True)
+            self.status_filter.clear()
+            self.status_filter.addItems(["All", "Running", "Error", "Done", "Cancelled"])
+            self.status_filter.blockSignals(False)
+            self.continue_btn.setText("Continue")
+            self.delete_btn.setText("Delete")
+            self.refresh_btn.setText("Refresh")
+            self.info_group.setTitle("Task Information")
+            self.history_group.setTitle("Conversation History")
+            self.task_info_label.setText("Please select a task")
+            status_map = {"running":"Running","error":"Error","done":"Done","cancelled":"Cancelled"}
+        else:
+            self.setWindowTitle("MCP历史管理器")
+            self.title_label.setText("任务列表")
+            self.status_label.setText("状态过滤:")
+            self.status_filter.blockSignals(True)
+            self.status_filter.clear()
+            self.status_filter.addItems(["全部", "进行中", "错误", "已完成", "已取消"])
+            self.status_filter.blockSignals(False)
+            self.continue_btn.setText("继续")
+            self.delete_btn.setText("删除")
+            self.refresh_btn.setText("刷新")
+            self.info_group.setTitle("任务信息")
+            self.history_group.setTitle("对话历史")
+            self.task_info_label.setText("请选择一个任务")
+         
+        # 刷新列表
+        self._refresh_task_list()
 
 
 # Qt不可用时的备用处理

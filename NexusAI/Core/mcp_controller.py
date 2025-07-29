@@ -83,6 +83,8 @@ class MCPController:
 
     def start(self, theme: str):
         """启动新任务 / Submit new theme asynchronous."""
+        # 若之前因取消而终止，需清除 cancel 标志以允许重新开始
+        self.cancel_event.clear()
         if self.config.config.get("aimcp_limit_iters_enabled", False):
             self.max_iters = max(1, int(self.config.config.get("aimcp_max_iters", 5)))
         else:
@@ -157,19 +159,17 @@ class MCPController:
                     f"可用 action 及参数: {action_help}.\n"
                     "\n⚠️ 重要格式要求:\n"
                     "- 回复必须是纯JSON格式，不要添加解释文字\n"
+                    "- 建议使用 ```json ``` 代码块包裹指令数组（推荐），如未包裹亦可被正确解析\n"
                     "- 如需解释，请在JSON数组前简要说明，然后换行输出JSON\n"
                     "- JSON必须使用双引号，不能使用单引号\n"
                     "- 确保JSON语法正确，括号匹配\n"
                     "\n📋 JSON格式示例:\n"
                     "单个动作:\n"
-                    "[{\"action\": \"get_decomp\", \"args\": {\"ea\": \"0x140002F60\"}}]\n"
+                    "```json\n[{\"action\": \"get_decomp\", \"args\": {\"ea\": \"0x140002F60\"}}]\n```\n"
                     "\n多个动作:\n"
-                    "[\n"
-                    "  {\"action\": \"get_current_cursor_address\", \"args\": {}},\n"
-                    "  {\"action\": \"list_funcs\", \"args\": {\"pattern\": \"main\", \"limit\": 10}}\n"
-                    "]\n"
+                    "```json\n[\n  {\"action\": \"get_current_cursor_address\", \"args\": {}},\n  {\"action\": \"list_funcs\", \"args\": {\"pattern\": \"main\", \"limit\": 10}}\n]\n```\n"
                     "\n结束分析:\n"
-                    "[\"DONE\"]\n"
+                    "```json\n[\"DONE\"]\n```\n"
                     "\n参数要求: \n"
                     "  • 所有地址/ea/func_addr 必须是十六进制字符串 (如 \"0x140123ABC\") 或整数, 禁止使用符号表达式。\n"
                     "  • 析构函数在符号表中通常带有 '~'，例如 \"LoadLevelLimiter::~LoadLevelLimiter\"，搜索时务必包含 '~'。\n"
@@ -231,9 +231,8 @@ class MCPController:
                         f"调试信息: {debug_info}\n"
                         f"回复示例: {full_resp[:300]}..."
                     )
+                # 先直接尝试解析；若失败再尝试修复重复键并重新解析
                 try:
-                    # 检查并修复JSON中的重复键问题
-                    # Check and fix duplicate key issues in JSON
                     cleaned_json = self._fix_duplicate_keys(json_fragment)
                     actions = json.loads(cleaned_json)
                 except Exception as parse_e:
@@ -309,6 +308,8 @@ class MCPController:
 
     def continue_task(self, task_id: str, theme: str, context: str = ""):
         """继续未完成的任务 / Continue an incomplete task."""
+        # 确保重启前清除取消状态
+        self.cancel_event.clear()
         if not self._task_lock.acquire(blocking=False):
             self.config.show_message("task_in_progress")
             return
@@ -402,19 +403,17 @@ class MCPController:
                     f"可用 action 及参数: {action_help}.\n"
                     "\n⚠️ 重要格式要求:\n"
                     "- 回复必须是纯JSON格式，不要添加解释文字\n"
+                    "- 建议使用 ```json ``` 代码块包裹指令数组（推荐），如未包裹亦可被正确解析\n"
                     "- 如需解释，请在JSON数组前简要说明，然后换行输出JSON\n"
                     "- JSON必须使用双引号，不能使用单引号\n"
                     "- 确保JSON语法正确，括号匹配\n"
                     "\n📋 JSON格式示例:\n"
                     "单个动作:\n"
-                    "[{\"action\": \"get_decomp\", \"args\": {\"ea\": \"0x140002F60\"}}]\n"
+                    "```json\n[{\"action\": \"get_decomp\", \"args\": {\"ea\": \"0x140002F60\"}}]\n```\n"
                     "\n多个动作:\n"
-                    "[\n"
-                    "  {\"action\": \"get_current_cursor_address\", \"args\": {}},\n"
-                    "  {\"action\": \"list_funcs\", \"args\": {\"pattern\": \"main\", \"limit\": 10}}\n"
-                    "]\n"
+                    "```json\n[\n  {\"action\": \"get_current_cursor_address\", \"args\": {}},\n  {\"action\": \"list_funcs\", \"args\": {\"pattern\": \"main\", \"limit\": 10}}\n]\n```\n"
                     "\n结束分析:\n"
-                    "[\"DONE\"]\n"
+                    "```json\n[\"DONE\"]\n```\n"
                     "\n参数要求: \n"
                     "  • 所有地址/ea/func_addr 必须是十六进制字符串 (如 \"0x140123ABC\") 或整数, 禁止使用符号表达式。\n"
                     "  • 析构函数在符号表中通常带有 '~'，例如 \"LoadLevelLimiter::~LoadLevelLimiter\"，搜索时务必包含 '~'。\n"
@@ -572,13 +571,15 @@ class MCPController:
             matches = re.findall(pattern, text, re.DOTALL)
             for match in matches:
                 try:
-                    # 验证JSON格式
+                    # 先验证语法
                     json.loads(match)
-                    if match.startswith('['):
-                        return match
-                    else:
-                        return f'[{match}]'  # 包装对象为数组
-                except:
+
+                    # 进一步验证是否为有效的 MCP 指令（必须含 action 字段）
+                    candidate = match if match.startswith('[') else f'[{match}]'
+                    if self._is_valid_mcp_json(candidate):
+                        return candidate
+                except Exception:
+                    # 解析失败或无效，继续尝试下一个匹配
                     continue
 
         # 首先尝试查找JSON数组
