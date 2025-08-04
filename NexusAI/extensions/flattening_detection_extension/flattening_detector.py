@@ -78,7 +78,7 @@ def _cache_path() -> Path:
     return _CACHE_DIR / f"{_compute_binary_id()}.json"
 
 
-def load_cached_scores() -> List[Tuple[int, float]] | None:
+def load_cached_scores() -> Union[List[Tuple[int, float]], None]:
     path = _cache_path()
     if not path.exists():
         return None
@@ -267,7 +267,7 @@ def detect_flattening_functions(threshold: float = 0.7) -> List[Tuple[int, float
     return [item for item in suspects if item[1] >= threshold]
 
 
-def get_top_function() -> tuple[int, float] | None:
+def get_top_function() -> Union[tuple[int, float], None]:
     """
     Returns the function with the highest score (ea, score), or None if there are no functions.
     返回评分最高的函数 (ea, score)，若无函数则 None。

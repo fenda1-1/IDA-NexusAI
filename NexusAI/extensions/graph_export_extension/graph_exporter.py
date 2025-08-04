@@ -11,6 +11,7 @@ import idc  # type: ignore
 # GraphExporter
 # 图导出器
 # ---------------------------------------------------------------------------
+from typing import Union
 __nexus_extension__ = False  # 标记为非扩展
 
 class GraphExporter:
@@ -19,7 +20,7 @@ class GraphExporter:
     Export call graphs and data flow graphs to JSON files for AI model consumption.
     """
 
-    def __init__(self, output_dir: Path | None = None):
+    def __init__(self, output_dir: Union[Path, None] = None):
         # 修改：默认输出目录为当前脚本所在目录下的 "data" 文件夹
         script_dir = Path(__file__).resolve().parent
         self.output_dir = output_dir or script_dir / "data"
@@ -74,7 +75,7 @@ class GraphExporter:
 
         return call_graph_path, data_flow_path
 
-    def _build_call_graph(self, total_funcs: int | None = None) -> Dict[str, List[dict]]:
+    def _build_call_graph(self, total_funcs: Union[int, None] = None) -> Dict[str, List[dict]]:
         """
         遍历所有函数，提取调用关系。
         Traverse all functions and extract calling relationships.
@@ -99,7 +100,7 @@ class GraphExporter:
         edge_dicts = [{"src": src, "dst": dst} for src, dst in edges]
         return {"nodes": nodes, "edges": edge_dicts}
 
-    def _build_data_flow_graph(self, total_funcs: int | None = None) -> Dict[str, List[dict]]:
+    def _build_data_flow_graph(self, total_funcs: Union[int, None] = None) -> Dict[str, List[dict]]:
         """
         构建简化的数据流图：函数 ↔️ 全局变量/地址 访问。
         Build a simplified data flow graph: function ↔️ global variable/address access.

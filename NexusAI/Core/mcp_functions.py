@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Union
 """mcp_functions
 =================
 
@@ -9,7 +11,6 @@
 
 *注意*：当前实现为 **MVP** 版本，仅封装了部分常用功能，后续可按需扩展。
 """
-from __future__ import annotations
 
 from typing import Any, Callable, Dict
 
@@ -68,12 +69,12 @@ def _wrap_err(msg: str):
 #   pattern(str, 可选): 名称过滤子串（忽略大小写）
 #   limit(int, 可选): 返回前 N 条，默认 100，防止输出过大
 # 返回: [(address_hex, name), ...]
-def list_funcs(pattern: str | None = None, limit: int = 100):
+def list_funcs(pattern: Union[str, None] = None, limit: int = 100):
     """列出程序中函数 / List functions in binary.
 
     Parameters
     ----------
-    pattern : str | None
+    pattern : Union[str, None]
         • **CN**：过滤子串或正则，区分大小写与否依据实现。
         • **EN**: Optional substring/regex to filter function names.
     limit : int, default ``100``
@@ -112,7 +113,7 @@ def list_funcs(pattern: str | None = None, limit: int = 100):
 @register_action("get_decomp")
 # 描述: 反编译指定地址所在函数
 # args: ea / address / func_address (任意一个)
-def get_decomp(ea: str | int | None = None, address: str | int | None = None, func_address: str | int | None = None, func_addr: str | int | None = None):
+def get_decomp(ea: Union[str, int, None] = None, address: Union[str, int, None] = None, func_address: Union[str, int, None] = None, func_addr: Union[str, int, None] = None):
     """反编译函数 / Decompile function containing address.
 
     接受多种参数别名，最终解析为十六进制地址并调用 Hex-Rays。
@@ -149,7 +150,7 @@ def get_decomp(ea: str | int | None = None, address: str | int | None = None, fu
 
 @register_action("export_callgraph")
 # 描述: 导出以 root_ea 为起点的调用图（JSON 文件路径 / 占位信息）
-def export_callgraph(root_ea: str | int, depth: int = 2):
+def export_callgraph(root_ea: Union[str, int], depth: int = 2):
     """导出调用图 / Export call graph.
 
     • **CN**：以 `root_ea` 为根，递归 `depth` 层生成调用图并导出 JSON；当前
@@ -170,12 +171,12 @@ def export_callgraph(root_ea: str | int, depth: int = 2):
 @register_action("disassemble")
 # 描述: 反汇编 address 开始的 count 条指令
 # args: address, count (可选, 默认20)
-def disassemble(address: str | int, count: int = 20):
+def disassemble(address: Union[str, int], count: int = 20):
     """反汇编指令 / Disassemble instructions.
 
     Parameters
     ----------
-    address : str | int
+    address : Union[str, int]
         • **CN**：起始地址，十六进制字符串或整数。
         • **EN**: Start address in hex string or int form.
     count : int, default ``20``
@@ -211,7 +212,7 @@ def disassemble(address: str | int, count: int = 20):
 @register_action("get_string_at_address")
 # 描述: 读取 address 处的字符串文本
 # args: address
-def get_string_at_address(address: str | int):
+def get_string_at_address(address: Union[str, int]):
     """读取字符串 / Get string at address.
 
     兼容多版本 IDA：
@@ -284,13 +285,13 @@ def get_string_at_address(address: str | int):
 # 描述: 列出所有指向 address 的代码/数据交叉引用
 # args: address, limit(optional)
 def analyze_cross_references(
-    address: str | int | None = None,
-    ea: str | int | None = None,
-    func_addr: str | int | None = None,
-    func_address: str | int | None = None,
+    address: Union[str, int, None] = None,
+    ea: Union[str, int, None] = None,
+    func_addr: Union[str, int, None] = None,
+    func_address: Union[str, int, None] = None,
     limit: int = 100,
-    ref_type: str | None = None,
-    type: str | None = None,
+    ref_type: Union[str, None] = None,
+    type: Union[str, None] = None,
     **extra_kwargs,
 ):  # noqa: A002
     """列出指向给定地址的交叉引用。
@@ -334,12 +335,12 @@ def analyze_cross_references(
 #   pattern(str, 可选): 正则 / 子串 过滤
 #   limit(int, 可选): 限制返回数量，默认 100
 # 返回: [(address_hex, string), ...]
-def list_strings(pattern: str | None = None, limit: int = 100):
+def list_strings(pattern: Union[str, None] = None, limit: int = 100):
     """列出可见字符串 / List visible strings in binary.
 
     Parameters
     ----------
-    pattern : str | None
+    pattern : Union[str, None]
         • **CN**：正则/子串过滤，可选。
         • **EN**: Regex or substring filter (optional).
     limit : int, default ``100``
@@ -445,7 +446,7 @@ def get_binary_entry_points():
 @register_action("list_imports")
 # 描述: 列出导入表中的函数；可选 pattern 过滤 & limit
 # args: pattern?, limit?
-def list_imports(pattern: str | None = None, limit: int = 100):
+def list_imports(pattern: Union[str, None] = None, limit: int = 100):
     """列出导入符号 / List import symbols.
 
     pattern : 过滤正则/子串；limit : 最大返回条目数。
@@ -491,7 +492,7 @@ def list_imports(pattern: str | None = None, limit: int = 100):
 @register_action("list_exports")
 # 描述: 列出可导出符号；可选 pattern 过滤 & limit
 # args: pattern?, limit?
-def list_exports(pattern: str | None = None, limit: int = 100):
+def list_exports(pattern: Union[str, None] = None, limit: int = 100):
     """列出导出符号 / List export symbols.
 
     同 `list_imports` 参数语义。
@@ -574,7 +575,7 @@ def get_function_info_by_name(func_name: str):
 
 @register_action("get_function_info_by_address")
 # args: address|ea
-def get_function_info_by_address(address: str | int):
+def get_function_info_by_address(address: Union[str, int]):
     """根据地址获取函数信息 / Get function info by address."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -653,7 +654,7 @@ def get_current_cursor_address():
 
 # args: pattern, case_sensitive?(bool), unicode?(bool), limit?(int)
 @register_action("search_strings_in_binary")
-def search_strings_in_binary(pattern: str | None = None, case_sensitive: bool = False, unicode: bool | None = None, limit: int | None = None):  # noqa: A002
+def search_strings_in_binary(pattern: Union[str, None] = None, case_sensitive: bool = False, unicode: Union[bool, None] = None, limit: Union[int, None] = None):  # noqa: A002
     """二进制字符串搜索 / Search strings in binary.
 
     参数含义与 LLM prompt 中一致。
@@ -713,7 +714,7 @@ def search_strings_in_binary(pattern: str | None = None, case_sensitive: bool = 
 
 @register_action("set_address_comment")
 # args: address|ea, comment_text, repeatable?(bool)
-def set_address_comment(address: str | int, comment_text: str, repeatable: bool = False):
+def set_address_comment(address: Union[str, int], comment_text: str, repeatable: bool = False):
     """设置地址注释 / Set comment at address.
 
     `repeatable`: **CN**-可重复/ **EN**-repeatable.
@@ -738,7 +739,7 @@ def set_address_comment(address: str | int, comment_text: str, repeatable: bool 
 
 @register_action("rename_func")
 # args: address|ea, new_name
-def rename_func(address: str | int, new_name: str):
+def rename_func(address: Union[str, int], new_name: str):
     """重命名函数 / Rename function."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -760,7 +761,7 @@ def rename_func(address: str | int, new_name: str):
 
 @register_action("rename_local_var")
 # args: function_address|ea, variable_offset(int), new_name
-def rename_local_var(function_address: str | int, variable_offset: int, new_name: str):
+def rename_local_var(function_address: Union[str, int], variable_offset: int, new_name: str):
     """重命名局部变量 / Rename local variable."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -798,7 +799,7 @@ def rename_local_var(function_address: str | int, variable_offset: int, new_name
 
 @register_action("rename_global_var")
 # args: address|ea, new_name
-def rename_global_var(address: str | int, new_name: str):
+def rename_global_var(address: Union[str, int], new_name: str):
     """重命名全局变量 / Rename global variable."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -820,7 +821,7 @@ def rename_global_var(address: str | int, new_name: str):
 
 @register_action("set_local_var_type")
 # args: function_address|ea, variable_offset(int), type_string, arg_index?(int)
-def set_local_var_type(function_address: str | int, variable_offset: int, type_string: str, arg_index: int | None = None):
+def set_local_var_type(function_address: Union[str, int], variable_offset: int, type_string: str, arg_index: Union[int, None] = None):
     """设置局部变量类型 / Set local variable type."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -884,7 +885,7 @@ def set_local_var_type(function_address: str | int, variable_offset: int, type_s
 
 @register_action("set_global_var_type")
 # args: address|ea, type_string
-def set_global_var_type(address: str | int, type_string: str):
+def set_global_var_type(address: Union[str, int], type_string: str):
     """设置全局变量类型 / Set global variable type."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -913,7 +914,7 @@ def set_global_var_type(address: str | int, type_string: str):
 
 @register_action("set_func_prototype")
 # args: address|ea, prototype_string
-def set_func_prototype(address: str | int, prototype_string: str):
+def set_func_prototype(address: Union[str, int], prototype_string: str):
     """设置函数原型 / Set function prototype."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")
@@ -1009,7 +1010,7 @@ def declare_custom_c_type(type_definition_string: str):
 @register_action("list_local_vars")
 # 描述: 列出函数内局部变量 (栈/寄存器) 基本信息
 # args: function_address|ea, limit?(int)
-def list_local_vars(function_address: str | int, limit: int = 20):
+def list_local_vars(function_address: Union[str, int], limit: int = 20):
     """列出局部变量 / List local variables."""
     if idaapi is None:
         return _wrap_err("IDA SDK not available")

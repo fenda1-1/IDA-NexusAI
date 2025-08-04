@@ -11,6 +11,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 import json
 from pathlib import Path
 import re
+from typing import Union
 
 from importlib import import_module
 
@@ -1810,7 +1811,7 @@ class HistoryDialog(QtWidgets.QDialog):
                 item.setFont(f)
             self.list_widget.addItem(item)
 
-    def _selected_name(self) -> str | None:
+    def _selected_name(self) -> Union[str, None]:
         sel = self.list_widget.selectedItems()
         if not sel:
             return None

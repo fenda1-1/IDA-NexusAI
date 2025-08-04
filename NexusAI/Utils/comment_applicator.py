@@ -22,6 +22,7 @@ import ida_ua
 import re
 import time
 import traceback
+from typing import Union
 from ..Config.config import ConfigManager as _Cfg
 
 # ------------------------------------------------------------------
@@ -149,7 +150,7 @@ class CommentApplicator:
         切换 **注释模式** 开关。
 
         Args:
-            state (bool | None): If provided, force the mode to the given
+            state (Union[bool, None]): If provided, force the mode to the given
                 value; otherwise the current state is inverted.
 
         Returns:

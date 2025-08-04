@@ -16,6 +16,7 @@ import idc
 import idautils
 import ida_xref
 import ida_hexrays  # 用于类型信息处理
+from typing import Union
 from idaapi import tag_remove, msg, get_screen_ea, BADADDR, generate_disasm_line, next_head, read_range_selection
 from idc import get_func_attr  # 恢复简写以兼容旧代码
 from ..Config.config import ConfigManager
@@ -241,7 +242,7 @@ class CodeExtractor:
         API 兼容。
 
         Returns:
-            str | None: Extracted code string or ``None`` if nothing selected.
+            Union[str, None]: Extracted code string or ``None`` if nothing selected.
         """
         try:
             return self.extract_selected_range()

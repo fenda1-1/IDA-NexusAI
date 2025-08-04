@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Union
 """mcp_controller
 
 核心自动化控制器，负责：
@@ -10,7 +12,6 @@ Core automation controller, responsible for:
 2. Calling `mcp_functions.mcp_call` to execute specific IDA operations.
 3. Assembling the execution results into context and passing them to AIService for continued dialogue (ReAct style).
 """
-from __future__ import annotations
 
 import json
 import threading
@@ -58,7 +59,7 @@ class MCPController:
         self.config = config
         self.ai_service = ai_service
         self._task_lock = threading.Lock()
-        self.current_task: MCPTask | None = None
+        self.current_task: Union[MCPTask, None] = None
         if self.config.config.get("aimcp_limit_iters_enabled", False):
             self.max_iters = max(1, int(self.config.config.get("aimcp_max_iters", 5)))
         else:

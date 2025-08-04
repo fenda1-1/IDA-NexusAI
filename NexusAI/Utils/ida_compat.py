@@ -9,6 +9,7 @@ IDA Pro 多版本兼容工具，旨在在缺失 Hex-Rays 等组件的环境（�
 """
 import sys
 import types
+from typing import Union
 
 # ---------------------------------------------------------------------------
 # IDA SDK 版本检测
@@ -28,7 +29,7 @@ except ImportError:  # Running outside IDA (unit tests etc.)
 # 兼容导入辅助
 # ---------------------------------------------------------------------------
 
-def _create_stub(module_name: str, extra_attrs: dict | None = None):
+def _create_stub(module_name: str, extra_attrs: Union[dict, None] = None):
     """Create and register an empty *stub* module inside ``sys.modules``.
 
     在 ``sys.modules`` 中创建并注册一个空的存根模块，避免导入错误。
@@ -41,7 +42,7 @@ def _create_stub(module_name: str, extra_attrs: dict | None = None):
     return stub
 
 
-def ensure_module(module_name: str, extra_attrs: dict | None = None):
+def ensure_module(module_name: str, extra_attrs: Union[dict, None] = None):
     """Attempt to import *module_name* and fall back to a stub if not present.
 
     尝试导入指定模块；如果失败则创建存根并返回，以保持接口一致。

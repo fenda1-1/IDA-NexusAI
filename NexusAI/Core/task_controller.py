@@ -1,3 +1,4 @@
+from typing import Union
 """任务控制模块 / Task Controller Module
 
 负责管理AI任务，协调代码提取和AI交互 / Manages AI tasks, orchestrates code extraction, and AI interaction.
@@ -373,7 +374,7 @@ def get_selected_range() -> tuple[int, int]:
         return start_ea, end_ea
     return BADADDR, BADADDR
 
-def get_highlighted_identifier() -> str | None:
+def get_highlighted_identifier() -> Union[str, None]:
     """获取高亮标识符 / Get highlighted identifier."""
     widget = idaapi.get_current_widget()
     widget_type = idaapi.get_widget_type(widget)
@@ -387,7 +388,7 @@ def get_highlighted_identifier() -> str | None:
 
     return None
 
-def get_pseudocode() -> str | None:
+def get_pseudocode() -> Union[str, None]:
     """获取伪代码 / Get pseudocode of current function."""
     ea = get_current_function_ea()
     if ea != BADADDR:
