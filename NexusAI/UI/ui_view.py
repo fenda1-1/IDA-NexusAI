@@ -1049,12 +1049,14 @@ class OutputView(idaapi.PluginForm):
         Refresh all static texts inside the window when language changes.
         当语言切换时，刷新窗口内所有静态文本。
         """
-        import sip
+        from PyQt5 import sip
         lang = self.controller.config.language
 
         # 若控件已被销毁或尚未创建，安全退出
-        if not hasattr(self, "input_widget") or self.input_widget is None or sip.isdeleted(self.input_widget):
+        if not hasattr(self, "input_widget") or self.input_widget is None:# or sip.isdeleted(self.input_widget):
             return
+        
+    
 
         # 设置输入框占位符文本
         self.input_widget.setPlaceholderText(self.controller.config.get_message("chat_input_placeholder"))
